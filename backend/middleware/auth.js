@@ -1,13 +1,12 @@
-import { verify } from 'jsonwebtoken'
+import jwt from 'jsonwebtoken'
 
 export function authenticate(req, res, next) {
     try {
         const token = req.headers.cookie.split('=')[1]
         // const token = req.headers.authorization.split(' ')[1]
-        const decodedToken = verify(token, 'TOKEN')
+        const decodedToken = jwt.verify(token, 'TOKEN')
         req.user = {
             _id: decodedToken._id,
-            username: decodedToken.username,
             isAdmin: decodedToken.isAdmin
         }
         next()
