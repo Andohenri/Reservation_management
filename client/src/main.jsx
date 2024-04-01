@@ -71,7 +71,9 @@ ReactDOM.createRoot(document.getElementById('root'))
                 * Permet au admin de gerer les voyages dispo, CRUD
                 * Affiche une liste des voyages existants et des demandes de voyages propose par les clients
               */}
-              <Route path='/dashboard' element={<Dashboard />} />
+              <Route path='' element={<Dashboard />}>
+                <Route path='/dashboard' element={<InfoPolitics />}/>
+              </Route>
             </Route>
           </Route>
         </Routes>

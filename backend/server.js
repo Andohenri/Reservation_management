@@ -6,7 +6,9 @@ import path, { dirname } from 'path'
 
 import userRoute from './routes/user.route.js';
 import uploadRoute from './routes/upload.route.js';
+import trainRoute from './routes/train.route.js';
 import { fileURLToPath } from 'url';
+
 dotenv.config()
 
 const server = express()
@@ -15,6 +17,7 @@ server.use(cookieParser())
 server.use(express.json())
 
 server.use('/api/users', userRoute)
+server.use('/api/trains', trainRoute)
 
 //uploads images
 server.use('/api/uploads', uploadRoute)

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useLoginMutation } from '../redux/api/userApiSlice'
@@ -31,10 +32,11 @@ const Login = () => {
       e.preventDefault()
       try {
          const res = await login(formData).unwrap()
+         console.log(res);
          dispatch(setCredentials({...res}))
-         console.log("User Logged in")
+         toast.success("Connection réussi.")
       } catch (error) {
-         console.error(error?.data?.message || error.message)
+         toast.error(error.data.message)
       }
   }
 
