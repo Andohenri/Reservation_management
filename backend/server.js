@@ -7,6 +7,7 @@ import path, { dirname } from 'path'
 import userRoute from './routes/user.route.js';
 import uploadRoute from './routes/upload.route.js';
 import trainRoute from './routes/train.route.js';
+import tripRoute from './routes/trip.route.js';
 import { fileURLToPath } from 'url';
 
 dotenv.config()
@@ -18,6 +19,7 @@ server.use(express.json())
 
 server.use('/api/users', userRoute)
 server.use('/api/trains', trainRoute)
+server.use('/api/trips', tripRoute)
 
 //uploads images
 server.use('/api/uploads', uploadRoute)

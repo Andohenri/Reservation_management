@@ -35,20 +35,20 @@ export const trainApiSlice = apiSlice.injectEndpoints({
          })
       }),
       updateTrainAvalaible: builder.mutation({
-         query: () => ({
-            url: `${TRAIN_URL}/avalaible`,
+         query: (trainId) => ({
+            url: `${TRAIN_URL}/${trainId}/avalaible`,
             method: "PUT"
          })
       }),
       updateTrainUnavalaible: builder.mutation({
-         query: () => ({
-            url: `${TRAIN_URL}/unavalaible`,
+         query: (trainId) => ({
+            url: `${TRAIN_URL}/${trainId}/unavalaible`,
             method: "PUT"
          })
       }),
       updateTrainInMaintenance: builder.mutation({
-         query: () => ({
-            url: `${TRAIN_URL}/maintenance`,
+         query: (trainId) => ({
+            url: `${TRAIN_URL}/${trainId}/maintenance`,
             method: "PUT"
          })
       })

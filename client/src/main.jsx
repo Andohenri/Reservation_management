@@ -35,14 +35,14 @@ ReactDOM.createRoot(document.getElementById('root'))
             <Route path='' element={<PrivateRoute />}>
               {/* 
                 * Permet au user de rechercher des voyages en fonction de la destination, de la date, de l'heure
-                * Affiche les resultats de la recherches avec les detailles sur le svoyages dispo
+                * Affiche les resultats de la recherches avec les detailles sur les voyages dispo
               */}
               <Route path='/trip' element={<Trip />} />
               {/* 
                 * Affiche des informations detailles sur un voyage specifique, y compris l'itineraire, les horaire, les prix, etc
                 * Permet au utilisateurs de reserver des billets pour ce voyages
               */}
-              <Route path='/trip:id' element={<TripDetails />} /> 
+              <Route path='/trip/:id' element={<TripDetails />} /> 
               {/* 
                 * Permet au utilisateur de proposer des dates et des itineraires pour les voyages qu'ils souhaitent effectuer
                 * Affiche un formulaire ou les users peuvent saisir les details de leur proposition
