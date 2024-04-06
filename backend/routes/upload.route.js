@@ -12,7 +12,6 @@ uploadRoute.route('/').post((req, res) => {
       }else if(req.file){
          // const imageArticle = req.files['imageArticle'] ? req.files['imageArticle'][0].filename : null
          res.status(200).json({
-            message: "Images uploaded succesfully",
             image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
          })
       }else{

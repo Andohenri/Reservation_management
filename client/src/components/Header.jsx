@@ -1,20 +1,55 @@
-import { Link, NavLink } from "react-router-dom"
-import { FaAnchor, FaDatabase, FaHome, FaPhone, FaQuestionCircle, FaTripadvisor } from 'react-icons/fa'
-import { useSelector } from "react-redux"
+import { Link, NavLink, useNavigate } from "react-router-dom"
+import { FaAnchor, FaExpandArrowsAlt, FaHome, FaPhone, FaQuestionCircle, FaShare, FaTripadvisor, FaUser, FaUserSecret } from 'react-icons/fa'
+import { useDispatch, useSelector } from "react-redux"
+import { useState } from "react";
+import { useLogoutMutation } from "../redux/api/userApiSlice";
+import { logout } from "../redux/features/auth/authSlice";
+import { toast } from "react-toastify";
 
 const Header = () => {
    const { userInfo } = useSelector(state => state.auth);
-
+   const navigate = useNavigate()
+   const dispatch = useDispatch()
+   const [expand, setExpand] = useState(false)
+   const [logoutUser] = useLogoutMutation()
+   const expandMenu = () => {
+      setExpand((prev) => !prev)
+   }
+   const logoutHandler = async () => {
+      try {
+        await logoutUser().unwrap()
+        dispatch(logout())
+        navigate('/login')
+      } catch (error) {
+        toast.error(error.data || error.data.message)
+      }
+    }
    return (
       <nav className="w-full py-3 px-4 bg-[#07143F] text-gray-200 z-50">
-         <div className={`flex gap-3 max-w-5xl mx-auto ${userInfo ? 'flex-col' : ''} justify-between md:flex-row md:items-center z-10`}>
-            <Link to={'/'}>
+         <div className='flex max-w-5xl mx-auto flex-col gap-3 lg:flex-row justify-between z-10'>
+            <div className="flex justify-between items-center">
                <h1>
                   <span className='bg-gradient-to-r from-[#FAB440] to-[#4E47C6] text-lg md:text-2xl font-bold py-0.5 px-2 rounded-lg'>
                      Train-Trip
                   </span>
                </h1>
-            </Link>
+               {userInfo ? (
+                  <div className="relative lg:hidden">
+                     <div className="rounded-full w-10 h-10 overflow-hidden">
+                        <img onClick={expandMenu} className="w-full h-fit rounded-full object-contain" src={userInfo?.image} alt='profile' />
+                     </div>
+                     <div className={`text-black absolute ${expand ? "opacity-1 flex" : "opacity-0 hidden"} transition-all flex-col w-48 bg-white top-full right-0 rounded-lg shadow p-4`}>
+                        <Link onClick={expandMenu} className="flex items-center gap-2" to={`/profile`}><FaUser/> Mon Profile</Link>
+                        {userInfo && userInfo.isAdmin && <Link onClick={expandMenu} className="flex items-center gap-2" to={`/dashboard`}><FaUserSecret /> Administration</Link>}
+                        <Link onClick={logoutHandler} className="flex items-center gap-2"><FaShare /> Se deconnecter</Link>
+                     </div>
+                  </div>
+               ) : (
+                  <div className="relative lg:hidden">
+                     <button className="outline_btn" onClick={() => navigate('/login')}>Se connecter</button>   
+                  </div>
+               )}
+            </div>
             <div className="flex gap-4 text-medium justify-between font-semibold">
                <NavLink to={'/'} className='flex items-center gap-2'>
                   <FaHome className='h-8 w-8 sm:h-6 sm:w-6'/>
@@ -34,17 +69,32 @@ const Header = () => {
                      <span className="hidden sm:inline">Contact</span>
                   </NavLink>
                </>}
-               {userInfo && userInfo.isAdmin && 
-                  <NavLink to={'/dashboard'} className='flex items-center gap-2'>
-                     <FaDatabase className="h-8 w-8 sm:h-6 sm:w-6"/>
-                     <span className="hidden sm:inline">Dashboard</span>
-                  </NavLink>
-               }
+               
                <NavLink to={'/info-politics'} className='flex items-center gap-2'>
                   <FaQuestionCircle className="h-8 w-8 sm:h-6 sm:w-6"/>
                   <span className="hidden sm:inline">About</span>
                </NavLink>
             </div>
+            {userInfo ? (
+                  <div onClick={expandMenu} className='hidden relative px-4 py-1 rounded-full border lg:flex items-center gap-4'>
+                     <div className="flex flex-row gap-2 items-center ">
+                        <div className="rounded-full w-10 h-10 overflow-hidden">
+                           <img onClick={expandMenu} className="w-full h-fit rounded-full object-contain" src={userInfo?.image} alt='profile' />
+                        </div>
+                        <h4 className="font-semibold ">{userInfo?.username}</h4>
+                     </div>
+                     <span><FaExpandArrowsAlt /></span>
+                     <div className={`text-black absolute ${expand ? "opacity-1 flex" : "opacity-0 hidden"} transition-all flex flex-col w-full bg-white top-full right-0 rounded-lg shadow p-4`}>
+                        <Link onClick={expandMenu} className="flex items-center gap-2" to={`/profile`}><FaUser/> Mon Profile</Link>
+                        {userInfo && userInfo.isAdmin && <Link onClick={expandMenu} className="flex items-center gap-2" to={`/dashboard`}><FaUserSecret /> Administration</Link>}
+                        <Link onClick={logoutHandler} className="flex items-center gap-2"><FaShare /> Se deconnecter</Link>
+                     </div>
+                  </div> 
+            ) : (
+                  <div className="hidden lg:block">
+                     <button className="outline_btn" onClick={() => navigate('/login')}>Se connecter</button>   
+                  </div>
+            )}
          </div>
       </nav>
    )

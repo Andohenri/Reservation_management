@@ -13,7 +13,7 @@ export default function App() {
       </div>
       <main className='min-h-screen flex flex-col'>
         <Header />
-        <div className='w-full flex-1 z-10 max-md:mt-8'>
+        <div className='w-full flex-1 z-10'>
           <Outlet />
         </div>
         <Footer />

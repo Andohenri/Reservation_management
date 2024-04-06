@@ -83,6 +83,9 @@ opacity: 0.15;
 .btn_primary {
    @apply rounded-lg border border-[#FAB440] bg-[#FAB440] py-1.5 px-5 text-white transition-all hover:bg-white hover:text-[#FAB440] text-center text-base flex items-center justify-center font-semibold;
 }
+.outline_btn {
+   @apply rounded-full border border-[#FAB440] bg-transparent py-1.5 px-5 text-[#FAB440] transition-all hover:bg-[#FAB440] hover:text-black text-center text-sm font-semibold flex items-center justify-center;
+}
 
 
 .active{
