@@ -86,7 +86,9 @@ opacity: 0.15;
 .outline_btn {
    @apply rounded-full border border-[#FAB440] bg-transparent py-1.5 px-5 text-[#FAB440] transition-all hover:bg-[#FAB440] hover:text-black text-center text-sm font-semibold flex items-center justify-center;
 }
-
+.active_admin{
+   @apply text-gray-900 bg-[#FAB440] 
+}
 
 .active{
    @apply text-[#4E47C6] rounded-lg;

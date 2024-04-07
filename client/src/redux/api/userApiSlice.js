@@ -1,7 +1,7 @@
 import { apiSlice } from './apiSlice.js';
 
-export const USER_URL = 'api/users';
-export const UPLOAD_URL = 'api/uploads';
+export const USER_URL = '/api/users';
+export const UPLOAD_URL = '/api/uploads';
 
 export const userApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({

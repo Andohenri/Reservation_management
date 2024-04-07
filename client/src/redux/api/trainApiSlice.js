@@ -1,6 +1,6 @@
 import { apiSlice } from './apiSlice.js';
 
-export const TRAIN_URL = 'api/trains';
+export const TRAIN_URL = '/api/trains';
 
 export const trainApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({
@@ -22,7 +22,7 @@ export const trainApiSlice = apiSlice.injectEndpoints({
          })
       }),
       updateTrain: builder.mutation({
-         query: (data, trainId) => ({
+         query: ({ data, trainId }) => ({
             url: `${TRAIN_URL}/${trainId}`,
             method: "PUT",
             body: data

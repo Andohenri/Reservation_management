@@ -2,11 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import App from './App.jsx'
-import Home from './pages/Home.jsx'
 import { Provider } from 'react-redux'
 import store from './redux/store.js'
-
 import './index.css'
+
+import Home from './pages/Home.jsx'
 import Trip from './pages/Trip.jsx'
 import TripDetails from './pages/TripDetails.jsx'
 import TripProposition from './pages/TripProposition.jsx'
@@ -14,10 +14,19 @@ import ReservationManagement from './pages/ReservationManagement.jsx'
 import Profile from './pages/Profile.jsx'
 import Contact from './pages/Contact.jsx'
 import InfoPolitics from './pages/InfoPolitics.jsx'
-import Dashboard from './pages/Dashboard.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
+import AdminDashboard from './components/AdminDashboard.jsx'
+import AdminReservation from './pages/Admin/AdminReservation.jsx'
+import Dashboard from './pages/Admin/Dashboard.jsx'
+import AdminTrain from './pages/Admin/Train/AdminTrain.jsx'
+import CreateTrain from './pages/Admin/Train/CreateTrain.jsx'
+import UpdateTrain from './pages/Admin/Train/UpdateTrain.jsx'
+import AdminTrip from './pages/Admin/Trip/AdminTrip.jsx'
+import AdminUser from './pages/Admin/AdminUser.jsx'
+import CreateTrip from './pages/Admin/Trip/CreateTrip.jsx'
+import UpdateTrip from './pages/Admin/Trip/UpdateTrip.jsx'
 
 ReactDOM.createRoot(document.getElementById('root'))
 .render(
@@ -47,7 +56,7 @@ ReactDOM.createRoot(document.getElementById('root'))
                 * Permet au utilisateur de proposer des dates et des itineraires pour les voyages qu'ils souhaitent effectuer
                 * Affiche un formulaire ou les users peuvent saisir les details de leur proposition
               */}
-              <Route path='/trip-roposition' element={<TripProposition />} />
+              <Route path='/trip-proposition' element={<TripProposition />} />
               {/* 
                 * Permet au utilisateur de visualiser et de gerer leurs reservation existants, y compris l'annulation et la modification des reservations
                 * Affiche les detaills des reservations , y compris les dates, les itineraires, les prix, etc
@@ -71,8 +80,19 @@ ReactDOM.createRoot(document.getElementById('root'))
                 * Permet au admin de gerer les voyages dispo, CRUD
                 * Affiche une liste des voyages existants et des demandes de voyages propose par les clients
               */}
-              <Route path='' element={<Dashboard />}>
-                <Route path='/dashboard' element={<InfoPolitics />}/>
+              <Route path='/admin' element={<AdminDashboard />}>
+                <Route path='dashboard' element={<Dashboard />}/>
+                <Route path='reservations' element={<AdminReservation />}/>
+
+                <Route path='trips' element={<AdminTrip />}/>
+                <Route path='trips/new' element={<CreateTrip />}/>
+                <Route path='trips/:id' element={<UpdateTrip />}/>
+
+                <Route path='trains' element={<AdminTrain />}/>
+                <Route path='trains/new' element={<CreateTrain />}/>
+                <Route path='trains/:id' element={<UpdateTrain />}/>
+                
+                <Route path='users' element={<AdminUser />}/>
               </Route>
             </Route>
           </Route>

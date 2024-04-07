@@ -5,7 +5,7 @@ export const createTrain = async (req, res) => {
    const trainExist = await Train.findOne({ name });
    if(trainExist) return res.status(400).json({ message: "Le nom est déja utilisé."});
    try {
-      const train = new Train({ name, type, capacity });
+      const train = new Train({ name, type, capacity: Number(capacity) });
       await train.save();
       return res.status(201).json(train);
    } catch (error) {

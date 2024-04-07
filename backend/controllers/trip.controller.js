@@ -2,17 +2,7 @@ import Trip from "../models/trip.model.js"
 import Train from "../models/train.model.js"
 
 export const createTrip = async (req, res) => {
-   const { trainId, departure_date, arrival_date, origin, destination, price } = req.body
-   
-   // const dateHeureDepart = new Date(dateDepart + 'T' + heureDepart + ':00Z');
-   // const newTrip = {
-   //    trainId: 'train_id',
-   //    departure_date: dateHeureDepart.toISOString(),
-   //    arrival_date: new Date(dateHeureDepart.getTime() + 4 * 60 * 60 * 1000).toISOString(),
-   //    origin: '',
-   //    destination: '',
-   //    price: 1100,
-   // }
+   const { trainId, departure_date, arrival_date, hour_dep, hour_arr } = req.body
    
    try {
       const train = await Train.findById(trainId);
@@ -20,7 +10,10 @@ export const createTrip = async (req, res) => {
       if(train.status !== "avalaible") return res.status(401).json({message: "Train not avalaible"});
 
       const trip = new Trip({
-         ...req.body, avalaible_seats: train.capacity
+         ...req.body,
+         departure_date: new Date(departure_date + 'T' + hour_dep + ':00Z').toISOString(),
+         arrival_date: new Date(arrival_date + 'T' + hour_arr + ':00Z').toISOString(),
+         avalaible_seats: train.capacity
       });
       await trip.save();
       return res.status(201).json(trip);
@@ -44,7 +37,7 @@ export const getTrips = async (req, res) => {
       const inHour = stringHour.map(str => parseInt(str, 10))
 
       searchQuery.$expr = {
-         $in: [{$hour: "$departure_date"}, [inHour[0] - 3]]
+         $in: [{$hour: "$departure_date"}, [inHour[0]]]
       }
    }
    if(origin) searchQuery.origin = { $eq: origin };
@@ -53,7 +46,7 @@ export const getTrips = async (req, res) => {
    console.log(searchQuery);
 
    try {
-      const trips = await Trip.find(searchQuery).populate("trainId", "_id name capacity");
+      const trips = await Trip.find(searchQuery).populate("trainId", "_id name capacity").sort({createdAt: -1});
       return res.status(200).json(trips);
    } catch (error) {
       return res.status(500).json({message: "Failde to fetch the trips"});
@@ -61,25 +54,29 @@ export const getTrips = async (req, res) => {
 }
 export const getAllTrips = async (rea, res) => {
    try {
-      const trips = await Trip.find().populate("trainId", "_id name capacity");
+      const trips = await Trip.find().populate("trainId", "_id name capacity").sort({createdAt: -1});
       return res.status(200).json(trips);
    } catch (error) {
       return res.status(500).json({message: "Failde to fetch the trips"});
    }
 }
 export const updateTrip = async (req, res) => {
-   const { trainId, departure_date, arrival_date, origin, destination, price, avalaible_seats } = req.body;
+   const { departure_date, arrival_date, origin, destination, price } = req.body;
    try {
-      const trip = Trip.findById(req.params.tripId);
+      const trip = await Trip.findById(req.params.tripId);
       if(!trip) return res.status(404).json({message: "Trip not found"});
+
+      // const trip = await Trip.findByIdAndUpdate(req.params.tripId, {...req.bidy}, {new: true});
       trip.departure_date = departure_date || trip.departure_date;
       trip.arrival_date = arrival_date || trip.arrival_date;
       trip.origin = origin || trip.origin;
       trip.destination = destination || trip.destination;
+      trip.price = price || trip.price;
+      
       await trip.save();
-      return res.status(201).json(trip);
+      return res.status(200).json(trip);
    } catch (error) {
-      return res.status(500).json({message: "Failde to update a trip"});
+      return res.status(500).json({message: error});
    }
 }
 export const getTrip = async (req, res) => {

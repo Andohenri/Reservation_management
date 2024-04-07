@@ -40,7 +40,7 @@ const Header = () => {
                      </div>
                      <div className={`text-black absolute ${expand ? "opacity-1 flex" : "opacity-0 hidden"} transition-all flex-col w-48 bg-white top-full right-0 rounded-lg shadow p-4`}>
                         <Link onClick={expandMenu} className="flex items-center gap-2" to={`/profile`}><FaUser/> Mon Profile</Link>
-                        {userInfo && userInfo.isAdmin && <Link onClick={expandMenu} className="flex items-center gap-2" to={`/dashboard`}><FaUserSecret /> Administration</Link>}
+                        {userInfo && userInfo.isAdmin && <Link onClick={expandMenu} className="flex items-center gap-2" to={`/admin/dashboard`}><FaUserSecret /> Administration</Link>}
                         <Link onClick={logoutHandler} className="flex items-center gap-2"><FaShare /> Se deconnecter</Link>
                      </div>
                   </div>
@@ -60,7 +60,7 @@ const Header = () => {
                      <FaTripadvisor className="h-8 w-8 sm:h-6 sm:w-6"/>
                      <span className="hidden sm:inline">Voyage</span>
                   </NavLink>
-                  <NavLink to={'/trip'} className='flex items-center gap-2'>
+                  <NavLink to={'/trip-proposition'} className='flex items-center gap-2'>
                      <FaAnchor className="h-8 w-8 sm:h-6 sm:w-6"/>
                      <span className="hidden sm:inline">Advice</span>
                   </NavLink>
@@ -86,7 +86,7 @@ const Header = () => {
                      <span><FaExpandArrowsAlt /></span>
                      <div className={`text-black absolute ${expand ? "opacity-1 flex" : "opacity-0 hidden"} transition-all flex flex-col w-full bg-white top-full right-0 rounded-lg shadow p-4`}>
                         <Link onClick={expandMenu} className="flex items-center gap-2" to={`/profile`}><FaUser/> Mon Profile</Link>
-                        {userInfo && userInfo.isAdmin && <Link onClick={expandMenu} className="flex items-center gap-2" to={`/dashboard`}><FaUserSecret /> Administration</Link>}
+                        {userInfo && userInfo.isAdmin && <Link onClick={expandMenu} className="flex items-center gap-2" to={`/admin/dashboard`}><FaUserSecret /> Administration</Link>}
                         <Link onClick={logoutHandler} className="flex items-center gap-2"><FaShare /> Se deconnecter</Link>
                      </div>
                   </div> 
