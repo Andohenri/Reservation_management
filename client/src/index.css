@@ -77,6 +77,9 @@ opacity: 0.15;
 .input {
    @apply shadow appearance-none border border-[#FAB440] rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none
 }
+.input_table {
+   @apply shadow appearance-none border border-[#FAB440] rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none
+}
 .copy_btn {
    @apply rounded-lg text-white px-4 py-2 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur flex justify-center items-center cursor-pointer;
 }

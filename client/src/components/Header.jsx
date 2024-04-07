@@ -1,5 +1,8 @@
 import { Link, NavLink, useNavigate } from "react-router-dom"
-import { FaAnchor, FaExpandArrowsAlt, FaHome, FaPhone, FaQuestionCircle, FaShare, FaTripadvisor, FaUser, FaUserSecret } from 'react-icons/fa'
+import { FaHome, FaUserCog, FaCaretDown } from 'react-icons/fa'
+import { IoIosNotifications } from 'react-icons/io';
+import { MdAdminPanelSettings, MdLogout, MdContactSupport, MdContactPhone, MdTravelExplore } from 'react-icons/md';
+import { GiHiveMind } from 'react-icons/gi'
 import { useDispatch, useSelector } from "react-redux"
 import { useState } from "react";
 import { useLogoutMutation } from "../redux/api/userApiSlice";
@@ -38,10 +41,10 @@ const Header = () => {
                      <div className="rounded-full w-10 h-10 overflow-hidden">
                         <img onClick={expandMenu} className="w-full h-fit rounded-full object-contain" src={userInfo?.image} alt='profile' />
                      </div>
-                     <div className={`text-black absolute ${expand ? "opacity-1 flex" : "opacity-0 hidden"} transition-all flex-col w-48 bg-white top-full right-0 rounded-lg shadow p-4`}>
-                        <Link onClick={expandMenu} className="flex items-center gap-2" to={`/profile`}><FaUser/> Mon Profile</Link>
-                        {userInfo && userInfo.isAdmin && <Link onClick={expandMenu} className="flex items-center gap-2" to={`/admin/dashboard`}><FaUserSecret /> Administration</Link>}
-                        <Link onClick={logoutHandler} className="flex items-center gap-2"><FaShare /> Se deconnecter</Link>
+                     <div className={`text-black absolute ${expand ? "opacity-1 flex" : "opacity-0 hidden"} text-gray-800 transition-all flex-col gap-1 w-48 bg-white top-full right-0 rounded-lg shadow p-4`}>
+                        <Link onClick={expandMenu} className="flex items-center gap-2" to={`/profile`}><FaUserCog size={24} /> Mon Profile</Link>
+                        {userInfo && userInfo.isAdmin && <Link onClick={expandMenu} className="flex items-center gap-2" to={`/admin/dashboard`}><MdAdminPanelSettings size={24} /> Administration</Link>}
+                        <Link onClick={logoutHandler} className="flex items-center gap-2"><MdLogout size={24}/> Se deconnecter</Link>
                      </div>
                   </div>
                ) : (
@@ -57,21 +60,25 @@ const Header = () => {
                </NavLink>
                {userInfo && <>
                   <NavLink to={'/trip'} className='flex items-center gap-2'>
-                     <FaTripadvisor className="h-8 w-8 sm:h-6 sm:w-6"/>
+                     <MdTravelExplore className="h-8 w-8 sm:h-6 sm:w-6"/>
                      <span className="hidden sm:inline">Voyage</span>
                   </NavLink>
                   <NavLink to={'/trip-proposition'} className='flex items-center gap-2'>
-                     <FaAnchor className="h-8 w-8 sm:h-6 sm:w-6"/>
+                     <GiHiveMind className="h-8 w-8 sm:h-6 sm:w-6"/>
                      <span className="hidden sm:inline">Advice</span>
                   </NavLink>
                   <NavLink to={'/contact'} className='flex items-center gap-2'>
-                     <FaPhone className="h-8 w-8 sm:h-6 sm:w-6"/>
+                     <MdContactPhone className="h-8 w-8 sm:h-6 sm:w-6"/>
                      <span className="hidden sm:inline">Contact</span>
+                  </NavLink>
+                  <NavLink to={'/notification'} className='flex items-center gap-2'>
+                     <IoIosNotifications className="h-8 w-8 sm:h-6 sm:w-6"/>
+                     <span className="hidden sm:inline">Notifications</span>
                   </NavLink>
                </>}
                
                <NavLink to={'/info-politics'} className='flex items-center gap-2'>
-                  <FaQuestionCircle className="h-8 w-8 sm:h-6 sm:w-6"/>
+                  <MdContactSupport className="h-8 w-8 sm:h-6 sm:w-6"/>
                   <span className="hidden sm:inline">About</span>
                </NavLink>
             </div>
@@ -83,11 +90,11 @@ const Header = () => {
                         </div>
                         <h4 className="font-semibold ">{userInfo?.username}</h4>
                      </div>
-                     <span><FaExpandArrowsAlt /></span>
-                     <div className={`text-black absolute ${expand ? "opacity-1 flex" : "opacity-0 hidden"} transition-all flex flex-col w-full bg-white top-full right-0 rounded-lg shadow p-4`}>
-                        <Link onClick={expandMenu} className="flex items-center gap-2" to={`/profile`}><FaUser/> Mon Profile</Link>
-                        {userInfo && userInfo.isAdmin && <Link onClick={expandMenu} className="flex items-center gap-2" to={`/admin/dashboard`}><FaUserSecret /> Administration</Link>}
-                        <Link onClick={logoutHandler} className="flex items-center gap-2"><FaShare /> Se deconnecter</Link>
+                     <span><FaCaretDown /></span>
+                     <div className={`text-black absolute ${expand ? "opacity-1 flex" : "opacity-0 hidden"} text-gray-800 transition-all flex-col gap-1 w-full bg-white top-full right-0 rounded-lg shadow p-4`}>
+                        <Link onClick={expandMenu} className="flex items-center gap-2" to={`/profile`}><FaUserCog size={24} /> Mon Profile</Link>
+                        {userInfo && userInfo.isAdmin && <Link onClick={expandMenu} className="flex items-center gap-2" to={`/admin/dashboard`}><MdAdminPanelSettings size={24} /> Administration</Link>}
+                        <Link onClick={logoutHandler} className="flex items-center gap-2"><MdLogout size={24} /> Se deconnecter</Link>
                      </div>
                   </div> 
             ) : (

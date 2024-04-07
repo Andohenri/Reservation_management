@@ -18,15 +18,15 @@ import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 import PrivateRoute from './components/PrivateRoute.jsx'
 import AdminDashboard from './components/AdminDashboard.jsx'
-import AdminReservation from './pages/Admin/AdminReservation.jsx'
 import Dashboard from './pages/Admin/Dashboard.jsx'
 import AdminTrain from './pages/Admin/Train/AdminTrain.jsx'
 import CreateTrain from './pages/Admin/Train/CreateTrain.jsx'
 import UpdateTrain from './pages/Admin/Train/UpdateTrain.jsx'
 import AdminTrip from './pages/Admin/Trip/AdminTrip.jsx'
-import AdminUser from './pages/Admin/AdminUser.jsx'
 import CreateTrip from './pages/Admin/Trip/CreateTrip.jsx'
 import UpdateTrip from './pages/Admin/Trip/UpdateTrip.jsx'
+import AdminUser from './pages/Admin/User/AdminUser.jsx'
+import AdminReservation from './pages/Admin/Reservation/AdminReservation.jsx'
 
 ReactDOM.createRoot(document.getElementById('root'))
 .render(

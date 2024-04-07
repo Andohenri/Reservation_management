@@ -8,7 +8,9 @@ import { setCredentials } from '../redux/features/auth/authSlice.js'
 const Profile = () => {
 
   const fileRef = useRef()
-  const [profileData, setProfileData] = useState({})
+  const [profileData, setProfileData] = useState({
+    password: ''
+  })
   const [image, setImage] = useState(undefined)
   const [confirmPassword, setConfirmPassword] = useState('')
   const { userInfo } = useSelector(state => state.auth)
@@ -39,7 +41,7 @@ const Profile = () => {
   const handleUpdate = async (e) => {
       e.preventDefault()
       if(profileData.password !== confirmPassword){
-        toast.info("Password do not match!")
+        toast.info("Les mot de passes ne sont pas conforme")
       }else{
         try {
             const res = await updateProfile(profileData).unwrap()
