@@ -80,11 +80,14 @@ opacity: 0.15;
 .input_table {
    @apply shadow appearance-none border border-[#FAB440] rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none
 }
+.input_search {
+   @apply shadow appearance-none border focus:border-[#4E47C6] rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none w-10 focus:w-fit transition-all pointer-events-auto placeholder:italic placeholder:opacity-0 focus:placeholder:opacity-100
+}
 .copy_btn {
    @apply rounded-lg text-white px-4 py-2 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur flex justify-center items-center cursor-pointer;
 }
 .btn_primary {
-   @apply rounded-lg border border-[#FAB440] bg-[#FAB440] py-1.5 px-5 text-white transition-all hover:bg-white hover:text-[#FAB440] text-center text-base flex items-center justify-center font-semibold;
+   @apply rounded-lg border border-[#FAB440] bg-[#FAB440] py-1.5 px-1.5 sm:px-5  text-white transition-all hover:bg-white hover:text-[#FAB440] text-center text-base flex items-center justify-center font-semibold;
 }
 .outline_btn {
    @apply rounded-full border border-[#FAB440] bg-transparent py-1.5 px-5 text-[#FAB440] transition-all hover:bg-[#FAB440] hover:text-black text-center text-sm font-semibold flex items-center justify-center;

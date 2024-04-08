@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { FaCheck, FaEdit, FaTimes, FaTrash } from 'react-icons/fa'
+import SearchBar from '../../../components/SearchBar'
 import { useGetAllUsersQuery } from '../../../redux/api/userApiSlice'
 
 const AdminUser = () => {
@@ -11,6 +12,7 @@ const AdminUser = () => {
   const [editableUser, setEditableUser] = useState(null)
   const [editableUserName, setEditableUserName] = useState('')
   const [editableUserEmail, setEditableUserEmail] = useState('')
+  const [search, setSearch] = useState('')
 
   const updateHandler = async (id) => {
     try {
@@ -55,7 +57,10 @@ const AdminUser = () => {
 
   return (
     <section>
-        <h1 className="head_text mb-6">Clients</h1>
+        <div className='flex justify-between items-center pb-5 w-[88%]'>
+          <h1 className='head_text'>Clients</h1>
+          <SearchBar value={search} handleSearch={(e) => setSearch(e.target.value)}/>
+        </div>
         <div className="shadow-inner h-[32rem] overflow-x-scroll lg:overflow-x-hidden w-[90%]">
           <table className="table-auto divide-y divide-gray-500">
             <thead>

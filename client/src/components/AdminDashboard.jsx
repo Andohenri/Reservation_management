@@ -34,7 +34,7 @@ const AdminDashboard = () => {
           <span className="hidden sm:inline">Clients</span>
         </NavLink>
       </aside>
-      <div className=''>
+      <div>
         {userInfo && userInfo.isAdmin ? (
           <Outlet />
         ) : (
