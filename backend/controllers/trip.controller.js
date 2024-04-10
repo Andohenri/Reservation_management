@@ -61,14 +61,14 @@ export const getAllTrips = async (rea, res) => {
    }
 }
 export const updateTrip = async (req, res) => {
-   const { departure_date, arrival_date, origin, destination, price } = req.body;
+   const { departure_date, arrival_date, origin, destination, price, hour_dep, hour_arr } = req.body;
    try {
       const trip = await Trip.findById(req.params.tripId);
       if(!trip) return res.status(404).json({message: "Trip not found"});
 
-      // const trip = await Trip.findByIdAndUpdate(req.params.tripId, {...req.bidy}, {new: true});
-      trip.departure_date = departure_date || trip.departure_date;
-      trip.arrival_date = arrival_date || trip.arrival_date;
+
+      trip.departure_date = new Date(departure_date + 'T' + hour_dep + ':00Z').toISOString();
+      trip.arrival_date = new Date(arrival_date + 'T' + hour_arr + ':00Z').toISOString();
       trip.origin = origin || trip.origin;
       trip.destination = destination || trip.destination;
       trip.price = price || trip.price;

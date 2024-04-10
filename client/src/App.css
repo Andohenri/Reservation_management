@@ -1,7 +1,7 @@
 .scrollbar-hidden::-webkit-scrollbar{
     display: none;
 }
-::-webkit-scrollbar{
+/* ::-webkit-scrollbar{
     width: 8px;
     transition: all ease-in .3s;
 }
@@ -14,7 +14,7 @@
 }
 ::-webkit-scrollbar-thumb:hover{
     background: #07143F;
-}
+} */
 .modal{
     transition: all 0.5s ease-in-out;
     position: absolute;

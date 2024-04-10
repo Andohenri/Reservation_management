@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import FormTrip from '../../../components/FormTrip'
 import { useGetTripQuery, useUpdateTripMutation } from '../../../redux/api/tripApiSlice'
+import { subtract } from '../../../utils/utils'
 
 const UpdateTrip = () => {
   const navigate = useNavigate()
@@ -15,13 +16,15 @@ const UpdateTrip = () => {
   useEffect(() => {
       setTripForm({
         trainId: trip?.trainId._id,
-        departure_date: trip?.departure_date,
-        arrival_date: trip?.arrival_date,
+        departure_date: subtract(3, trip?.departure_date).format('YYYY-MM-DD'),
+        hour_dep: subtract(3, trip?.departure_date).format('HH:mm'),
+        arrival_date: subtract(3, trip?.arrival_date).format('YYYY-MM-DD'),
+        hour_arr: subtract(3, trip?.arrival_date).format('HH:mm'),
         origin: trip?.origin,
         destination: trip?.destination,
         price: trip?.price
       })
-  }, [trip])
+  }, [trip, isLoading])
   
 
   const handleUpdate = async (e) => {
@@ -44,7 +47,7 @@ const UpdateTrip = () => {
           loading={isLoading}
           handleUpdate={handleUpdate}
           handleChange={handleChange}
-          tripForm={trip}
+          tripForm={tripForm}
           setTripForm={setTripForm}
         />
     </section>

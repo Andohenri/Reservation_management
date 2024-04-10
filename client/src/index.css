@@ -75,13 +75,13 @@ opacity: 0.15;
    @apply block text-gray-700 text-sm font-bold mb-2;
 }
 .input {
-   @apply shadow appearance-none border border-[#FAB440] rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none
+   @apply shadow appearance-none border border-[#FAB440] rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none placeholder:italic;
 }
 .input_table {
-   @apply shadow appearance-none border border-[#FAB440] rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none
+   @apply shadow appearance-none border border-[#FAB440] rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none ;
 }
 .input_search {
-   @apply shadow appearance-none border focus:border-[#4E47C6] rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none w-10 focus:w-fit transition-all pointer-events-auto placeholder:italic placeholder:opacity-0 focus:placeholder:opacity-100
+   @apply shadow appearance-none border focus:border-[#4E47C6] rounded-full py-2 px-3 text-gray-700 leading-tight focus:outline-none w-10 focus:w-fit transition-all pointer-events-auto placeholder:italic placeholder:opacity-0 focus:placeholder:opacity-100
 }
 .copy_btn {
    @apply rounded-lg text-white px-4 py-2 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur flex justify-center items-center cursor-pointer;

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FaCaretDown, FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom'
-import { useGetAllTrainsQuery, useUpdateTrainAvalaibleMutation, useUpdateTrainInMaintenanceMutation, useUpdateTrainUnavalaibleMutation } from '../../../redux/api/trainApiSlice.js'
+import { useDeleteTrainMutation, useGetAllTrainsQuery, useUpdateTrainAvalaibleMutation, useUpdateTrainInMaintenanceMutation, useUpdateTrainUnavalaibleMutation } from '../../../redux/api/trainApiSlice.js'
 import { toast } from 'react-toastify';
 import SearchBar from '../../../components/SearchBar.jsx';
 
@@ -17,6 +17,7 @@ const AdminTrain = () => {
   const [updateToAvalaible] = useUpdateTrainAvalaibleMutation()
   const [updateToUnavalaible] = useUpdateTrainUnavalaibleMutation()
   const [updateToInMaintenance] = useUpdateTrainInMaintenanceMutation()
+  const [deleteTrain] = useDeleteTrainMutation()
   
   const handleSearch = (e) => {
     // TODO
@@ -25,6 +26,18 @@ const AdminTrain = () => {
   useEffect(() => {
     setTrains(data)
   }, [data])
+
+  const handleDelete = async (id) => {
+    if(window.confirm('Etes-vous sûr de vouloir supprimer ce train?')){
+      try {
+        await deleteTrain(id).unwrap()
+        toast.success("Le train a été supprimer.")
+        await refetch()
+      } catch (error) {
+        toast.success(error || error.message || error.data.message)
+      }
+    }
+  }
 
   const handleChange = (id) => async (e) => {
     try {
@@ -65,9 +78,9 @@ const AdminTrain = () => {
           <table className="table-auto w-full divide-y divide-gray-500">
             <thead>
               <tr>
-                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>ID</th>
                 <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Nom</th>
                 <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>type</th>
+                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Capacité</th>
                 <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>statut</th>
                 <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'></th>
                 <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'></th>
@@ -97,7 +110,7 @@ const AdminTrain = () => {
                     </button>
                   </td>
                   <td className="px-6 py-3">
-                    <button className="transition-all bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white">
+                    <button onClick={() => handleDelete(train._id)} className="transition-all bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white">
                       <FaTrash />
                     </button>
                   </td>
