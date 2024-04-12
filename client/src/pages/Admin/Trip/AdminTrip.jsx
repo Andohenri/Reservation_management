@@ -56,68 +56,75 @@ const AdminTrip = () => {
 
   return (
     <section>
-      <div className='flex justify-between items-center pb-5 w-[88%] 3xl:w-full'>
+      <div className='flex justify-between items-center pb-5 w-[88%] xl:w-full'>
         <h1 className='head_text'>Voyages</h1>
         <div className='flex gap-4'>
           <SearchBar value={search} handleSearch={handleSearch}/>
           <button onClick={() => navigate(`new`)} className='btn_primary flex gap-2 items-center uppercase'><FaPlus size={24}/><span className='hidden sm:block'>Ajouter</span></button>
         </div>
       </div>
-      { !isLoading ? <div className="shadow-inner h-[32rem] overflow-x-scroll w-[88%] 3xl:w-full">
-        <table className="table-auto w-full divide-y divide-gray-500">
-          <thead>
-            <tr>
-              <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Train</th>
-              <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Origine</th>
-              <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Départ</th>
-              <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Déstination</th>
-              <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Arrivé</th>
-              <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Place dispo.</th>
-              <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Prix</th>
-              <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Status</th>
-              <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'></th>
-              <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'></th>
-            </tr>
-          </thead>
-          <tbody className='divide-y divide-gray-200'>
-            {trips?.map(trip => (
-              <tr key={trip._id}>
-                <td className="px-6 py-3">{trip.trainId?.name}</td>
-                <td className="px-6 py-3">{trip.origin}</td>
-                <td className="px-6 py-3">{subtract(3, trip.departure_date).fromNow()}</td>
-                <td className="px-6 py-3">{trip.destination}</td>
-                <td className="px-6 py-3">{subtract(3, trip.arrival_date).fromNow()}</td>
-                <td className="px-6 py-3">{trip.avalaible_seats}</td>
-                <td className="px-6 py-3">{trip.price}</td>
-                <td className="px-6 py-3">
-                  <div className='relative w-[100px]'>
-                    <select className='input_table' value={trip.status} onChange={handleChange(trip._id)}>
-                      <option value="pending">En attente</option>
-                      <option value="in progress">En cours</option>
-                      <option value="completed">Términé</option>
-                      <option value="cancelled">Annuler</option>
-                    </select>
-                    <span className='absolute top-3 right-1 md:right-2 pointer-events-none'><FaCaretDown className='text-gray-800'/></span>
-                  </div>
-                </td>
-                <td className="px-6 py-3">
-                  <button onClick={() => navigate(`/admin/trips/${trip._id}`)} className="transition-all bg-[#FAB440] hover:bg-[#FAB440] px-4 py-2 rounded text-white">
-                    <FaEdit />
-                  </button>
-                </td>
-                <td className="px-6 py-3">
-                  <button onClick={() => handleDelete(trip._id)} className="transition-all bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white">
-                    <FaTrash />
-                  </button>
-                </td>
+      {!isLoading ? trips?.length > 0 ? (
+        <div className="shadow-inner h-[32rem] overflow-x-scroll w-[88%] xl:w-full">
+          <table className="table-auto w-full divide-y divide-gray-500">
+            <thead>
+              <tr>
+                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Train</th>
+                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Origine</th>
+                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Départ</th>
+                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Déstination</th>
+                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Arrivé</th>
+                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Place dispo.</th>
+                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Prix</th>
+                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Status</th>
+                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'></th>
+                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'></th>
               </tr>
-            ))}
-          </tbody>
-        </table> 
-      </div> : 
-      <section className='flex justify-center'>
-        <h1>Loading...</h1>
-      </section> }
+            </thead>
+            <tbody className='divide-y divide-gray-200'>
+              {trips?.map(trip => (
+                <tr key={trip._id}>
+                  <td className="px-6 py-3">{trip.trainId?.name}</td>
+                  <td className="px-6 py-3">{trip.origin}</td>
+                  <td className="px-6 py-3">{subtract(3, trip.departure_date).fromNow()}</td>
+                  <td className="px-6 py-3">{trip.destination}</td>
+                  <td className="px-6 py-3">{subtract(3, trip.arrival_date).fromNow()}</td>
+                  <td className="px-6 py-3">{trip.avalaible_seats}</td>
+                  <td className="px-6 py-3">{trip.price}</td>
+                  <td className="px-6 py-3">
+                    <div className='relative w-[100px]'>
+                      <select className='input_table' value={trip.status} onChange={handleChange(trip._id)}>
+                        <option value="pending">En attente</option>
+                        <option value="in progress">En cours</option>
+                        <option value="completed">Términé</option>
+                        <option value="cancelled">Annuler</option>
+                      </select>
+                      <span className='absolute top-3 right-1 md:right-2 pointer-events-none'><FaCaretDown className='text-gray-800'/></span>
+                    </div>
+                  </td>
+                  <td className="px-6 py-3">
+                    <button onClick={() => navigate(`/admin/trips/${trip._id}`)} className="transition-all bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white">
+                      <FaEdit />
+                    </button>
+                  </td>
+                  <td className="px-6 py-3">
+                    <button onClick={() => handleDelete(trip._id)} className="transition-all bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white">
+                      <FaTrash />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table> 
+        </div>
+      ) : (
+        <section className='flex justify-center'>
+          <h1>Pas de voyages</h1>
+        </section>
+      ) : (
+        <section className='flex justify-center'>
+          <h1>Loading...</h1>
+        </section> 
+      )}
     </section>
   )
 }

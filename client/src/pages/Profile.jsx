@@ -59,15 +59,20 @@ const Profile = () => {
     <section className='px-4 py-6 mx-auto max-w-xl'>
       <div className='flex flex-row gap-4'>
         <div className='relative bg-white rounded-full p-1 shadow'>
-          <div className='overflow-hidden rounded-full h-48 w-48'>
+          <div className='overflow-hidden rounded-full h-36 w-36 md:h-48 md:w-48'>
             <img className='object-contain h-fit w-full rounded-full' src={userInfo.image} alt="Profile" />
           </div>
-          <button onClick={() => fileRef.current.click()} className="absolute top-36 right-4 z-2 rounded-full shadow bg-white p-2"><FaCamera /></button>
+          <button onClick={() => fileRef.current.click()} className="absolute top-28 right-2 md:top-36 md:right-4 z-2 rounded-full shadow bg-white p-2"><FaCamera /></button>
           <input ref={fileRef} hidden type="file" name='image' accept='image/*' onChange={e => setImage(e.target.files[0])}/>
         </div>
-        <div>
-          <h1 className='text-lg font-semibold'>{userInfo.username}</h1>
-          <h1 className='text-base'>{userInfo.email}</h1>
+        <div className='flex flex-col justify-between'>
+          <div>
+            <h1 className='head_text'>{userInfo.username}</h1>
+            <h1 className='desc'>{userInfo.email}</h1>
+          </div>
+          <div>
+            <button className="bg-[#FAB440] hover:bg-[#ffa616] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Mes résérvations</button>
+          </div>
         </div>
       </div>
       <div>
@@ -89,8 +94,7 @@ const Profile = () => {
             <input className='input' type="password" name="c-password" id="c-password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)}/>
           </div>
           <div className="flex justify-between">
-            <button className="bg-[#FAB440] hover:bg-[#ffa616] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Modifier</button>
-            <button className="bg-[#FAB440] hover:bg-[#ffa616] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">Mes résérvations</button>
+            <button className=" w-full bg-[#FAB440] hover:bg-[#ffa616] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">{!loadingProfileUpdate ? 'Mettre à jour': 'Mis à jour...'}</button>
           </div>
         </form>
       </div>

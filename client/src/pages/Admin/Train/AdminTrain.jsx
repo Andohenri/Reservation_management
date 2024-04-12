@@ -56,25 +56,19 @@ const AdminTrain = () => {
     } finally {
       await refetch()
     }
-  } 
-  if(isLoading){
-    return (
-      <section className='flex justify-center'>
-        <h1>Loading...</h1>
-      </section>
-    )
   }
 
   return (
     <section>
-      <div className='flex justify-between items-center pb-5 w-[88%]'>
+      <div className='flex justify-between items-center pb-5 w-[88%] xl:w-full'>
         <h1 className='head_text'>Trains</h1>
         <div className='flex gap-4'>
           <SearchBar value={search} handleSearch={handleSearch}/>
           <button onClick={() => navigate(`new`)} className='btn_primary flex gap-2 items-center uppercase'><FaPlus size={24}/><span className='hidden sm:block'>Ajouter</span></button>
         </div>
       </div>
-      <div className="shadow-inner h-[32rem] overflow-x-scroll lg:overflow-x-hidden w-[88%]">
+      {!isLoading ? trains?.length > 0 ? (
+        <div className="shadow-inner h-[32rem] overflow-x-scroll lg:overflow-x-hidden w-[88%] xl:w-full">
           <table className="table-auto w-full divide-y divide-gray-500">
             <thead>
               <tr>
@@ -105,7 +99,7 @@ const AdminTrain = () => {
                     </div>
                   </td>
                   <td className="px-6 py-3">
-                    <button onClick={() => navigate(`/admin/trains/${train._id}`)} className="transition-all bg-[#FAB440] hover:bg-[#FAB440] px-4 py-2 rounded text-white">
+                    <button onClick={() => navigate(`/admin/trains/${train._id}`)} className="transition-all bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white">
                       <FaEdit />
                     </button>
                   </td>
@@ -118,7 +112,16 @@ const AdminTrain = () => {
               ))}
             </tbody>
           </table>
-      </div>
+        </div>
+      ) : (
+        <section className='flex justify-center'>
+          <h1>Pas de Trains</h1>
+        </section>
+      ) : (
+        <section className='flex justify-center'>
+          <h1>Loading...</h1>
+        </section>
+      )}
     </section>
   )
 }
