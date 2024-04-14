@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from 'react'
-import { FaEdit, FaPlus, FaTimes, FaTrash } from 'react-icons/fa'
+import { FaPlus, FaTimes } from 'react-icons/fa'
+import { IoSend } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import SearchBar from '../../../components/SearchBar'
 import { useCancelledReservationMutation, useGetAllReservationQuery } from '../../../redux/api/reservationApiSlice'
 import { subtract } from '../../../utils/utils';
 import { toast } from 'react-toastify';
 import socket from '../../../utils/socket'
+import ModalConfirm from '../../../components/ModalConfirm'
 
 const AdminReservation = () => {
   const {data, isLoading, refetch} = useGetAllReservationQuery()
   const [cancelledReservation] = useCancelledReservationMutation()
   const [search, setSearch] = useState('')
   const [reservations, setReservations] = useState([])
+  const [isOpen, setIsOpen] = useState(false)
   const navigate = useNavigate()
   const handleSearch = () => {
 
   }
+
   const handleDelete = async (id) => {
     if(window.confirm('Etes-vous sûr de vouloir annuler ce réservation?')){
       try {
@@ -69,10 +73,10 @@ const AdminReservation = () => {
                   <td className="px-6 py-3"><span className='block'>{reservation?.trip?.destination}</span><span>{subtract(3, reservation?.trip?.arrival_date).fromNow()}</span></td>
                   <td className="px-6 py-3">{reservation?.nbrTickets}</td>
                   <td className="px-6 py-3">Ar {reservation?.totalPrice}</td>
-                  <td className="px-6 py-3">{reservation?.isPaid ? <span className='bg-green-500 py-1 px-4 rounded text-white uppercase font-bold'>Completé</span> : <span className='bg-cyan-500 py-1 px-4 rounded text-white uppercase font-bold'>En attente</span>}</td>
+                  <td className="px-6 py-3">{reservation?.isPaid ? <span className='bg-green-500 py-1 px-4 rounded text-white uppercase font-bold'>Completé</span> : <span className='bg-cyan-500 py-1 px-4 rounded text-white uppercase font-bold whitespace-nowrap'>En attente</span>}</td>
                   <td className="px-6 py-3">
                     <button onClick={() => sentNotification(reservation?.user?._id)} className="transition-all bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white">
-                      <FaEdit />
+                      <IoSend />
                     </button>
                   </td>
                   <td className="px-6 py-3">

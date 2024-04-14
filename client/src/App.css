@@ -21,9 +21,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: #07143F;
+    background-color: #fff;
     padding: 2rem;
-    color: aliceblue;
     border-radius: 4px;
     max-width: 50%;
 }

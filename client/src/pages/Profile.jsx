@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { useUpdateCurrentUserProfileMutation, useUploadImageMutation } from '../redux/api/userApiSlice.js'
 import { setCredentials } from '../redux/features/auth/authSlice.js'
+import { useNavigate } from 'react-router-dom'
 
 const Profile = () => {
 
+  const navigate = useNavigate()
   const fileRef = useRef()
   const [profileData, setProfileData] = useState({
     password: ''
@@ -71,7 +73,7 @@ const Profile = () => {
             <h1 className='desc'>{userInfo.email}</h1>
           </div>
           <div>
-            <button className="bg-[#FAB440] hover:bg-[#ffa616] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Mes résérvations</button>
+            <button onClick={() => navigate('/reservation-management')} className="bg-[#FAB440] hover:bg-[#ffa616] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Mes résérvations</button>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { FaExpand, FaExpandAlt, FaExpandArrowsAlt } from 'react-icons/fa';
+import { FaExpandAlt, FaExpandArrowsAlt } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
 import { setNotifExpand } from '../redux/features/notif/notifSlice';
 import socket from '../utils/socket';

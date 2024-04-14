@@ -69,7 +69,8 @@ export const modifyReservation = async (req, res) => {
 export const getMyReservation = async (req, res) => {
    try {
       const reservations = await Reservation.find({user: req.user._id})
-         .populate("trip");
+         .populate("trip")
+         .sort({createdAt: -1});
       return res.status(200).json(reservations);
    } catch (error) {
       return res.status(500).json({message: "Cannot get all your reservation"});
@@ -79,6 +80,7 @@ export const payReservation = async (req, res) => {
    try {
       const reservation = await Reservation.findById(req.params.reservationId);
       if(!reservation) return res.status(404).json({message: "Ce réservation est introuvable"});
+      if(reservation.isPaid) return res.status(404).json({message: "Ce réservation a été déja payé"});
       reservation.isPaid = true;
       reservation.isPaidAt = new Date();
       await reservation.save()

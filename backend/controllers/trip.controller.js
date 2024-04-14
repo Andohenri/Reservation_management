@@ -43,10 +43,8 @@ export const getTrips = async (req, res) => {
    if(origin) searchQuery.origin = { $eq: origin };
    if(destination) searchQuery.destination = { $eq: destination };
 
-   console.log(searchQuery);
-
    try {
-      const trips = await Trip.find(searchQuery).populate("trainId", "_id name capacity").sort({createdAt: -1});
+      const trips = await Trip.find(searchQuery).populate("trainId", "_id name type").sort({createdAt: -1});
       return res.status(200).json(trips);
    } catch (error) {
       return res.status(500).json({message: "Failde to fetch the trips"});
@@ -81,7 +79,7 @@ export const updateTrip = async (req, res) => {
 }
 export const getTrip = async (req, res) => {
    try {
-      const trip = await Trip.findById(req.params.tripId).populate("trainId", "_id name capacity");
+      const trip = await Trip.findById(req.params.tripId).populate("trainId", "_id name capacity type");
       if(!trip)return res.status(404).json({message: "Trip not found"});
       return res.status(200).json(trip);
    } catch (error) {

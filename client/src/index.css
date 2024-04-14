@@ -71,6 +71,9 @@ opacity: 0.15;
 .desc {
    @apply text-base lg:text-lg text-gray-600 sm:text-xl max-w-2xl;
 }
+.text {
+   @apply text-base lg:text-lg text-gray-800 sm:text-xl;
+}
 .label {
    @apply block text-gray-700 text-sm font-bold mb-2;
 }
@@ -91,6 +94,9 @@ opacity: 0.15;
 }
 .outline_btn {
    @apply rounded-full border border-[#FAB440] bg-transparent py-1.5 px-5 text-[#FAB440] transition-all hover:bg-[#FAB440] hover:text-black text-center text-sm font-semibold flex items-center justify-center;
+}
+.flex_between {
+   @apply flex items-center justify-between;
 }
 
 .active{
