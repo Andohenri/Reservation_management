@@ -13,6 +13,7 @@ import uploadRoute from './routes/upload.route.js';
 import trainRoute from './routes/train.route.js';
 import tripRoute from './routes/trip.route.js';
 import reservationRoute from './routes/reservation.route.js';
+import notifRoute from './routes/notification.route.js';
 
 dotenv.config()
 
@@ -32,6 +33,7 @@ app.use('/api/users', userRoute)
 app.use('/api/trains', trainRoute)
 app.use('/api/trips', tripRoute)
 app.use('/api/reservations', reservationRoute)
+app.use('/api/notifications', notifRoute)
 
 //uploads images
 app.use('/api/uploads', uploadRoute)
@@ -69,9 +71,11 @@ io.on('connection', (socket) => {
       addUser(_id, socket.id, isAdmin);
       console.log(userSockets);
    });
-   socket.on("send notification", ({id, content}) => {
-      const user = getUser(id);
-      io.to(user.socketId).emit("receive notification", {content});
+   socket.on("send notification", ({userId, content}) => {
+      const user = getUser(userId);
+      if(user){
+         io.to(user.socketId).emit("receive notification", content);
+      }
    })
    socket.on('disconnect', () => {
       removeUser(socket.id)

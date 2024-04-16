@@ -16,7 +16,7 @@ export default function App() {
     if(userInfo) {
       socket.emit('storeUserId', userInfo);
     }
-  }, [userInfo]);
+  }, [userInfo, socket]);
   
   return (
     <>
@@ -29,7 +29,7 @@ export default function App() {
           <Outlet />
         </div>
         <Footer />
-      <NotificationSidebar />
+      {userInfo && <NotificationSidebar />}
       </main>
       <ToastContainer />
     </>

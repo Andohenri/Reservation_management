@@ -32,7 +32,6 @@ const Login = () => {
       e.preventDefault()
       try {
          const res = await login(formData).unwrap()
-         console.log(res);
          dispatch(setCredentials({...res}))
          toast.success("Connection réussi.")
       } catch (error) {

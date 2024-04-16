@@ -7,11 +7,13 @@ import { useCancelledReservationMutation, useGetAllReservationQuery } from '../.
 import { subtract } from '../../../utils/utils';
 import { toast } from 'react-toastify';
 import socket from '../../../utils/socket'
-import ModalConfirm from '../../../components/ModalConfirm'
+import { useSendNotificationMutation } from '../../../redux/api/notificationApiSlice'
 
 const AdminReservation = () => {
   const {data, isLoading, refetch} = useGetAllReservationQuery()
   const [cancelledReservation] = useCancelledReservationMutation()
+  const [sendNotification] = useSendNotificationMutation()
+
   const [search, setSearch] = useState('')
   const [reservations, setReservations] = useState([])
   const [isOpen, setIsOpen] = useState(false)
@@ -31,9 +33,14 @@ const AdminReservation = () => {
       }
     }
   }
-  const sentNotification = (id) => {
-    socket.emit("send notification", {id, content: "First Notification"});
-    console.log("event sent...");
+  const sentNotification = async (reservationId, userId) => {
+    try {
+      const res = await sendNotification({recipientId: userId, type: 'paymentReminder', reservation: reservationId}).unwrap();
+      socket.emit("send notification", {userId , content: res});
+      toast.success("Notification envoyé")
+    } catch (error) {
+      toast.error(error?.data?.message || error?.message || error);
+    }
   }
   useEffect(() => {
     setReservations(data)
@@ -75,7 +82,7 @@ const AdminReservation = () => {
                   <td className="px-6 py-3">Ar {reservation?.totalPrice}</td>
                   <td className="px-6 py-3">{reservation?.isPaid ? <span className='bg-green-500 py-1 px-4 rounded text-white uppercase font-bold'>Completé</span> : <span className='bg-cyan-500 py-1 px-4 rounded text-white uppercase font-bold whitespace-nowrap'>En attente</span>}</td>
                   <td className="px-6 py-3">
-                    <button onClick={() => sentNotification(reservation?.user?._id)} className="transition-all bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white">
+                    <button onClick={() => sentNotification(reservation?._id, reservation?.user?._id)} className="transition-all bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white">
                       <IoSend />
                     </button>
                   </td>
