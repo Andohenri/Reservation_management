@@ -59,8 +59,8 @@ const TripDetails = () => {
                <span className=''>{trip.destination.slice(0,3).toUpperCase()}</span>
             </div>
             <div className='flex_between text-gray-600 font-semibold'>
-               <span className='flex_between gap-2'><FaRegClock /> {subtract(0, trip.departure_date).format("HH:mm")}</span>
-               <span className='flex_between gap-2'><FaRegClock/> {subtract(0, trip.arrival_date).format("HH:mm")}</span>
+               <span className='flex_between gap-2'><FaRegClock /> {subtract(3, trip.departure_date).format("HH:mm")}</span>
+               <span className='flex_between gap-2'><FaRegClock/> {subtract(3, trip.arrival_date).format("HH:mm")}</span>
             </div>
             <div className='flex_between text-gray-600 font-semibold'>
                <span className='flex_between gap-2'><FaTicketAlt size={24}/> $ {trip.price}</span>

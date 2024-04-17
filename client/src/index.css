@@ -21,42 +21,39 @@
    height: 100%;
    top: 0;
 }
- 
+
 .main:after {
-content: "";
-background-image: url("/grid.svg");
-z-index: 1;
-position: absolute;
-width: 100%;
-height: 100%;
-top: 0;
-opacity: 0.4;
-filter: invert(1);
+   content: "";
+   background-image: url("/grid.svg");
+   z-index: 1;
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   top: 0;
+   opacity: 0.4;
+   filter: invert(1);
 }
- 
+
 .gradient {
-height: fit-content;
-z-index: 3;
-width: 100%;
-max-width: 640px;
-background-image: radial-gradient(
-      at 27% 37%,
-      hsla(215, 98%, 61%, 1) 0px,
-      transparent 0%
-   ),
-   radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 1) 0px, transparent 50%),
-   radial-gradient(at 52% 99%, hsla(354, 98%, 61%, 1) 0px, transparent 50%),
-   radial-gradient(at 10% 29%, hsla(256, 96%, 67%, 1) 0px, transparent 50%),
-   radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 1) 0px, transparent 50%),
-   radial-gradient(at 33% 50%, hsla(222, 67%, 73%, 1) 0px, transparent 50%),
-   radial-gradient(at 79% 53%, hsla(343, 68%, 79%, 1) 0px, transparent 50%);
-position: absolute;
-content: "";
-width: 100%;
-height: 100%;
-filter: blur(50px) saturate(50%);
-top: 80px;
-opacity: 0.15;
+   height: fit-content;
+   z-index: 3;
+   width: 100%;
+   max-width: 640px;
+   background-image:
+      radial-gradient(at 27% 37%, hsla(215, 98%, 61%, 1) 0px, transparent 0%),
+      radial-gradient(at 97% 21%, hsla(125, 98%, 72%, 1) 0px, transparent 50%),
+      radial-gradient(at 52% 99%, hsla(354, 98%, 61%, 1) 0px, transparent 50%),
+      radial-gradient(at 10% 29%, hsla(256, 96%, 67%, 1) 0px, transparent 50%),
+      radial-gradient(at 97% 96%, hsla(38, 60%, 74%, 1) 0px, transparent 50%),
+      radial-gradient(at 33% 50%, hsla(222, 67%, 73%, 1) 0px, transparent 50%),
+      radial-gradient(at 79% 53%, hsla(343, 68%, 79%, 1) 0px, transparent 50%);
+   position: absolute;
+   content: "";
+   width: 100%;
+   height: 100%;
+   filter: blur(50px) saturate(50%);
+   top: 80px;
+   opacity: 0.15;
 }
 
 @media screen and (max-width: 640px) {
@@ -81,16 +78,13 @@ opacity: 0.15;
    @apply shadow appearance-none border border-[#FAB440] rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none placeholder:italic;
 }
 .input_table {
-   @apply shadow appearance-none border border-[#FAB440] rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none ;
+   @apply shadow appearance-none border border-[#FAB440] rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none;
 }
 .input_search {
    @apply shadow appearance-none border focus:border-[#4E47C6] rounded-full py-2 px-3 text-gray-700 leading-tight focus:outline-none w-10 focus:w-fit transition-all pointer-events-auto placeholder:italic placeholder:opacity-0 focus:placeholder:opacity-100
 }
-.copy_btn {
-   @apply rounded-lg text-white px-4 py-2 shadow-[inset_10px_-50px_94px_0_rgb(199,199,199,0.2)] backdrop-blur flex justify-center items-center cursor-pointer;
-}
 .btn_primary {
-   @apply rounded-lg border border-[#FAB440] bg-[#FAB440] py-1.5 px-1.5 sm:px-5  text-white transition-all hover:bg-white hover:text-[#FAB440] text-center text-base flex items-center justify-center font-semibold;
+   @apply rounded-lg border border-[#FAB440] bg-[#FAB440] py-1.5 px-1.5 sm:px-5 text-white transition-all hover:bg-white hover:text-[#FAB440] text-center text-base flex items-center justify-center font-semibold;
 }
 .outline_btn {
    @apply rounded-full border border-[#FAB440] bg-transparent py-1.5 px-5 text-[#FAB440] transition-all hover:bg-[#FAB440] hover:text-black text-center text-sm font-semibold flex items-center justify-center;
@@ -99,9 +93,10 @@ opacity: 0.15;
    @apply flex items-center justify-between;
 }
 
-.active{
+.active {
    @apply text-[#4E47C6] rounded-lg;
 }
+
 .gradient-text {
    @apply bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text;
 }

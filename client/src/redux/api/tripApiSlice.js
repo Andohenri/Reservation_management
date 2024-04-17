@@ -5,8 +5,8 @@ export const TRIP_URL = '/api/trips';
 export const tripApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({
       getTrips: builder.query({
-         query: () => ({
-            url: TRIP_URL,
+         query: ({ departure_date, origin, destination }) => ({
+            url: `${TRIP_URL}?departure_date=${departure_date}&origin=${origin}&destination=${destination}`,
          })
       }),
       getAllTrips: builder.query({

@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const TripCard = ({trip}) => {
    const navigate = useNavigate();
    return (
-      <section className='bg-white w-[49%] mb-4 rounded text-gray-800 shadow'>
+      <section className='bg-white mb-4 rounded text-gray-800 shadow'>
          <div className='flex_between p-4'>
             <div className='flex_between gap-4'>
                <img src={''} alt="" className='rounded w-10 h-10'/>
