@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { FaCalendarAlt, FaMapMarkerAlt, FaMapPin, FaSearch } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
 import TripCard from '../components/TripCard';
 import { useGetTripsQuery } from '../redux/api/tripApiSlice'
+import { setSearchQuery } from '../redux/features/trip/tripSlice';
 
 const Trip = () => {
+  const dispatch = useDispatch();
   const [trips, setTrips] = useState([]);
   const [dateDepart, setDateDepart] = useState('');
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
-  const [query, setQuery] = useState({
-    departure_date: dateDepart,
-    origin,
-    destination
-  });
+  const { query } = useSelector(state => state.trip);
   const { data, isLoading, refetch, error } = useGetTripsQuery(query);
 
   useEffect(() => {
@@ -20,8 +19,8 @@ const Trip = () => {
   }, [])
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    setQuery({ departure_date: dateDepart, origin, destination })
+    e.preventDefault();
+    dispatch(setSearchQuery({ departure_date: dateDepart, origin, destination }));
   }
 
   useEffect(() => {
@@ -65,7 +64,7 @@ const Trip = () => {
           </button>
         </div>
       </form>
-      {!isLoading ? (
+      {!isLoading ? sortedDateKey?.length > 0 ? (
         sortedDateKey?.map(dateKey => (
           <div key={dateKey} className='p-4'>
             <h1 className='font-extrabold text-2xl flex items-center gap-2 text-gray-800 px-4 py-2'><FaCalendarAlt /> {dateKey}</h1>
@@ -76,6 +75,10 @@ const Trip = () => {
             </div>
           </div>
         ))
+      ) : (
+        <section className='flex justify-center'>
+          <h1>Pas de voyages disponibles</h1>
+        </section>
       ) : (
         <section className='flex justify-center'>
           <h1>Chargement...</h1>

@@ -1,66 +1,190 @@
-import React from 'react'
-import logo from '../assets/react.svg'
+import React, { useState } from 'react'
+import { FaMapMarkerAlt, FaMapPin, FaSearch, FaStar } from 'react-icons/fa'
+import { Ri24HoursLine, RiSecurePaymentLine, RiTimeLine } from 'react-icons/ri'
+import { MdAdsClick } from 'react-icons/md'
+import Banner from '../assets/banner.jpeg'
+import Img1 from '../assets/train1.png'
+import react from '../assets/react.svg'
+import { setSearchQuery } from '../redux/features/trip/tripSlice'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [origin, setOrigin] = useState('');
+  const [destination, setDestination] = useState('');
+  const [dateDepart, setDateDepart] = useState('');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(setSearchQuery({ departure_date: dateDepart, origin, destination }));
+    navigate('/trip');
+  }
+
   return (
-    <main className='max-w-5xl mx-auto p-6'>
-      <header className='flex max-md:flex-col-reverse gap-4 md:flex-row lg:h-[90vh] mb-6'>
-        <div className='flex-1 flex flex-col gap-4 justify-center items-start max-md:text-center'>
-          <h1 className='head_text'>Bienvenue sur [Nom de l'application] - Votre plateforme ultime de réservation de train !</h1>
+    <main className='max-w-6xl mx-auto'>
+      <header className='flex justify-center items-center gap-6 sm:p-6 sm:h-[85vh] mb-6'>
+        <div className='hidden sm:flex flex-col gap-6 justify-center items-start max-md:text-center'>
+          <h1 className='head_text'>Bienvenue sur TRAIN-TRIP - Votre plateforme ultime de réservation de train !</h1>
           <p className='desc'>
-            Découvrez une expérience de réservation fluide et sans souci avec [Nom de l'application]. 
-            Que vous planifier un court trajet ou un long voyage, notre plateforme offre un moyen pratique 
-            et fiable de réserver vos billets de train en toutes simplicité. Dites adieu aux longues files d'attentes et aux tracas de réservation de dernier minutes - 
-            [Nom de l'application] est là pour rendre votre expérience de voyage agréable et sans stresse.
+            Dites adieu aux longues files d'attentes et aux tracas de réservation de dernier minutes -
+            TRAIN-TRIP est là pour rendre votre expérience de voyage agréable et sans stresse.
           </p>
-          <button className='btn_primary mt-4'>Réserver vos places des maintenant</button>
+          <form onSubmit={handleSubmit} className='flex flex-col gap-2'>
+            <section className='grid grid-cols-3 items-center'>
+              <div className='relative'>
+                <input value={origin} onChange={(e) => setOrigin(e.target.value)} className='w-full shadow border rounded-tl-lg rounded-bl-lg focus:border-[#4E47C6] py-2 pl-3 pr-8 text-gray-700 focus:outline-none transition-all pointer-events-auto placeholder:italic' type="text" placeholder='Ville de départ' />
+                <span className='absolute top-3 right-3 pointer-events-none'><FaMapPin className='text-gray-400' /></span>
+              </div>
+              <div className='relative'>
+                <input value={destination} onChange={(e) => setDestination(e.target.value)} className='w-full shadow border focus:border-[#4E47C6] py-2 pl-3 pr-8 text-gray-700 focus:outline-none transition-all pointer-events-auto placeholder:italic' type="text" placeholder="Ville d'arrivé" />
+                <span className='absolute top-3 right-3 pointer-events-none'><FaMapMarkerAlt className='text-gray-400' /></span>
+              </div>
+              <div className='relative hidden sm:block'>
+                <input value={dateDepart} onChange={(e) => setDateDepart(e.target.value)} className='w-full shadow border rounded-tr-lg rounded-br-lg focus:border-[#4E47C6] py-2 pl-3 pr-4 text-gray-700 leading-tight focus:outline-none transition-all pointer-events-auto placeholder:italic' type="date" />
+              </div>
+            </section>
+            <div className='flex justify-end'>
+              <button type='submit' className='bg-[#FAB440] text-white shadow rounded-lg px-3 py-2 flex gap-2 items-center'>
+                <FaSearch size={24} />
+                <span className='font-semibold'>Rechercher</span>
+              </button>
+            </div>
+          </form>
+          <div className='flex shadow gap-4 items-center bg-white py-2 px-4 rounded-lg'>
+            <span className='flex gap-1'><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /></span>
+            <p className='desc'><span className='font-bold'>4.8</span> sur 114 reviews</p>
+          </div>
         </div>
-        <div className='md:flex-1 flex justify-center '>
-          <img src={logo} alt="logo" className=''/>
+        <div className='relative shadow-lg sm:rounded-lg overflow-hidden'>
+          <img src={Banner} alt="logo" className='' />
+          <div className='absolute_center w-[70%] sm:hidden text-center'>
+            <h1 className='text-2xl text-shadow font-extrabold leading-[1.15] text-white'>Bienvenue sur TRAIN-TRIP! <br /> Votre plateforme ultime de réservation de train !</h1>
+            <button className='btn_primary mx-auto mt-2'>Réserver</button>
+          </div>
         </div>
       </header>
-      <section>
-        <h1 className='text-2xl font-bold mb-4'>A propos</h1>
-        <div className='flex flex-row flex-wrap gap-4'>
-          <article className='w-full max-w-64 bg-slate-500 text-white p-3 rounded-lg'>
-            <h1 className='text-xl font-semibold'>Processus de reservation facile</h1>
-            <p>En quelques clics, réserver vos billets de train et recevew une confirmation instantanée.</p>
+      <section className='p-6'>
+        <h1 className='head_text mb-6'>A propos se Train-trip</h1>
+        <div className='grid gap-6 sm:grid-cols-2'>
+          <div className='overflow-hidden rounded-lg h-[18rem]'>
+            <img src={Img1} alt="train" />
+          </div>
+          <p className='desc'>
+            Découvrez une expérience de réservation fluide et sans souci avec TRAIN-TRIP.
+            Que vous voyagiez pour affaires un court trajet ou un long voyage, notre interface conviviale vous permet de rechercher des voyages disponibles en Train
+            de consulter les horaires de départ ou d'arrivée et réserver vos billets de train en toutes simplicité.
+            Avec notre système complet, vous pouvez également gérer votre réservation, suivre votre trajet et rester informé en temps réel.
+            Réjoignez-nous et profitez d'une expériencede voyage sans faille avec notre service de réservation de train.
+          </p>
+        </div>
+      </section>
+      <section className='p-6'>
+        <h1 className='head_text mb-6'>Pourquoi réserver des trains sur sur Train-Trip ?</h1>
+        <div className='grid grid-cols-2 lg:grid-cols-4 gap-4'>
+          <article className='bg-white flex flex-col gap-4 rounded-lg shadow p-4'>
+            <div className='flex items-center gap-4'>
+              <div className='p-3 bg-yellow-200 rounded-lg'><MdAdsClick size={32} className='text-[#FAB440]' /></div>
+              <h1 className='text-xl text-gray-800 font-bold'>Réservation facile</h1>
+            </div>
+            <div>
+              <p className='desc'>
+                En quelques clics, réserver vos billets de train et recevez une confirmation instantanée.
+              </p>
+            </div>
           </article>
-          <article className='w-full max-w-xs bg-slate-500 text-white p-2 rounded-lg'>
-            <h1 className='text-xl font-semibold'>Large sélection de trains</h1>
-            <p>Choisissez parmi une variété de trains, chacun offrant différents commodités et options de voyage pour répondre à vos besoins.</p>
+          <article className='bg-white flex flex-col gap-4 rounded-lg shadow p-4'>
+            <div className='flex items-center gap-4'>
+              <div className='p-3 bg-yellow-200 rounded-lg'><RiTimeLine size={32} className='text-[#FAB440]' /></div>
+              <h1 className='text-lg text-gray-800 font-bold'>Mise à jour en temps réel</h1>
+            </div>
+            <div>
+              <p className='desc'>
+                Rester informé de votre voyage avec des mises en temps réel sur les horaires des trains, les retards et plus encore.
+              </p>
+            </div>
           </article>
-          <article className='w-full max-w-xs bg-slate-500 text-white p-2 rounded-lg'>
-            <h1 className='text-xl font-semibold'>?ise à jour en temps réel</h1>
-            <p>Rester informé de votre voyage avec des mises en temps réel sur les horaires des trains, les retards et plus encore.</p>
+          <article className='bg-white flex flex-col gap-4 rounded-lg shadow p-4'>
+            <div className='flex items-center gap-4'>
+              <div className='p-3 bg-yellow-200 rounded-lg'><RiSecurePaymentLine size={32} className='text-[#FAB440]' /></div>
+              <h1 className='text-lg text-gray-800 font-bold'>Paiement sécurisé</h1>
+            </div>
+            <div>
+              <p className='desc'>
+                Notre passerele de paiement sécurisé garantit que vos transactions sont sures et protégés.
+              </p>
+            </div>
           </article>
-          <article className='w-full max-w-xs bg-slate-500 text-white p-2 rounded-lg'>
-            <h1 className='text-xl font-semibold'>Paiement sécurisé</h1>
-            <p>Notre passerele de paiement sécurisé garantit que vos transactions sont sures et protégés.</p>
-          </article>
-          <article className='w-full max-w-xs bg-slate-500 text-white p-2 rounded-lg'>
-            <h1 className='text-xl font-semibold'>Service client 24/7</h1>
-            <p>Notre equipe de support client dévouée est disponible 24h/24 et 7j/7 pour vous aider avec toutes vos questions ou problèmes.</p>
+          <article className='bg-white flex flex-col gap-4 rounded-lg shadow p-4'>
+            <div className='flex items-center gap-4'>
+              <div className='p-3 bg-yellow-200 rounded-lg'><Ri24HoursLine size={32} className='text-[#FAB440]' /></div>
+              <h1 className='text-lg text-gray-800 font-bold'>Service client 24/7</h1>
+            </div>
+            <div>
+              <p className='desc'>
+                Notre équipe de support client dévouée est disponible 24h/24 et 7j/7 pour vous aider avec toutes vos questions ou problèmes.
+              </p>
+            </div>
           </article>
         </div>
       </section>
-      <section>
-        <h1 className='text-2xl font-bold mb-4'>Caracteristique</h1>
-        <p>Mise en avant de pricipales caracteristiques et fonctionalites de l'application - Utilisation des icones ou d'images pour illustrer chaque fonctionnalites</p>
-      </section>
-      <section>
-        <h1 className='text-2xl font-bold mb-4'>Comment ça marche ?</h1>
+      <section className='p-6'>
+        <h1 className='head_text mb-6'>Comment ça marche ?</h1>
         <p>Explication etape par etape du processus de reservation de train sur le plateforme - Utilisation des visuels ou des captures d'ecran pour guider les utilisateurs</p>
       </section>
-      <section>
+      {/* <section>
         <h1 className='text-2xl font-bold mb-4'>Selection des trains</h1>
         <p>
           Presentation des different types des trains disponible a la reservation - Possibilite de filtrer les trains par destinations, horaires, etc.
         </p>
-      </section>
-      <section>
-        <h1 className='text-2xl font-bold mb-4'>Temoignages</h1>
-        <p>Temoignages de clients satisfaits qui ont utilises votre service de reservation de train - Renforcement de la confiance des utilisateurs potentiels en montrant des retours positifs.</p>
+      </section> */}
+      <section className='p-6'>
+        <h1 className='head_text mb-6'>Temoignages</h1>
+        <div className='grid gap-4 grid-cols-3'>
+          <article className='bg-[#07143F] rounded-lg shadow p-4'>
+            <div className='flex shadow gap-4 items-center py-2 px-4 rounded-lg'>
+              <span className='flex gap-1'><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /></span>
+            </div>
+            <div className='p-4'>
+              <p className='text-base lg:text-lg text-white sm:text-xl max-w-2xl'>
+                "En quelques clics, réserver vos billets de train et recevez une confirmation instantanée."
+              </p>
+            </div>
+            <div className='flex items-center p-4 gap-4'>
+              <img src={react} alt="profile" className='h-10 w-10 border shadow p-1 rounded-full' />
+              <p className='text-gray-400 font-bold'>Ando Henri</p>
+            </div>
+          </article>
+          <article className='bg-[#07143F] rounded-lg shadow p-4'>
+            <div className='flex shadow gap-4 items-center py-2 px-4 rounded-lg'>
+              <span className='flex gap-1'><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /></span>
+            </div>
+            <div className='p-4'>
+              <p className='text-base lg:text-lg text-white sm:text-xl max-w-2xl'>
+                "En quelques clics, réserver vos billets de train et recevez une confirmation instantanée."
+              </p>
+            </div>
+            <div className='flex items-center p-4 gap-4'>
+              <img src={react} alt="profile" className='h-10 w-10 rounded-full' />
+              <p className='text-white font-bold'>Ando Henri</p>
+            </div>
+          </article>
+          <article className='bg-[#07143F] rounded-lg shadow p-4'>
+            <div className='flex shadow gap-4 items-center py-2 px-4 rounded-lg'>
+              <span className='flex gap-1'><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /></span>
+            </div>
+            <div className='p-4'>
+              <p className='text-base lg:text-lg text-white sm:text-xl max-w-2xl'>
+                "En quelques clics, réserver vos billets de train et recevez une confirmation instantanée."
+              </p>
+            </div>
+            <div className='flex items-center p-4 gap-4'>
+              <img src={react} alt="profile" className='h-10 w-10 rounded-full' />
+              <p className='text-white font-bold'>Ando Henri</p>
+            </div>
+          </article>
+        </div>
       </section>
       <section>
         <h1 className='text-2xl font-bold mb-4'>Appel a l'action</h1>
