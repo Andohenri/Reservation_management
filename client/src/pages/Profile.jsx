@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { useUpdateCurrentUserProfileMutation, useUploadImageMutation } from '../redux/api/userApiSlice.js'
 import { setCredentials } from '../redux/features/auth/authSlice.js'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import ProfileImage from '../assets/profile.jpg';
 
 const Profile = () => {
 
@@ -62,7 +63,7 @@ const Profile = () => {
       <div className='flex flex-row gap-4'>
         <div className='relative bg-white rounded-full p-1 shadow'>
           <div className='overflow-hidden rounded-full h-36 w-36 md:h-48 md:w-48'>
-            <img className='object-contain h-fit w-full rounded-full' src={userInfo.image} alt="Profile" />
+            <img className='object-contain h-fit w-full rounded-full' src={userInfo.image || ProfileImage} alt="Profile" />
           </div>
           <button onClick={() => fileRef.current.click()} className="absolute top-28 right-2 md:top-36 md:right-4 z-2 rounded-full shadow bg-white p-2"><FaCamera /></button>
           <input ref={fileRef} hidden type="file" name='image' accept='image/*' onChange={e => setImage(e.target.files[0])}/>

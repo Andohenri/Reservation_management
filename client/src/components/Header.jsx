@@ -8,6 +8,7 @@ import { useLogoutMutation } from "../redux/api/userApiSlice";
 import { logout } from "../redux/features/auth/authSlice";
 import { toast } from "react-toastify";
 import NotifButton from "./NotifButton";
+import ProfileImage from '../assets/profile.jpg';
 
 const Header = () => {
    const { userInfo } = useSelector(state => state.auth);
@@ -40,7 +41,7 @@ const Header = () => {
                {userInfo ? (
                   <div className="relative flex gap-4 lg:hidden">
                      <div className="rounded-full w-10 h-10 overflow-hidden">
-                        <img onClick={expandMenu} className="w-full h-fit rounded-full object-contain" src={userInfo?.image} alt='profile' />
+                        <img onClick={expandMenu} className="w-full h-fit rounded-full object-contain" src={userInfo?.image || ProfileImage} alt='profile' />
                      </div>
                      <div className={`text-black absolute ${expand ? "opacity-1 flex" : "opacity-0 hidden"} text-gray-800 transition-all flex-col gap-1 w-48 bg-white top-full right-0 rounded-lg shadow p-4`}>
                         <Link onClick={expandMenu} className="flex items-center gap-2" to={`/profile`}><FaUserCog size={24} /> Mon Profile</Link>
@@ -85,7 +86,7 @@ const Header = () => {
                   <div onClick={expandMenu} className='relative px-4 py-1 rounded-full border lg:flex items-center gap-4'>
                      <div className="flex flex-row gap-2 items-center ">
                         <div className="rounded-full w-10 h-10 overflow-hidden">
-                           <img onClick={expandMenu} className="w-full h-fit rounded-full object-contain" src={userInfo?.image} alt='profile' />
+                           <img onClick={expandMenu} className="w-full h-fit rounded-full object-contain" src={userInfo?.image || ProfileImage} alt='profile' />
                         </div>
                         <h4 className="font-semibold ">{userInfo?.username}</h4>
                      </div>

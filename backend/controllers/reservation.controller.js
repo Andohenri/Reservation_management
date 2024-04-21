@@ -57,9 +57,12 @@ export const cancelledReservation = async (req, res) => {
       if(!tripFound) return res.status(404).json({message: "Ce voyage est introuvable"});
       tripFound.avalaible_seats = tripFound.avalaible_seats + reservation.nbrTickets;
       if(reservation.isPaid) return res.status(401).json({message: "La reservation déja payé ne sont plus reboursable"});
-      await reservation.deleteOne()
-      tripFound.passenger = tripFound.passenger.filter(passenger => passenger !== req.user._id);
-      await tripFound.save()
+      await reservation.deleteOne();
+      const idx = tripFound.passenger.indexOf(req.user._id);
+      if(idx !== -1){
+         tripFound.passenger.splice(idx, 1);
+      }
+      await tripFound.save();
       return res.status(200).json(reservation)
    } catch (error) {
       return res.status(200).json({message: ""})
@@ -80,7 +83,9 @@ export const getMyReservation = async (req, res) => {
 }
 export const payReservation = async (req, res) => {
    try {
-      const reservation = await Reservation.findById(req.params.reservationId);
+      const reservation = await Reservation.findById(req.params.reservationId)
+                        .populate('user', 'username email')
+                        .populate('trip');
       if(!reservation) return res.status(404).json({message: "Ce réservation est introuvable"});
       if(reservation.isPaid) return res.status(404).json({message: "Ce réservation a été déja payé"});
       reservation.isPaid = true;

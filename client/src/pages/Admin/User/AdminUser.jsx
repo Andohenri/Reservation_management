@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
-import { FaCheck, FaEdit, FaTimes, FaTrash } from 'react-icons/fa'
-import SearchBar from '../../../components/SearchBar'
-import { useGetAllUsersQuery } from '../../../redux/api/userApiSlice'
+import React, { useState } from 'react';
+import { FaCheck, FaEdit, FaTimes, FaTrash } from 'react-icons/fa';
+import SearchBar from '../../../components/SearchBar';
+import { useGetAllUsersQuery } from '../../../redux/api/userApiSlice';
+import ProfileImage from '../../../assets/profile.jpg';
 
 const AdminUser = () => {
 
@@ -69,7 +70,7 @@ const AdminUser = () => {
               <tbody className='divide-y divide-gray-200'>
                 {data?.map(user => (
                   <tr key={user._id}>
-                    <td><img className='h-12 w-10' src={user.image} alt={'profile'} /></td>
+                    <td><img className='h-12 w-10' src={user.image || ProfileImage} alt={'profile'} /></td>
                     <td className="px-6 py-3">{user._id}</td>
                     <td className="px-6 py-3">
                       { editableUser === user._id

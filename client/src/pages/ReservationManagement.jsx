@@ -4,14 +4,16 @@ import { MdPayment } from 'react-icons/md'
 import { toast } from 'react-toastify';
 import { useCancelledReservationMutation, useGetMyReservationsQuery, usePayReservationMutation } from '../redux/api/reservationApiSlice'
 import { subtract } from '../utils/utils';
+import jsPDF from 'jspdf';
+import QRCode from 'qrcode';
 
 const ReservationManagement = () => {
-  const {data: reservations, isLoading, refetch, error} = useGetMyReservationsQuery();
-  const [cancelledReservation, {isLoading: loading}] = useCancelledReservationMutation();
-  const [payReservation, {isLoading: loadingPay}] = usePayReservationMutation();
+  const { data: reservations, isLoading, refetch, error } = useGetMyReservationsQuery();
+  const [cancelledReservation, { isLoading: loading }] = useCancelledReservationMutation();
+  const [payReservation, { isLoading: loadingPay }] = usePayReservationMutation();
 
   const handleDelete = async (id) => {
-    if(window.confirm('Etes-vous sûr de vouloir annuler ce réservation?')){
+    if (window.confirm('Etes-vous sûr de vouloir annuler ce réservation?')) {
       try {
         const res = await cancelledReservation(id).unwrap()
         toast.info("Le Reservation a été annuler.")
@@ -26,7 +28,31 @@ const ReservationManagement = () => {
       const res = await payReservation(id).unwrap()
       toast.success("Le payement a été éffectuer avec succès");
       await refetch();
-      //PDF geanerating
+      //Generate QRcode
+      const qrData = JSON.stringify(res);
+      const qrOptions = {
+        errorCorrectionLevel: 'H',
+        type: 'image/jpeg',
+        rendererOpts: {
+          quality: 0.3
+        }
+      };
+      const qrImage = await QRCode.toDataURL(qrData, qrOptions);
+      // Generate PDF
+      const pdf = new jsPDF();
+      pdf.text('Reservation Ticket', 10, 10);
+      pdf.text(`Reservation ID: ${res._id}`, 10, 20);
+      pdf.text(`Nom du voyageur: ${res.user.username}`, 10, 30);
+      pdf.text(`Email du voyageur: ${res.user.email}`, 10, 40);
+      pdf.text(`Date de départ: ${subtract(3, res.trip.departure_date).format("LLLL")}`, 10, 50);
+      pdf.text(`Nombre de tickets: ${res.nbrTickets}`, 10, 60);
+      pdf.text(`Prix: ${res.price} Ar`, 10, 70);
+
+      // Draw QR code
+      const imgWidth = 50; // Adjust the size of the QR code
+      const imgHeight = 50; // Adjust the size of the QR code
+      pdf.addImage(qrImage, 'JPEG', 10, 90, imgWidth, imgHeight);
+      pdf.save('reservation_ticket.pdf');
     } catch (error) {
       toast.error(error?.data?.message || error?.message || error);
     }
@@ -60,18 +86,18 @@ const ReservationManagement = () => {
                   <td className="px-6 py-3">{reservation?.isPaid ? subtract(0, reservation?.paidAt).format('LLL') : ''}</td>
                   <td className="px-6 py-3">
                     <button onClick={() => handlePay(reservation?._id)} className="transition-all bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white">
-                      { loadingPay ? <FaHourglassEnd/> : <MdPayment /> }
+                      {loadingPay ? <FaHourglassEnd /> : <MdPayment />}
                     </button>
                   </td>
                   <td className="px-6 py-3">
                     <button onClick={() => handleDelete(reservation?._id)} className="transition-all bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white">
-                      { loading ? <FaHourglassEnd/> : <FaTimes /> }
+                      {loading ? <FaHourglassEnd /> : <FaTimes />}
                     </button>
                   </td>
                 </tr>
               ))}
             </tbody>
-          </table> 
+          </table>
         </div>
       ) : (
         <section className='flex justify-center'>
