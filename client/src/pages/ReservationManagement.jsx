@@ -25,7 +25,8 @@ const ReservationManagement = () => {
     try {
       const res = await payReservation(id).unwrap()
       toast.success("Le payement a été éffectuer avec succès");
-      await refetch()
+      await refetch();
+      //PDF geanerating
     } catch (error) {
       toast.error(error?.data?.message || error?.message || error);
     }

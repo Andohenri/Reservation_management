@@ -11,13 +11,13 @@ export function authenticate(req, res, next) {
         }
         next()
     } catch (error) {
-        res.status(401).json("User not authentified")
+        res.status(401).json("Veuillez vous connecter pour faire cette action");
     }
 }
 export function authenticateAdmin(req, res, next) {
     if(req.user && req.user.isAdmin){
         next()
     }else{
-        res.status(401).json({message: "User not an Admin authentified!"})
+        res.status(401).json({message: "Vous n'avez pas le droit. Veuillez vous connecter en tant qu'Administrateur"});
     }
 }

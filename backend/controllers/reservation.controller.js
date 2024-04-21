@@ -14,6 +14,7 @@ export const makeReservation = async (req, res) => {
                totalPrice: Number(nbrTickets) * Number(tripFound.price)
             });
             await reservation.save();
+            tripFound.passenger.push(req.user._id);
             await tripFound.save()
             return res.status(201).json(reservation);
          }else{
@@ -57,6 +58,7 @@ export const cancelledReservation = async (req, res) => {
       tripFound.avalaible_seats = tripFound.avalaible_seats + reservation.nbrTickets;
       if(reservation.isPaid) return res.status(401).json({message: "La reservation déja payé ne sont plus reboursable"});
       await reservation.deleteOne()
+      tripFound.passenger = tripFound.passenger.filter(passenger => passenger !== req.user._id);
       await tripFound.save()
       return res.status(200).json(reservation)
    } catch (error) {

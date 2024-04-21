@@ -5,7 +5,7 @@ const userRoute = express.Router();
 
 userRoute.route('/login').post(login);
 userRoute.route('/register').post(register);
-userRoute.route('/logout').post(authenticate, logout);
+userRoute.route('/logout').post(logout);
 
 userRoute.route('/me')
    .get(authenticate, getCurrentUserProfile)

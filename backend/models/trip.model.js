@@ -8,6 +8,7 @@ const tripSchema = new Schema({
    destination: {type: String, required: true},
    price: {type: Number, required: true},
    avalaible_seats: {type: Number, required: true},
+   passenger: [{type: Schema.Types.ObjectId, ref: "User"}],
    status: {type: String, default: "pending"}
 }, { timestamps: true })
 
