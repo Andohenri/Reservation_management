@@ -34,7 +34,7 @@ const AdminTrain = () => {
         toast.success("Le train a été supprimer.")
         await refetch()
       } catch (error) {
-        toast.success(error || error.message || error.data.message)
+        toast.error(error?.data?.message || error?.message || error);
       }
     }
   }
@@ -52,7 +52,7 @@ const AdminTrain = () => {
         toast.success("Ce train est en maintenance technique")
       }
     } catch (error) {
-      toast.error(error)
+      toast.error(error?.data?.message || error?.message || error);
     } finally {
       await refetch()
     }

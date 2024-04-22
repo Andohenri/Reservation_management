@@ -35,7 +35,7 @@ const UpdateTrip = () => {
       toast.success("Le voyage a été modifié avec succès");
       navigate('/admin/trips');
     } catch (err) {
-      toast.error(err || err.message || err.data.message || error)
+      toast.error(error?.data?.message || error?.message || error);
     }
   }
   const handleChange = (e) => {

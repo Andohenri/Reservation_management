@@ -25,7 +25,7 @@ const UpdateTrain = () => {
          toast.success("Le train a été modifié avec succès")
          navigate('/admin/trains');
       } catch (err) {
-         toast.error(err || err.message || err.data.message || error)
+         toast.error(error?.data?.message || error?.message || error);
       }
    }
    const handleChange = (e) => {

@@ -15,7 +15,7 @@ const CreateTrain = () => {
          toast.success("Nouvel train créé avec succès");
          setTrainForm({});
       } catch (error) {
-         toast.error(error || error.message || error.data.message)
+         toast.error(error?.data?.message || error?.message || error);
       }
    }
 

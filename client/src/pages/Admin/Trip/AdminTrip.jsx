@@ -31,7 +31,7 @@ const AdminTrip = () => {
         toast.success("Le train a été supprimer.")
         await refetch()
       } catch (error) {
-        toast.success(error || error.message || error.data.message)
+        toast.error(error?.data?.message || error?.message || error);
       }
     }
   }
@@ -48,7 +48,7 @@ const AdminTrip = () => {
         toast.info("En raison des problèmes, ce voyage a été annuler")
       }
     } catch (error) {
-      toast.error(error)
+      toast.error(error?.data?.message || error?.message || error);
     } finally {
       await refetch()
     }

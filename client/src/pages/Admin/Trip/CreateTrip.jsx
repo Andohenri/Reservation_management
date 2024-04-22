@@ -15,9 +15,8 @@ const CreateTrip = () => {
          const res = await create(tripForm).unwrap()
          if(res.message) throw new Error(res.message)
          toast.success("Ce voyage commence " + moment(res.departure_date).fromNow());
-         setTripForm({});
       } catch (error) {
-         toast.error(error || error.message || error.data.message)
+         toast.error(error?.data?.message || error?.message || error);
       }
    }
 

@@ -2,11 +2,10 @@ import React, { useState } from 'react'
 import { FaArrowAltCircleRight, FaCaretDown, FaChair, FaRegClock, FaTicketAlt, FaTrain } from 'react-icons/fa'
 import { WiTrain } from 'react-icons/wi'
 import { MdAirlineSeatReclineNormal, MdMergeType } from 'react-icons/md'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useGetTripQuery } from '../redux/api/tripApiSlice'
-import { subtract } from '../utils/utils'
+import { setSatus, subtract } from '../utils/utils'
 import { useMakeReservationMutation } from '../redux/api/reservationApiSlice'
-import TripCard from '../components/TripCard'
 import { toast } from 'react-toastify'
 
 const TripDetails = () => {
@@ -14,6 +13,7 @@ const TripDetails = () => {
   const [quantity, setQuantity] = useState(1);
   const { data: trip, isLoading, refetch, error } = useGetTripQuery(id);
   const [makeReservation, {isLoading: loading}] =  useMakeReservationMutation()
+  const navigate = useNavigate();
 
   const handleSubmit = async  (e) => {
     e.preventDefault()
@@ -21,6 +21,7 @@ const TripDetails = () => {
       const res = await makeReservation({trip: id, nbrTickets: quantity}).unwrap()
       await refetch()
       toast.success("La réservation a été placé avec succès");
+      navigate('/reservation-management');
     } catch (error) {
       toast.error(error?.data?.message || error?.message || error);
     }
@@ -39,7 +40,7 @@ const TripDetails = () => {
               </div>
             </div>
             <div className='flex gap-4 flex-col text'>
-              <span className={`${trip.status === 'pending' ? 'bg-blue-200 text-blue-600' : trip.status === 'in progress' ? 'bg-yellow-200 text-yellow-600' : trip.status === 'cancelled' ? 'bg-red-200 text-red-600' : 'bg-green-200 text-green-600'} rounded-full p-2`}>{trip.status}</span>
+              <span className={`${trip.status === 'pending' ? 'bg-blue-200 text-blue-600' : trip.status === 'in progress' ? 'bg-yellow-200 text-yellow-600' : trip.status === 'cancelled' ? 'bg-red-200 text-red-600' : 'bg-green-200 text-green-600'} rounded-full p-2`}>{setSatus(trip.status)}</span>
               <p className='flex gap-2'><FaChair size={24}/> {trip.trainId.capacity}</p>
             </div>
           </div>

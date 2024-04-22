@@ -37,6 +37,11 @@ export const reservationApiSlice = apiSlice.injectEndpoints({
             url: `${RESERVATION_URL}/${reservationId}/pay`,
             method: "PUT"
          })
+      }),
+      getRevenueByDate: builder.query({
+         query: () => ({
+            url: `${RESERVATION_URL}/revenue-by-date`,
+         })
       })
    })
 })
@@ -46,5 +51,6 @@ export const {
    useGetReservationByIdQuery, 
    useMakeReservationMutation, 
    useCancelledReservationMutation, 
-   usePayReservationMutation 
+   usePayReservationMutation,
+   useGetRevenueByDateQuery
 } = reservationApiSlice;

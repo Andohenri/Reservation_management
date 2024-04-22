@@ -51,7 +51,7 @@ const TripCard = ({trip}) => {
             <span className='text-[#07143F] font-bold text-2xl'>Ar {trip.price}</span>
          </div>
          <div className='px-4 flex justify-end'>
-            <button onClick={() => navigate(`${trip._id}`)} className='btn_primary mb-4'>Voir plus...</button>
+            <button onClick={() => navigate(`${trip._id}`)} className='btn_primary mb-4'>Réserver</button>
          </div>
       </section>
    )

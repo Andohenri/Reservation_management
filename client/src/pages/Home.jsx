@@ -61,7 +61,7 @@ const Home = () => {
           <img src={Banner} alt="logo" className='' />
           <div className='absolute_center w-[70%] sm:hidden text-center'>
             <h1 className='text-2xl text-shadow font-extrabold leading-[1.15] text-white'>Bienvenue sur TRAIN-TRIP! <br /> Votre plateforme ultime de réservation de train !</h1>
-            <button className='btn_primary mx-auto mt-2'>Réserver</button>
+            <button onClick={() => navigate('/trip')} className='btn_primary mx-auto mt-2'>Réserver</button>
           </div>
         </div>
       </header>
