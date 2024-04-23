@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import ReactApexChart from 'react-apexcharts';
+import { RiMoneyDollarBoxLine } from 'react-icons/ri';
 import { useGetRevenueByDateQuery } from '../../redux/api/reservationApiSlice';
 
 
 const Dashboard = () => {
   const { data, isLoading, refetch, error } = useGetRevenueByDateQuery();
-
+  const [revenueTotal, setRevenueTotal] = useState(100000);
   const [opt, setOpt] = useState({
     options: {
       chart: {
@@ -52,7 +53,7 @@ const Dashboard = () => {
       stroke: {
         curve: 'smooth'
       },
-      colors: ["#4E47C6", "#07143F", "#FAB440"],
+      colors: ["#07bc0c", "#e74c3c", "#FAB440"],
       tooltip: {
         theme: "dark"
       }
@@ -85,12 +86,35 @@ const Dashboard = () => {
 
   return (
     <section className='w-[85%] lg:max-w-5xl lg:mx-auto '>
-      <h1 className="head_text">Tableau de bord</h1>
-      <div className='flex justify-around'>
-        <span>Revenus total, le revenue moyen par reservation</span>
-        <span>Nbr totale de reservation effectue paye ou en attentes</span>
-        <span>Feedback en real time</span>
-        <span>Total Reservation</span>
+      <h1 className="head_text mb-6">Tableau de bord</h1>
+      <div className='flex justify-around flex-wrap mb-6'>
+        <article className='bg-white flex flex-col gap-4 rounded-lg shadow p-4'>
+          <div className='flex items-center gap-4'>
+            <div className='p-3 bg-yellow-200 rounded-lg'><RiMoneyDollarBoxLine size={32} className='text-[#FAB440]' /></div>
+            <div className='text-xl text-gray-500'>
+              <h1 className='font-bold'>Revenue Total</h1>
+              <p className='flex text-gray-800 font-extrabold'>{revenueTotal}<span className='items-end'>Ar</span></p>
+            </div>
+          </div>
+        </article>
+        <article className='bg-white flex flex-col gap-4 rounded-lg shadow p-4'>
+          <div className='flex items-center gap-4'>
+            <div className='p-3 bg-yellow-200 rounded-lg'><RiMoneyDollarBoxLine size={32} className='text-[#FAB440]' /></div>
+            <div className='text-xl text-gray-500'>
+              <h1 className='font-bold'>Reservation</h1>
+              <p className='flex text-gray-800 font-extrabold'>{revenueTotal}<span className='items-end'>Ar</span></p>
+            </div>
+          </div>
+        </article>
+        <article className='bg-white flex flex-col gap-4 rounded-lg shadow p-4'>
+          <div className='flex items-center gap-4'>
+            <div className='p-3 bg-yellow-200 rounded-lg'><RiMoneyDollarBoxLine size={32} className='text-[#FAB440]' /></div>
+            <div className='text-xl text-gray-500'>
+              <h1 className='font-bold'>FeedBack</h1>
+              <p className='flex text-gray-800 font-extrabold'>{revenueTotal}<span className='items-end'>Ar</span></p>
+            </div>
+          </div>
+        </article>
       </div>
       <div className='flex'>
         <div className='flex-1'>

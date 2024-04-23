@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
 import { useRegisterMutation } from '../redux/api/userApiSlice'
 import { setCredentials } from '../redux/features/auth/authSlice';
 
@@ -30,11 +31,10 @@ const Register = () => {
       e.preventDefault();
       try {
          const res = await register(formData).unwrap()
-         dispatch(setCredentials({...res}))
-         navigate(redirect)
-         console.log('User created')
+         dispatch(setCredentials({...res}));
+         navigate(redirect);
       } catch (error) {
-         console.error(error)
+         toast.error(error?.data?.message || error?.message || error);
       }
    }
 

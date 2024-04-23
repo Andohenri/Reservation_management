@@ -33,7 +33,7 @@ const Login = () => {
       try {
          const res = await login(formData).unwrap()
          dispatch(setCredentials({...res}))
-         toast.success("Connection réussi.")
+         toast.success("Bienvenue sur TRAIN-TRIP :)")
       } catch (error) {
          toast.error(error?.data?.message || error?.message || error);
       }
