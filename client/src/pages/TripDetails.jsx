@@ -7,6 +7,7 @@ import { useGetTripQuery } from '../redux/api/tripApiSlice'
 import { setSatus, subtract } from '../utils/utils'
 import { useMakeReservationMutation } from '../redux/api/reservationApiSlice'
 import { toast } from 'react-toastify'
+import Train from '../assets/train2.png'
 
 const TripDetails = () => {
   const { id } = useParams()
@@ -33,7 +34,7 @@ const TripDetails = () => {
         <div className='p-4 shadow'>
           <div className='flex_between border-b pb-4'>
             <div className='flex_between gap-4 text font-semibold'>
-              <img src="" alt="" className='w-14 h-14 rounded' />
+              <img src={Train} alt="logo" className='w-14 h-14 rounded' />
               <div>
                 <p className='flex_between gap-2'>{trip.trainId.name} <FaTrain/> </p>
                 <p className='flex_between gap-2'> {trip.trainId.type} <MdMergeType/></p>

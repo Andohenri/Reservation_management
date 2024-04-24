@@ -5,7 +5,7 @@ import { SlOptionsVertical } from 'react-icons/sl';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useGetMyNotificationsQuery } from '../redux/api/notificationApiSlice';
-import { setNotifExpand, setNotification } from '../redux/features/notif/notifSlice';
+import { resetState, setNotifExpand, setNotification } from '../redux/features/notif/notifSlice';
 import socket from '../utils/socket';
 import { subtract } from '../utils/utils';
 
@@ -14,15 +14,13 @@ const NotificationSidebar = () => {
       pageSize: 10,
       pageNumber: 1
    })
-   const [option, setOption] = useState(false);
    const { data, isLoading, refetch, error } = useGetMyNotificationsQuery(paginationQuery);
-   const { notifExpand, notifications, notification } = useSelector(state => state.notif);
+   const { notifExpand } = useSelector(state => state.notif);
    const dispatch = useDispatch();
 
    const showNotif = () => {
       dispatch(setNotifExpand(notifExpand))
    }
-
    const fetch = async () => {
       await refetch()
    }
@@ -35,16 +33,20 @@ const NotificationSidebar = () => {
    }
 
    useEffect(() => {
-      fetch()
+      if(notifExpand === true){
+         dispatch(resetState());
+         fetch();
+      }
    }, [notifExpand])
 
    useEffect(() => {
       socket.on('receive notification', (notification) => {
-         if (!notifications.find(obj => Object.values(obj).includes(notification._id))) {
-            dispatch(setNotification(notification));
-            console.log("Message recu", notification._id);
-         }
+         dispatch(setNotification(notification));
+         console.log("Message recu", notification._id);
       })
+      return () => {
+         socket.off('receive notification');
+      }
    }, [socket])
 
 

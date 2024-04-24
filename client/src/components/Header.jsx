@@ -9,6 +9,7 @@ import { logout } from "../redux/features/auth/authSlice";
 import { toast } from "react-toastify";
 import NotifButton from "./NotifButton";
 import ProfileImage from '../assets/profile.jpg';
+import socket from "../utils/socket";
 
 const ExpandMenu = ({ expandMenu, userInfo, expand, logoutHandler }) => {
    return (
@@ -32,9 +33,10 @@ const Header = () => {
    }
    const logoutHandler = async () => {
       try {
-         await logoutUser().unwrap()
-         dispatch(logout())
-         navigate('/login')
+         await logoutUser().unwrap();
+         dispatch(logout());
+         socket.disconnect();
+         navigate('/login');
       } catch (error) {
          toast.error(error?.data?.message || error?.message || error);
       }
@@ -74,7 +76,7 @@ const Header = () => {
                   </NavLink>
                   <NavLink to={'/trip-proposition'} className='flex items-center gap-2'>
                      <GiHiveMind className="h-8 w-8 sm:h-6 sm:w-6" />
-                     <span className="hidden sm:inline">Advice</span>
+                     <span className="hidden sm:inline">Testimonials</span>
                   </NavLink>
                   <NavLink to={'/contact'} className='flex items-center gap-2'>
                      <MdContactPhone className="h-8 w-8 sm:h-6 sm:w-6" />

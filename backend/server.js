@@ -46,35 +46,53 @@ server.listen(process.env.PORT, () => {
 })
 
 mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-   console.log("Mongo DB connected");
-}).catch(err => {
-   console.log("Mongo DB not connected.");
-})
+   .then(() => {
+      console.log("Mongo DB connected");
+   }).catch(err => {
+      console.log("Mongo DB not connected.");
+   })
 
 
-let userSockets = []
+let userSockets = [];
+let pendingNotifications = [];
 const addUser = (id, socketId, isAdmin) => {
-   !userSockets.some(u => u.id === id) && userSockets.push({id, socketId, isAdmin})
+   !userSockets.some(u => u.id === id) && userSockets.push({ id, socketId, isAdmin })
 }
 const removeUser = (socketId) => {
    userSockets = userSockets.filter(u => u.socketId !== socketId)
 }
-const getUser = (id) => {
+const getUserById = (id) => {
    return userSockets.find(u => u.id === id)
+}
+const getUserBySocketId = (socketId) => {
+   return userSockets.find(u => u.socketId === socketId)
 }
 
 io.on('connection', (socket) => {
    console.log("A user connected: ", socket.id);
 
-   socket.on('storeUserId', ({_id, isAdmin}) => {
+   socket.on('storeUserId', ({ _id, isAdmin }) => {
       addUser(_id, socket.id, isAdmin);
       console.log(userSockets);
+      const user = getUserById(_id);
+      if (pendingNotifications[user.id]){
+         io.to(user.socketId).emit("receive pending notification", pendingNotifications[user.id], () => {
+            pendingNotifications[user.id] = [];
+         });
+      }
    });
-   socket.on("send notification", ({userId, content}) => {
-      const user = getUser(userId);
-      if(user){
+
+   
+
+   socket.on("send notification", ({ userId, content }) => {
+      const user = getUserById(userId);
+      if (user) {
          io.to(user.socketId).emit("receive notification", content);
+      } else {
+         if(!pendingNotifications[userId]){
+            pendingNotifications[userId] = [];
+         }
+         pendingNotifications[userId].push(content);
       }
    })
    socket.on('disconnect', () => {

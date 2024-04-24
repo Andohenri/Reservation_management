@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -7,16 +7,28 @@ import './App.css';
 import Footer from './components/Footer'
 import Header from './components/Header'
 import NotificationSidebar from './components/NotificationSidebar';
+import { setNotification } from './redux/features/notif/notifSlice';
 import socket from './utils/socket';
 
 export default function App() {
+  const dispatch = useDispatch()
 
-  const { userInfo } = useSelector(state => state.auth)
+  const { userInfo } = useSelector(state => state.auth);
   useEffect(() => {
     if(userInfo) {
+      socket.connect();
       socket.emit('storeUserId', userInfo);
+      socket.on('receive pending notification', data => {
+        data.map(notification => {
+          dispatch(setNotification(notification));
+          console.log("12");
+        })
+      });
     }
-  }, [userInfo, socket]);
+    return () => {
+      socket.off('receive pending notification');
+    }
+  }, [userInfo]);
   
   return (
     <>

@@ -17,9 +17,12 @@ const notifSlice = createSlice({
       },
       setNotifExpand: (state, action) => {
          state.notifExpand = !action.payload;
+      },
+      resetState: (state) => {
+         state = {...state, notifications: [], notification: {}};
       }
     }
 });
 
-export const { setNotification, setNotifExpand, setNotifications } = notifSlice.actions;
+export const { setNotification, setNotifExpand, setNotifications, resetState } = notifSlice.actions;
 export default notifSlice.reducer;

@@ -3,6 +3,7 @@ import { setSatus, subtract } from '../utils/utils'
 import { FaArrowAltCircleRight, FaTicketAlt } from 'react-icons/fa';
 import { WiTrain } from 'react-icons/wi';
 import { useNavigate } from 'react-router-dom';
+import Train from '../assets/train2.png';
 
 const TripCard = ({trip}) => {
    const navigate = useNavigate();
@@ -10,7 +11,7 @@ const TripCard = ({trip}) => {
       <section className='bg-white mb-4 rounded text-gray-800 shadow'>
          <div className='flex_between p-4'>
             <div className='flex_between gap-4'>
-               <img src={''} alt="" className='rounded w-10 h-10'/>
+               <img src={Train} alt="logo" className='rounded w-10 h-10'/>
                <div className='flex flex-col gap-2'>
                   <h1>{trip.trainId?.name}</h1>
                   <h5>{trip.trainId?.type}</h5>
