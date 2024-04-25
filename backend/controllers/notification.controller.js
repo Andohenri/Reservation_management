@@ -9,10 +9,13 @@ export const createNotification = async (req, res) => {
       
       if(type === 'paymentReminder'){
          const reservation = await Reservation.findById(reservationId).populate("trip", "destination departure_date")
-         message = `Merci de payer votre réservation pour le voyage à destination de ${reservation.trip.destination} le ${reservation.trip.departure_date}`;
+         message = `Merci de payer votre réservation pour le voyage à destination de ${reservation.trip.destination} le ${new Date(reservation.trip.departure_date).toLocaleString()}`;
       }else if(type === 'tripReminder'){
          const trip = await Trip.findById(tripId)
-         message = `Rappel: votre voyage à destination ${trip.destination} commence le ${trip.departure_date}. Assurez-vous d'être prêt !`;
+         message = `Rappel: votre voyage à destination ${trip.destination} commence le ${new Date(trip.departure_date).toLocaleString()}. Assurez-vous d'être prêt !`;
+      }else if(type === 'tripUpdate'){
+         const trip = await Trip.findById(tripId)
+         message = `Cher client, nous tenons à vous informer qu'il y a eu un changement dans les détails du voyage que vous avez réservé. Veuillez consulter les nouvelles informations dans votre espace personnel. Merci pour votre comprehension.`;
       }
 
       const notification = new Notification({

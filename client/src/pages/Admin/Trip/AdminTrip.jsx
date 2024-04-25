@@ -9,12 +9,41 @@ import { subtract } from '../../../utils/utils';
 const AdminTrip = () => {
   const [trips, setTrips] = useState([])
   const [search, setSearch] = useState('')
-  const {data, isLoading, refetch} = useGetAllTripsQuery();
+  const { data, isLoading, refetch } = useGetAllTripsQuery();
   const [updateToInProgress] = useUpdateTripInProgressMutation();
   const [updateToCompleted] = useUpdateTripCompletedMutation();
   const [updateToCancelled] = useUpdateTripCancelledMutation();
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
+
+
+
+  useEffect(() => {
+
+    const interval = setInterval(() => {
+      data?.map(async trip => {
+        const currentDate = subtract(0, new Date());
+        const departure_date = subtract(3, new Date(trip.departure_date));
+        const arrival_date = subtract(3, new Date(trip.arrival_date));
+        if (currentDate.isBetween(departure_date, arrival_date)) {
+          if (trip.status !== 'in progress') {
+            await updateToInProgress(trip._id).unwrap()
+            await refetch();
+          }
+        } else if (currentDate.isAfter(arrival_date)) {
+          if (trip.status !== 'completed') {
+            await updateToCompleted(trip._id).unwrap();
+            await refetch();
+          }
+        }
+      })
+    }, 10000);
+
+    return () => {
+      clearInterval(interval);
+    }
+  }, [])
+
+
   const handleSearch = (e) => {
     // TODO
     setSearch(e.target.value)
@@ -25,7 +54,7 @@ const AdminTrip = () => {
   }, [data, refetch])
 
   const handleDelete = async (id) => {
-    if(window.confirm('Etes-vous sûr de vouloir supprimer ce train?')){
+    if (window.confirm('Etes-vous sûr de vouloir supprimer ce train?')) {
       try {
         await deleteTrain(id).unwrap()
         toast.success("Le train a été supprimer.")
@@ -37,13 +66,13 @@ const AdminTrip = () => {
   }
   const handleChange = (id) => async (e) => {
     try {
-      if(e.target.value === 'in progress'){
+      if (e.target.value === 'in progress') {
         await updateToInProgress(id).unwrap()
         toast.info("Ce voyage est maintenant en cours")
-      }else if(e.target.value === 'completed'){
+      } else if (e.target.value === 'completed') {
         await updateToCompleted(id).unwrap()
         toast.info("Ce voyage est bien arrivé à destination")
-      }else if(e.target.value === 'cancelled'){
+      } else if (e.target.value === 'cancelled') {
         await updateToCancelled(id).unwrap()
         toast.info("En raison des problèmes, ce voyage a été annuler")
       }
@@ -52,15 +81,15 @@ const AdminTrip = () => {
     } finally {
       await refetch()
     }
-  } 
+  }
 
   return (
     <section>
       <div className='flex justify-between items-center pb-5 w-[88%] xl:w-full'>
         <h1 className='head_text'>Voyages</h1>
         <div className='flex gap-4'>
-          <SearchBar value={search} handleSearch={handleSearch}/>
-          <button onClick={() => navigate(`new`)} className='btn_primary flex gap-2 items-center uppercase'><FaPlus size={24}/><span className='hidden sm:block'>Ajouter</span></button>
+          <SearchBar value={search} handleSearch={handleSearch} />
+          <button onClick={() => navigate(`new`)} className='btn_primary flex gap-2 items-center uppercase'><FaPlus size={24} /><span className='hidden sm:block'>Ajouter</span></button>
         </div>
       </div>
       {!isLoading ? trips?.length > 0 ? (
@@ -98,7 +127,7 @@ const AdminTrip = () => {
                         <option value="completed">Términé</option>
                         <option value="cancelled">Annuler</option>
                       </select>
-                      <span className='absolute top-3 right-1 md:right-2 pointer-events-none'><FaCaretDown className='text-gray-800'/></span>
+                      <span className='absolute top-3 right-1 md:right-2 pointer-events-none'><FaCaretDown className='text-gray-800' /></span>
                     </div>
                   </td>
                   <td className="px-6 py-3">
@@ -114,7 +143,7 @@ const AdminTrip = () => {
                 </tr>
               ))}
             </tbody>
-          </table> 
+          </table>
         </div>
       ) : (
         <section className='flex justify-center'>
@@ -123,7 +152,7 @@ const AdminTrip = () => {
       ) : (
         <section className='flex justify-center'>
           <h1>Loading...</h1>
-        </section> 
+        </section>
       )}
     </section>
   )

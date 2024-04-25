@@ -32,7 +32,6 @@ const Profile = () => {
       const formData = new FormData()
       formData.append('image', image)
       const result = await uploadImage(formData).unwrap()
-      console.log(result);
       setImage(undefined);
       const res = await updateProfile({ image: result.image }).unwrap()
       dispatch(setCredentials({ ...res }))

@@ -19,7 +19,8 @@ const notifSlice = createSlice({
          state.notifExpand = !action.payload;
       },
       resetState: (state) => {
-         state = {...state, notifications: [], notification: {}};
+         state.notifications = [];
+         state.notification = {};
       }
     }
 });

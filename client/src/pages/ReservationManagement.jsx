@@ -58,32 +58,34 @@ const ReservationManagement = () => {
     }
   }
   return (
-    <section className='max-w-5xl mx-auto px-4 py-6'>
+    <section className='max-w-6xl mx-auto px-4 py-6'>
       <h1 className='head_text mb-6'>Tous mes réservations</h1>
       {!isLoading ? reservations?.length > 0 ? (
-        <div className="shadow-inner h-[32rem] overflow-x-scroll lg:overflow-hidden">
+        <div className="shadow-inner h-[32rem] overflow-x-scroll xl:overflow-x-hidden">
           <table className="table-auto w-full divide-y divide-gray-500 text-base lg:text-md">
             <thead>
               <tr>
+                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Date</th>
                 <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Départ</th>
                 <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Arrivée</th>
                 <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Places</th>
                 <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Prix total</th>
-                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Payé</th>
+                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Payement status</th>
                 <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Payé le</th>
-                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'></th>
+                <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'>Payé</th>
                 <th scope="col" className='px-6 py-3 text-left text-sm font-medium text-gray-500 uppercase tracking-wider'></th>
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-200'>
               {reservations?.map(reservation => (
                 <tr key={reservation._id}>
+                  <td className="px-6 py-3"><span>{subtract(0, reservation?.createdAt).format('DD/MM/YYYY HH:mm')}</span></td>
                   <td className="px-6 py-3"><span className='block'>{reservation?.trip?.origin}</span> le <span>{subtract(3, reservation?.trip?.departure_date).format("LLL")}</span></td>
                   <td className="px-6 py-3"><span className='block'>{reservation?.trip?.destination}</span> le <span>{subtract(3, reservation?.trip?.arrival_date).format("LLL")}</span></td>
                   <td className="px-6 py-3">{reservation?.nbrTickets}</td>
                   <td className="px-6 py-3">Ar {reservation?.totalPrice}</td>
                   <td className="px-6 py-3">{reservation?.isPaid ? <span className='bg-green-500 py-1 px-4 rounded text-white uppercase font-bold'>Completé</span> : <span className='bg-cyan-500 py-1 px-4 rounded text-white uppercase font-bold whitespace-nowrap'>En attente</span>}</td>
-                  <td className="px-6 py-3">{reservation?.isPaid ? subtract(0, reservation?.paidAt).format('LLL') : ''}</td>
+                  <td className="px-6 py-3">{reservation?.isPaid ? subtract(0, reservation?.paidAt).format('DD/MM/YYYY HH:mm') : ''}</td>
                   <td className="px-6 py-3">
                     <button onClick={() => handlePay(reservation?._id)} className="transition-all bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white">
                       {loadingPay ? <FaHourglassEnd /> : <MdPayment />}

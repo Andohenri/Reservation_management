@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import TripCard from '../components/TripCard';
 import { useGetTripsQuery } from '../redux/api/tripApiSlice'
 import { setSearchQuery } from '../redux/features/trip/tripSlice';
+import { subtract } from '../utils/utils';
 
 const Trip = () => {
   const dispatch = useDispatch();
@@ -67,7 +68,7 @@ const Trip = () => {
       {!isLoading ? sortedDateKey?.length > 0 ? (
         sortedDateKey?.map(dateKey => (
           <div key={dateKey} className='p-4'>
-            <h1 className='font-extrabold text-2xl flex items-center gap-2 text-gray-800 px-4 py-2'><FaCalendarAlt /> {dateKey}</h1>
+            <h1 className='font-extrabold text-2xl flex items-center gap-2 text-gray-800 px-4 py-2'><FaCalendarAlt /> {subtract(0, new Date(dateKey)).format('dddd D MMMM YYYY')}</h1>
             <div className='grid gap-2 sm:grid-cols-2'>
               {groupedTrips[dateKey].map(trip => (
                 <TripCard key={trip._id} trip={trip} />

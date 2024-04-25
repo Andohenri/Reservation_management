@@ -4,6 +4,7 @@ import { useCreateTripMutation } from '../../../redux/api/tripApiSlice.js'
 import moment from 'moment';
 import 'moment/locale/fr';
 import { toast } from 'react-toastify';
+import { subtract } from '../../../utils/utils';
 
 const CreateTrip = () => {
    const [tripForm, setTripForm] = useState({})
@@ -12,9 +13,9 @@ const CreateTrip = () => {
    const handleCreate = async (e) => {
       e.preventDefault()
       try {
-         const res = await create(tripForm).unwrap()
-         if(res.message) throw new Error(res.message)
-         toast.success("Ce voyage commence " + moment(res.departure_date).fromNow());
+         const res = await create(tripForm).unwrap();
+         if(res.message) throw new Error(res.message);
+         toast.success("Ce voyage commence " + subtract(3, res.departure_date).fromNow());
       } catch (error) {
          toast.error(error?.data?.message || error?.message || error);
       }

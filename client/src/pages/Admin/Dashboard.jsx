@@ -6,7 +6,7 @@ import { useGetRevenueByDateQuery } from '../../redux/api/reservationApiSlice';
 
 const Dashboard = () => {
   const { data, isLoading, refetch, error } = useGetRevenueByDateQuery();
-  const [revenueTotal, setRevenueTotal] = useState(100000);
+  const [revenueTotal, setRevenueTotal] = useState(0);
   const [opt, setOpt] = useState({
     options: {
       chart: {
@@ -62,10 +62,20 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
+    async function fetch() {
+      await refetch()
+    }
+    fetch();
+  }, [])
+  
+
+  useEffect(() => {
     if (data?.length > 0) {
       const paidRevenue = data.map(revenueData => ({ x: revenueData.date, y: revenueData.paid }));
       const unpaidRevenue = data.map(revenueData => ({ x: revenueData.date, y: revenueData.unpaid }));
       const totalRevenue = data.map(revenueData => ({ x: revenueData.date, y: revenueData.total }));
+      const revenue = paidRevenue.reduce((acc, item) => acc + item.y, 0);
+      setRevenueTotal(revenue);
 
       setOpt(prevState => ({
         ...prevState,

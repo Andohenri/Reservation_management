@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import FormTrip from '../../../components/FormTrip'
+import { useSendNotificationMutation } from '../../../redux/api/notificationApiSlice'
 import { useGetTripQuery, useUpdateTripMutation } from '../../../redux/api/tripApiSlice'
-import { subtract } from '../../../utils/utils'
+import socket from '../../../utils/socket'
+import { subtract, uniqueArray } from '../../../utils/utils'
 
 const UpdateTrip = () => {
   const navigate = useNavigate()
@@ -12,6 +14,7 @@ const UpdateTrip = () => {
   const { data: trip } = useGetTripQuery(tripId);
 
   const [update, {isLoading, error}] = useUpdateTripMutation()
+  const [sendNotification] = useSendNotificationMutation()
 
   useEffect(() => {
       setTripForm({
@@ -26,14 +29,17 @@ const UpdateTrip = () => {
       })
   }, [trip, isLoading])
   
-
   const handleUpdate = async (e) => {
     e.preventDefault()
     try {
       const res = await update({ data: tripForm, tripId }).unwrap();
-      if(res.message) throw Error(res.message);
       toast.success("Le voyage a été modifié avec succès");
       navigate('/admin/trips');
+      const passenger = uniqueArray(res?.passenger);
+      passenger?.map(async (userId) => {
+        const resnotif = await sendNotification({recipientId: userId, type: 'tripUpdate', trip: tripId}).unwrap();
+        socket.emit("send notification", {userId , content: resnotif});
+      });
     } catch (err) {
       toast.error(error?.data?.message || error?.message || error);
     }

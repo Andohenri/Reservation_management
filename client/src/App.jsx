@@ -21,7 +21,6 @@ export default function App() {
       socket.on('receive pending notification', data => {
         data.map(notification => {
           dispatch(setNotification(notification));
-          console.log("12");
         })
       });
     }

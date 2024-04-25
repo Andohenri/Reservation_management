@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useState } from "react";
 import { useLogoutMutation } from "../redux/api/userApiSlice";
 import { logout } from "../redux/features/auth/authSlice";
+import { resetState } from "../redux/features/notif/notifSlice";
 import { toast } from "react-toastify";
 import NotifButton from "./NotifButton";
 import ProfileImage from '../assets/profile.jpg';
@@ -35,6 +36,7 @@ const Header = () => {
       try {
          await logoutUser().unwrap();
          dispatch(logout());
+         dispatch(resetState())
          socket.disconnect();
          navigate('/login');
       } catch (error) {
