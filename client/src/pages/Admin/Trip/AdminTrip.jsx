@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useGetAllTripsQuery, useUpdateTripCancelledMutation, useUpdateTripCompletedMutation, useUpdateTripInProgressMutation } from '../../../redux/api/tripApiSlice';
+import { useDeleteTripMutation, useGetAllTripsQuery, useUpdateTripCancelledMutation, useUpdateTripCompletedMutation, useUpdateTripInProgressMutation } from '../../../redux/api/tripApiSlice';
 import { FaCaretDown, FaEdit, FaPlus, FaTrash } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from '../../../components/SearchBar';
@@ -10,6 +10,7 @@ const AdminTrip = () => {
   const [trips, setTrips] = useState([])
   const [search, setSearch] = useState('')
   const { data, isLoading, refetch } = useGetAllTripsQuery();
+  const [deleteTrip] = useDeleteTripMutation();
   const [updateToInProgress] = useUpdateTripInProgressMutation();
   const [updateToCompleted] = useUpdateTripCompletedMutation();
   const [updateToCancelled] = useUpdateTripCancelledMutation();
@@ -18,12 +19,11 @@ const AdminTrip = () => {
 
 
   useEffect(() => {
-
     const interval = setInterval(() => {
       data?.map(async trip => {
         const currentDate = subtract(0, new Date());
-        const departure_date = subtract(3, new Date(trip.departure_date));
-        const arrival_date = subtract(3, new Date(trip.arrival_date));
+        const departure_date = subtract(0, new Date(trip.departure_date));
+        const arrival_date = subtract(0, new Date(trip.arrival_date));
         if (currentDate.isBetween(departure_date, arrival_date)) {
           if (trip.status !== 'in progress') {
             await updateToInProgress(trip._id).unwrap()
@@ -36,7 +36,8 @@ const AdminTrip = () => {
           }
         }
       })
-    }, 10000);
+      console.log('interval');
+    }, 5000);
 
     return () => {
       clearInterval(interval);
@@ -56,9 +57,9 @@ const AdminTrip = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Etes-vous sûr de vouloir supprimer ce train?')) {
       try {
-        await deleteTrain(id).unwrap()
-        toast.success("Le train a été supprimer.")
-        await refetch()
+        await deleteTrip(id).unwrap();
+        toast.success("Le voyage a été supprimer.");
+        await refetch();
       } catch (error) {
         toast.error(error?.data?.message || error?.message || error);
       }
@@ -114,9 +115,9 @@ const AdminTrip = () => {
                 <tr key={trip._id}>
                   <td className="px-6 py-3">{trip.trainId?.name}</td>
                   <td className="px-6 py-3">{trip.origin}</td>
-                  <td className="px-6 py-3">{subtract(3, trip.departure_date).fromNow()}</td>
+                  <td className="px-6 py-3">{subtract(0, trip.departure_date).fromNow()}</td>
                   <td className="px-6 py-3">{trip.destination}</td>
-                  <td className="px-6 py-3">{subtract(3, trip.arrival_date).fromNow()}</td>
+                  <td className="px-6 py-3">{subtract(0, trip.arrival_date).fromNow()}</td>
                   <td className="px-6 py-3">{trip.avalaible_seats}</td>
                   <td className="px-6 py-3">{trip.price}</td>
                   <td className="px-6 py-3">

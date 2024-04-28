@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import FormTrip from '../../../components/FormTrip'
 import { useCreateTripMutation } from '../../../redux/api/tripApiSlice.js'
-import moment from 'moment';
-import 'moment/locale/fr';
 import { toast } from 'react-toastify';
 import { subtract } from '../../../utils/utils';
 
@@ -15,7 +13,7 @@ const CreateTrip = () => {
       try {
          const res = await create(tripForm).unwrap();
          if(res.message) throw new Error(res.message);
-         toast.success("Ce voyage commence " + subtract(3, res.departure_date).fromNow());
+         toast.success("Ce voyage commence " + subtract(0, res.departure_date).fromNow());
       } catch (error) {
          toast.error(error?.data?.message || error?.message || error);
       }

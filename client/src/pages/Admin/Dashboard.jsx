@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import ReactApexChart from 'react-apexcharts';
-import { RiMoneyDollarBoxLine } from 'react-icons/ri';
+import { RiFeedbackLine, RiMoneyDollarBoxLine, RiShoppingBag3Line } from 'react-icons/ri';
 import { useGetRevenueByDateQuery } from '../../redux/api/reservationApiSlice';
 
 
 const Dashboard = () => {
   const { data, isLoading, refetch, error } = useGetRevenueByDateQuery();
   const [revenueTotal, setRevenueTotal] = useState(0);
+  const [reservationNbr, setReservationNbr] = useState(0);
   const [opt, setOpt] = useState({
     options: {
       chart: {
@@ -70,12 +71,13 @@ const Dashboard = () => {
   
 
   useEffect(() => {
-    if (data?.length > 0) {
-      const paidRevenue = data.map(revenueData => ({ x: revenueData.date, y: revenueData.paid }));
-      const unpaidRevenue = data.map(revenueData => ({ x: revenueData.date, y: revenueData.unpaid }));
-      const totalRevenue = data.map(revenueData => ({ x: revenueData.date, y: revenueData.total }));
+    if (data?.revenueData?.length > 0) {
+      const paidRevenue = data?.revenueData?.map(revenueData => ({ x: revenueData.date, y: revenueData.paid }));
+      const unpaidRevenue = data?.revenueData?.map(revenueData => ({ x: revenueData.date, y: revenueData.unpaid }));
+      const totalRevenue = data?.revenueData?.map(revenueData => ({ x: revenueData.date, y: revenueData.total }));
       const revenue = paidRevenue.reduce((acc, item) => acc + item.y, 0);
       setRevenueTotal(revenue);
+      setReservationNbr(data.reservations.length);
 
       setOpt(prevState => ({
         ...prevState,
@@ -97,7 +99,7 @@ const Dashboard = () => {
   return (
     <section className='w-[85%] lg:max-w-5xl lg:mx-auto '>
       <h1 className="head_text mb-6">Tableau de bord</h1>
-      <div className='flex justify-around flex-wrap mb-6'>
+      <div className='flex gap-4 flex-wrap mb-6'>
         <article className='bg-white flex flex-col gap-4 rounded-lg shadow p-4'>
           <div className='flex items-center gap-4'>
             <div className='p-3 bg-yellow-200 rounded-lg'><RiMoneyDollarBoxLine size={32} className='text-[#FAB440]' /></div>
@@ -109,16 +111,16 @@ const Dashboard = () => {
         </article>
         <article className='bg-white flex flex-col gap-4 rounded-lg shadow p-4'>
           <div className='flex items-center gap-4'>
-            <div className='p-3 bg-yellow-200 rounded-lg'><RiMoneyDollarBoxLine size={32} className='text-[#FAB440]' /></div>
+            <div className='p-3 bg-yellow-200 rounded-lg'><RiShoppingBag3Line size={32} className='text-[#FAB440]' /></div>
             <div className='text-xl text-gray-500'>
               <h1 className='font-bold'>Reservation</h1>
-              <p className='flex text-gray-800 font-extrabold'>{revenueTotal}<span className='items-end'>Ar</span></p>
+              <p className='flex text-gray-800 font-extrabold'>{reservationNbr}<span className='items-end'></span></p>
             </div>
           </div>
         </article>
         <article className='bg-white flex flex-col gap-4 rounded-lg shadow p-4'>
           <div className='flex items-center gap-4'>
-            <div className='p-3 bg-yellow-200 rounded-lg'><RiMoneyDollarBoxLine size={32} className='text-[#FAB440]' /></div>
+            <div className='p-3 bg-yellow-200 rounded-lg'><RiFeedbackLine size={32} className='text-[#FAB440]' /></div>
             <div className='text-xl text-gray-500'>
               <h1 className='font-bold'>FeedBack</h1>
               <p className='flex text-gray-800 font-extrabold'>{revenueTotal}<span className='items-end'>Ar</span></p>

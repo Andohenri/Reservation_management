@@ -19,10 +19,8 @@ const UpdateTrip = () => {
   useEffect(() => {
       setTripForm({
         trainId: trip?.trainId._id,
-        departure_date: subtract(3, trip?.departure_date).format('YYYY-MM-DD'),
-        hour_dep: subtract(3, trip?.departure_date).format('HH:mm'),
-        arrival_date: subtract(3, trip?.arrival_date).format('YYYY-MM-DD'),
-        hour_arr: subtract(3, trip?.arrival_date).format('HH:mm'),
+        departure_date: subtract(0, trip?.departure_date).format('YYYY-MM-DDTHH:mm'),
+        arrival_date: subtract(0, trip?.arrival_date).format('YYYY-MM-DDTHH:mm'),
         origin: trip?.origin,
         destination: trip?.destination,
         price: trip?.price

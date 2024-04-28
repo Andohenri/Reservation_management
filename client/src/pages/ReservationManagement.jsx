@@ -1,16 +1,15 @@
 import React from 'react'
 import { FaHourglassEnd, FaTimes } from 'react-icons/fa';
 import { MdPayment } from 'react-icons/md'
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useCancelledReservationMutation, useGetMyReservationsQuery, usePayReservationMutation } from '../redux/api/reservationApiSlice'
+import { useCancelledReservationMutation, useGetMyReservationsQuery } from '../redux/api/reservationApiSlice'
 import { subtract } from '../utils/utils';
-import jsPDF from 'jspdf';
-import QRCode from 'qrcode';
 
 const ReservationManagement = () => {
   const { data: reservations, isLoading, refetch, error } = useGetMyReservationsQuery();
   const [cancelledReservation, { isLoading: loading }] = useCancelledReservationMutation();
-  const [payReservation, { isLoading: loadingPay }] = usePayReservationMutation();
+  const navigate = useNavigate()
 
   const handleDelete = async (id) => {
     if (window.confirm('Etes-vous sûr de vouloir annuler ce réservation?')) {
@@ -23,39 +22,8 @@ const ReservationManagement = () => {
       }
     }
   }
-  const handlePay = async (id) => {
-    try {
-      const res = await payReservation(id).unwrap()
-      toast.success("Le payement a été éffectuer avec succès");
-      await refetch();
-      //Generate QRcode
-      const qrData = JSON.stringify(res);
-      const qrOptions = {
-        errorCorrectionLevel: 'H',
-        type: 'image/jpeg',
-        rendererOpts: {
-          quality: 0.3
-        }
-      };
-      const qrImage = await QRCode.toDataURL(qrData, qrOptions);
-      // Generate PDF
-      const pdf = new jsPDF();
-      pdf.text('Reservation Ticket', 10, 10);
-      pdf.text(`Reservation ID: ${res._id}`, 10, 20);
-      pdf.text(`Nom du voyageur: ${res.user.username}`, 10, 30);
-      pdf.text(`Email du voyageur: ${res.user.email}`, 10, 40);
-      pdf.text(`Date de départ: ${subtract(3, res.trip.departure_date).format("LLLL")}`, 10, 50);
-      pdf.text(`Nombre de tickets: ${res.nbrTickets}`, 10, 60);
-      pdf.text(`Prix: ${res.price} Ar`, 10, 70);
-
-      // Draw QR code
-      const imgWidth = 50; // Adjust the size of the QR code
-      const imgHeight = 50; // Adjust the size of the QR code
-      pdf.addImage(qrImage, 'JPEG', 10, 90, imgWidth, imgHeight);
-      pdf.save('reservation_ticket.pdf');
-    } catch (error) {
-      toast.error(error?.data?.message || error?.message || error);
-    }
+  const handlePay = async (id, reservationId) => {
+    navigate(`/trip/${id}?step=3&id=${reservationId}&skip=false`);
   }
   return (
     <section className='max-w-6xl mx-auto px-4 py-6'>
@@ -85,10 +53,10 @@ const ReservationManagement = () => {
                   <td className="px-6 py-3">{reservation?.nbrTickets}</td>
                   <td className="px-6 py-3">Ar {reservation?.totalPrice}</td>
                   <td className="px-6 py-3">{reservation?.isPaid ? <span className='bg-green-500 py-1 px-4 rounded text-white uppercase font-bold'>Completé</span> : <span className='bg-cyan-500 py-1 px-4 rounded text-white uppercase font-bold whitespace-nowrap'>En attente</span>}</td>
-                  <td className="px-6 py-3">{reservation?.isPaid ? subtract(0, reservation?.paidAt).format('DD/MM/YYYY HH:mm') : ''}</td>
+                  <td className="px-6 py-3">{reservation?.isPaid ? subtract(0, reservation?.isPaidAt).format('DD/MM/YYYY HH:mm') : ''}</td>
                   <td className="px-6 py-3">
-                    <button onClick={() => handlePay(reservation?._id)} className="transition-all bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white">
-                      {loadingPay ? <FaHourglassEnd /> : <MdPayment />}
+                    <button onClick={() => handlePay(reservation?.trip._id, reservation?._id)} className="transition-all bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded text-white">
+                      <MdPayment />
                     </button>
                   </td>
                   <td className="px-6 py-3">

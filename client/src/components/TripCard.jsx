@@ -18,13 +18,13 @@ const TripCard = ({trip}) => {
                </div>
             </div>
             <div>
-               <span className={`${trip.status === 'pending' ? 'bg-blue-200 text-blue-600' : trip.status === 'in progress' ? 'bg-yellow-200 text-yellow-600' : trip.status === 'cancelled' ? 'bg-red-200 text-red-600' : 'bg-green-200 text-green-600'} rounded-full p-2`}>{setSatus(trip.status)}</span>
+               <span className={`${trip.status === 'pending' ? 'bg-blue-200 text-blue-600' : trip.status === 'in progress' ? 'bg-yellow-200 text-yellow-600' : trip.status === 'cancelled' ? 'bg-red-200 text-red-600' : 'bg-green-200 text-green-600'} rounded-full text-sm font-bold px-2 py-1`}>{setSatus(trip.status)}</span>
             </div>
          </div>
          <div className='flex flex-col gap-1 p-4 border-y'>
             <div className='flex_between text-gray-600'>
-               <span className='flex_between gap-2'><FaArrowAltCircleRight/> {subtract(3, trip.departure_date).format("LL")}</span>
-               <span className='flex_between gap-2'><FaArrowAltCircleRight/> {subtract(3, trip.arrival_date).format("LL")}</span>
+               <span className='flex_between gap-2'><FaArrowAltCircleRight/> {subtract(0, trip.departure_date).format("LL")}</span>
+               <span className='flex_between gap-2'><FaArrowAltCircleRight/> {subtract(0, trip.arrival_date).format("LL")}</span>
             </div>
             <div className='flex_between'>
                <span>{trip.origin}</span>
@@ -40,8 +40,8 @@ const TripCard = ({trip}) => {
                <span className=''>{trip.destination.slice(0,3).toUpperCase()}</span>
             </div>
             <div className='flex_between text-gray-600 font-semibold'>
-               <span className='flex_between gap-2'>{subtract(3, trip.departure_date).format("HH:mm")}</span>
-               <span className='flex_between gap-2'>{subtract(3, trip.arrival_date).format("HH:mm")}</span>
+               <span className='flex_between gap-2'>{subtract(0, trip.departure_date).format("HH:mm")}</span>
+               <span className='flex_between gap-2'>{subtract(0, trip.arrival_date).format("HH:mm")}</span>
             </div>
          </div>
          <div className='flex_between p-4'>

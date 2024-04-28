@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { FaRegClock, FaSpeakap, FaTimes } from 'react-icons/fa';
-import { MdPayment, MdTipsAndUpdates } from 'react-icons/md';
+import { MdBrowserUpdated, MdPayment, MdTipsAndUpdates } from 'react-icons/md';
 import { SlOptionsVertical } from 'react-icons/sl';
+import { RiSpeakFill } from 'react-icons/ri';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useGetMyNotificationsQuery } from '../redux/api/notificationApiSlice';
@@ -64,7 +65,7 @@ const NotificationSidebar = () => {
                   {data?.notifications?.map(notif => (
                      <div key={notif._id} className={`p-4 ${!notif.isRead ? 'bg-gradient-to-tl from-white/10 to-[] backdrop-blur-lg' : 'border-b py-4'}`}>
                         <div className='relative flex_between'>
-                           {notif.type === 'paymentReminder' ? <MdPayment size={24} /> : notif.type === 'tripUpdat' ? <MdTipsAndUpdates size={24} /> : <FaSpeakap size={24} />}
+                           {notif.type === 'paymentReminder' ? <MdPayment size={24} /> : notif.type === 'tripUpdate' ? <MdBrowserUpdated size={24} /> : <RiSpeakFill size={24} />}
                            <span onClick={showOptions} className='cursor-pointer'><SlOptionsVertical /></span>
                            {/* <div className={`${option ? 'flex flex-col gap-2' : 'hidden'} absolute bg-white top-0 right-4`}>
                               <h1>Supprimer</h1>

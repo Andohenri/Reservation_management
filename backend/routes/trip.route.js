@@ -1,5 +1,5 @@
 import express from 'express';
-import { createTrip, getAllTrips, getTrip, getTrips, updateTrip, updateTripToCancelled, updateTripToCompleted, updateTripToInProgress } from '../controllers/trip.controller.js';
+import { createTrip, deleteTrip, getAllTrips, getTrip, getTrips, updateTrip, updateTripToCancelled, updateTripToCompleted, updateTripToInProgress } from '../controllers/trip.controller.js';
 import { authenticate, authenticateAdmin } from '../middleware/auth.js'
 const tripRoute = express.Router();
 
@@ -14,6 +14,7 @@ tripRoute.route('/')
 
 tripRoute.route('/:tripId')
    .put(authenticate, authenticateAdmin, updateTrip)
+   .delete(authenticate, authenticateAdmin, deleteTrip)
    .get(authenticate, getTrip);
 
 export default tripRoute;

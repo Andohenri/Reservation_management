@@ -61,7 +61,7 @@ const Home = () => {
           <img src={Banner} alt="logo" className='' />
           <div className='absolute_center w-[70%] sm:hidden text-center'>
             <h1 className='text-2xl text-shadow font-extrabold leading-[1.15] text-white'>Bienvenue sur TRAIN-TRIP! <br /> Votre plateforme ultime de réservation de train !</h1>
-            <button onClick={() => navigate('/trip')} className='btn_primary mx-auto mt-2'>Réserver</button>
+            <button onClick={() => navigate('/trip')} className='btn_primary mx-auto mt-2 uppercase'>Réserver maintenant</button>
           </div>
         </div>
       </header>
@@ -82,7 +82,7 @@ const Home = () => {
       </section>
       <section className='p-6'>
         <h1 className='head_text mb-6'>Pourquoi réserver des trains sur sur Train-Trip ?</h1>
-        <div className='grid grid-cols-2 lg:grid-cols-4 gap-4'>
+        <div className='grid md:grid-cols-2 lg:grid-cols-4 gap-4'>
           <article className='bg-white flex flex-col gap-4 rounded-lg shadow p-4'>
             <div className='flex items-center gap-4'>
               <div className='p-3 bg-yellow-200 rounded-lg'><MdAdsClick size={32} className='text-[#FAB440]' /></div>
@@ -141,7 +141,7 @@ const Home = () => {
       </section> */}
       <section className='p-6'>
         <h1 className='head_text mb-6'>Temoignages</h1>
-        <div className='grid gap-4 grid-cols-3'>
+        <div className='grid gap-4 sm:grid-cols-3'>
           <article className='bg-[#07143F] rounded-lg shadow p-4'>
             <div className='flex shadow gap-4 items-center py-2 px-4 rounded-lg'>
               <span className='flex gap-1'><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /></span>

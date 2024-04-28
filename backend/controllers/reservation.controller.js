@@ -120,7 +120,7 @@ export const calculateRevenueByDate = async (req, res) => {
             })
          }
       })
-      return res.json(revenueData);
+      return res.json({revenueData, reservations});
    } catch (error) {
       return res.status(500).json({message: "Erreur en calculant la revenue par date"});
    }

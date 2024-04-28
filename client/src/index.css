@@ -74,6 +74,9 @@
 .head_text {
    @apply text-xl font-extrabold leading-[1.15] text-gray-700 sm:text-4xl;
 }
+.text{
+   @apply text-base lg:text-lg text-gray-600 sm:text-xl
+}
 .desc {
    @apply text-base lg:text-lg text-gray-600 sm:text-xl max-w-2xl;
 }

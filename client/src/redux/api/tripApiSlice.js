@@ -33,7 +33,7 @@ export const tripApiSlice = apiSlice.injectEndpoints({
             body: data
          })
       }),
-      deleteTrain: builder.mutation({
+      deleteTrip: builder.mutation({
          query: (tripId) => ({
             url: `${TRIP_URL}/${tripId}`,
             method: "DELETE"
@@ -59,4 +59,4 @@ export const tripApiSlice = apiSlice.injectEndpoints({
       })
    })
 })
-export const { useGetTripsQuery, useGetAllTripsQuery, useGetTripQuery, useCreateTripMutation, useUpdateTripMutation, useDeleteTrainMutation, useUpdateTripCancelledMutation, useUpdateTripCompletedMutation, useUpdateTripInProgressMutation } = tripApiSlice;
+export const { useGetTripsQuery, useGetAllTripsQuery, useGetTripQuery, useCreateTripMutation, useUpdateTripMutation, useDeleteTripMutation, useUpdateTripCancelledMutation, useUpdateTripCompletedMutation, useUpdateTripInProgressMutation } = tripApiSlice;

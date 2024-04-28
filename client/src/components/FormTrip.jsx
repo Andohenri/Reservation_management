@@ -21,21 +21,11 @@ const FormTrip = ({handleUpdate, handleCreate, tripForm, handleChange, loading})
          <div className='mb-4 flex flex-col sm:flex-row gap-4'>
             <div className='flex-1'>
                <label className='label' htmlFor="departure_date">Date de départ</label>
-               <input className='input' type="date" name="departure_date" id="departure_date" defaultValue={tripForm?.departure_date} onChange={handleChange} required/>
+               <input className='input' type='datetime-local' name="departure_date" id="departure_date" defaultValue={tripForm?.departure_date} onChange={handleChange} required/>
             </div>
-            <div className='flex-2'>
-               <label className='label' htmlFor="hour_dep">Heure de départ</label>
-               <input className='input' type="time" name="hour_dep" id="hour_dep" defaultValue={tripForm?.hour_dep} onChange={handleChange} required/>
-            </div>
-         </div>
-         <div className='mb-4 flex flex-col sm:flex-row gap-4'>
             <div className='flex-1'>
                <label className='label' htmlFor="arrival_date">Date d'arrivée</label>
-               <input className='input' type="date" name="arrival_date" id="arrival_date" defaultValue={tripForm?.arrival_date} onChange={handleChange} required/>
-            </div>
-            <div className='flex-2'>
-               <label className='label' htmlFor="hour_arr">Heure d'arrivée</label>
-               <input className='input' type="time" name="hour_arr" id="hour_arr" defaultValue={tripForm?.hour_arr} onChange={handleChange} required/>
+               <input className='input' type="datetime-local" name="arrival_date" id="arrival_date" defaultValue={tripForm?.arrival_date} onChange={handleChange} required/>
             </div>
          </div>
          <div className='mb-4 flex flex-col sm:flex-row gap-4'>
