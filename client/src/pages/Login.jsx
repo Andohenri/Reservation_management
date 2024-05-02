@@ -40,10 +40,11 @@ const Login = () => {
   }
 
    return (
-      <main className='max-w-5xl mx-auto'>
-         <section className='flex flex-col items-center gap-4 md:flex-row h-[90vh]'>
-            <div className='md:flex-1'>
-               <h1 className='head_text max-md:text-center p-4'>Bienvenue sur [Nom de l'application] - Votre plateforme ultime de réservation de train !</h1>
+      <main className='max-w-5xl p-4 max-sm:pt-14 mx-auto'>
+         <section className='flex flex-col items-center gap-4 md:flex-row h-[75vh]'>
+            <div className='md:flex-1 p-4'>
+               <h1 className='head_text max-md:text-center mb-4'>Bienvenue sur Train-Trip - Votre plateforme ultime de réservation de train !</h1>
+               <p className='desc max-md:text-center'>Connectez-vous pour gérer vos réservations et accéder à toutes les fonctionalités de l'application</p>
             </div>
             <div className='flex-1 mb-4'>
                <form onSubmit={handleSubmit} className='shadow-md rounded-lg p-4'>

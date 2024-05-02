@@ -142,18 +142,18 @@ const Home = () => {
       <section className='p-6'>
         <h1 className='head_text mb-6'>Temoignages</h1>
         <div className='grid gap-4 sm:grid-cols-3'>
-          <article className='bg-[#07143F] rounded-lg shadow p-4'>
+          <article className='bg-indigo-700 text-white rounded-lg shadow p-4'>
             <div className='flex shadow gap-4 items-center py-2 px-4 rounded-lg'>
               <span className='flex gap-1'><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /><FaStar size={24} style={{ color: 'yellow' }} /></span>
             </div>
             <div className='p-4'>
-              <p className='text-base lg:text-lg text-white sm:text-xl max-w-2xl'>
+              <p className='text-base lg:text-lg backdrop:sm:text-xl max-w-2xl'>
                 "En quelques clics, réserver vos billets de train et recevez une confirmation instantanée."
               </p>
             </div>
             <div className='flex items-center p-4 gap-4'>
-              <img src={react} alt="profile" className='h-10 w-10 border shadow p-1 rounded-full' />
-              <p className='text-gray-400 font-bold'>Ando Henri</p>
+              <img src={react} alt="profile" className='h-10 w-10 border border-white shadow p-1 rounded-full' />
+              <p className='font-bold'>Ando Henri</p>
             </div>
           </article>
           <article className='bg-[#07143F] rounded-lg shadow p-4'>
