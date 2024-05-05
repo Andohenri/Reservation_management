@@ -67,16 +67,16 @@ const Header = () => {
                )}
             </div>
             <div className="flex gap-4 text-medium justify-around font-semibold">
-               <NavLink to={'/'} className='flex items-center gap-2'>
-                  <FaHome className='h-8 w-8 sm:h-6 sm:w-6' />
-                  <span className="hidden sm:inline">Acceuil</span>
-               </NavLink>
                {userInfo && <>
+                  <NavLink to={'/'} className='flex items-center gap-2'>
+                     <FaHome className='h-8 w-8 sm:h-6 sm:w-6' />
+                     <span className="hidden sm:inline">Acceuil</span>
+                  </NavLink>
                   <NavLink to={'/trip'} className='flex items-center gap-2'>
                      <MdTravelExplore className="h-8 w-8 sm:h-6 sm:w-6" />
                      <span className="hidden sm:inline">Voyage</span>
                   </NavLink>
-                  <NavLink to={'/trip-proposition'} className='flex items-center gap-2'>
+                  <NavLink to={'/testimonial'} className='flex items-center gap-2'>
                      <GiHiveMind className="h-8 w-8 sm:h-6 sm:w-6" />
                      <span className="hidden sm:inline">Testimonials</span>
                   </NavLink>
@@ -84,12 +84,12 @@ const Header = () => {
                      <MdContactPhone className="h-8 w-8 sm:h-6 sm:w-6" />
                      <span className="hidden sm:inline">Contact</span>
                   </NavLink>
+                  <NavLink to={'/info-politics'} className='flex items-center gap-2'>
+                     <MdContactSupport className="h-8 w-8 sm:h-6 sm:w-6" />
+                     <span className="hidden sm:inline">A propos</span>
+                  </NavLink>
                </>}
 
-               <NavLink to={'/info-politics'} className='flex items-center gap-2'>
-                  <MdContactSupport className="h-8 w-8 sm:h-6 sm:w-6" />
-                  <span className="hidden sm:inline">About</span>
-               </NavLink>
             </div>
             {userInfo ? (
                <div className="hidden lg:flex gap-4 items-center">

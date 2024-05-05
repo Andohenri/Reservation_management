@@ -9,7 +9,7 @@ import './index.css'
 import Home from './pages/Home.jsx'
 import Trip from './pages/Trip.jsx'
 import TripDetails from './pages/TripDetails.jsx'
-import TripProposition from './pages/TripProposition.jsx'
+import Testimonial from './pages/Testimonial.jsx'
 import ReservationManagement from './pages/ReservationManagement.jsx'
 import Profile from './pages/Profile.jsx'
 import Contact from './pages/Contact.jsx'
@@ -56,7 +56,7 @@ ReactDOM.createRoot(document.getElementById('root'))
                 * Permet au utilisateur de proposer des dates et des itineraires pour les voyages qu'ils souhaitent effectuer
                 * Affiche un formulaire ou les users peuvent saisir les details de leur proposition
               */}
-              <Route path='/trip-proposition' element={<TripProposition />} />
+              <Route path='/testimonial' element={<Testimonial />} />
               {/* 
                 * Permet au utilisateur de visualiser et de gerer leurs reservation existants, y compris l'annulation et la modification des reservations
                 * Affiche les detaills des reservations , y compris les dates, les itineraires, les prix, etc
