@@ -23,7 +23,7 @@ const ReservationManagement = () => {
     }
   }
   const handlePay = async (id, reservationId) => {
-    navigate(`/trip/${id}?step=3&id=${reservationId}&skip=false`);
+    navigate(`/trip/${id}?step=4&id=${reservationId}&skip=false`);
   }
   return (
     <section className='max-w-6xl mx-auto px-4 py-6'>
@@ -48,8 +48,8 @@ const ReservationManagement = () => {
               {reservations?.map(reservation => (
                 <tr key={reservation._id}>
                   <td className="px-6 py-3"><span>{subtract(0, reservation?.createdAt).format('DD/MM/YYYY HH:mm')}</span></td>
-                  <td className="px-6 py-3"><span className='block'>{reservation?.trip?.origin}</span> le <span>{subtract(3, reservation?.trip?.departure_date).format("LLL")}</span></td>
-                  <td className="px-6 py-3"><span className='block'>{reservation?.trip?.destination}</span> le <span>{subtract(3, reservation?.trip?.arrival_date).format("LLL")}</span></td>
+                  <td className="px-6 py-3"><span className='block'>{reservation?.trip?.origin}</span> le <span>{subtract(0, reservation?.trip?.departure_date).format("LLL")}</span></td>
+                  <td className="px-6 py-3"><span className='block'>{reservation?.trip?.destination}</span> le <span>{subtract(0, reservation?.trip?.arrival_date).format("LLL")}</span></td>
                   <td className="px-6 py-3">{reservation?.nbrTickets}</td>
                   <td className="px-6 py-3">Ar {reservation?.totalPrice}</td>
                   <td className="px-6 py-3">{reservation?.isPaid ? <span className='bg-green-500 py-1 px-4 rounded text-white uppercase font-bold'>Completé</span> : <span className='bg-cyan-500 py-1 px-4 rounded text-white uppercase font-bold whitespace-nowrap'>En attente</span>}</td>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { FaArrowLeft, FaArrowRight, FaMapMarkerAlt, FaMapPin, FaSearch,  FaSearchLocation, FaStar } from 'react-icons/fa'
+import { FaArrowLeft, FaArrowRight, FaMapMarkerAlt, FaMapPin, FaSearch, FaSearchLocation, FaStar } from 'react-icons/fa'
 import { Ri24HoursLine, RiMenuSearchFill, RiSecurePaymentLine, RiTimeLine } from 'react-icons/ri'
-import { MdAdsClick,  MdOutlinePartyMode,  MdOutlinePayments, MdShoppingCartCheckout } from 'react-icons/md'
+import { MdAdsClick, MdOutlinePartyMode, MdOutlinePayments, MdShoppingCartCheckout } from 'react-icons/md'
 import Banner from '../assets/banner.jpeg'
 import Img1 from '../assets/train1.png'
 import step1 from '../assets/1.png'
@@ -11,10 +11,14 @@ import step4 from '../assets/4.png'
 import react from '../assets/react.svg'
 import { setSearchQuery } from '../redux/features/trip/tripSlice'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css/bundle';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/effect-coverflow';
 
 import { register } from 'swiper/element/bundle'
 register()
@@ -141,106 +145,103 @@ const Home = () => {
       </section>
       <section className='p-6'>
         <h1 className='head_text mb-6'>Comment ça marche ?</h1>
-        <div className='py-6 flex justify-center'>
-          <Swiper
-            effect={'coverflow'}
-            grabCursor={true}
-            spaceBetween={20}
-            centeredSlides={true}
-            slidesPerView={2}
-            coverflowEffect={{
-              rotate: 0,
-              stretch: 0,
-              depth: 100,
-              modifier: 5,
-              slideShadows: true
-            }}
-            pagination={{ el: '.swiper-pagination', clickable: true }}
-            navigation={{
-              nextEl: '.swiper-button-next',
-              prevEl: '.swiper-button-prev',
-              clickable: true,
-            }}
-            className="swiper_container"
+        <div className='py-6 relative'>
+          <swiper-container
+            navigation="true"
+            navigation-clickable="true"
+            navigation-next-el=".swiper-button-next"
+            navigation-prev-el=".swiper-button-prev"
+            pagination="true"
+            pagination-el=".swiper-pagination"
+            pagination-clickable="true"
+            space-between="20"
+            centered-slides="true"
+            slides-per-view="1"
+            effect="coverflow"
+            coverflow-effect-rotate="0"
+            coverflow-effect-stretch="0"
+            coverflow-effect-depth="100"
+            coverflow-effect-modifier="5"
+            breakpoints={
+              JSON.stringify({
+                640: {
+                  spaceBetween: 20,
+                  slidesPerView: 'auto'
+                }
+              })
+            }
+
           >
-            <SwiperSlide>
-              {({ isActive }) => (
-                <div className={`shadow-lg relative overflow-hidden ${isActive && 'border'}`}>
-                  <span className='step'>1</span>
-                  <img src={step1} alt="profile" className='h-[24rem] object-cover' />
-                  <div className={`step_desc flex gap-4 items-center ${isActive ? 'bottom-0' : '-bottom-full'}`}>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere commodi vitae quam! Quidem pariatur asperiores dignissimosiet.</p>
-                    <span className='bg-white/10 rounded-lg p-4'><FaSearchLocation size={48} /></span>
-                  </div>
+            <swiper-slide>
+              <div className='shadow-lg relative overflow-hidden rounded-lg'>
+                <span className='step'>1</span>
+                <img src={step1} alt="profile" className='h-[24rem] object-cover' />
+                <div className='step_desc flex gap-4 items-center -bottom-full visible_desc'>
+                  <p className='text_white'>Rechercher votre destination et les dates de votre voyage en remplissant les formulaires.</p>
+                  <span className='bg-white/10 rounded-lg p-4'><FaSearchLocation size={48} /></span>
                 </div>
-              )}
-            </SwiperSlide>
-            <SwiperSlide>
-              {({ isActive }) => (
-                <div className={`shadow-lg relative overflow-hidden ${isActive && 'border'}`}>
-                  <span className='step'>2</span>
-                  <img src={step2} alt="profile" className='h-[24rem] object-cover' />
-                  <div className={`step_desc flex gap-4 items-center ${isActive ? 'bottom-0' : '-bottom-full'}`}>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere commodi vitae quam! Quidem pariatur asperiores dignissimos, beatae.</p>
-                    <span className='bg-white/10 rounded-lg p-4'><RiMenuSearchFill size={48} /></span>
-                  </div>
-                </div>
-              )}
-            </SwiperSlide>
-            <SwiperSlide>
-              {({ isActive }) => (
-                <div className={`shadow-lg relative overflow-hidden ${isActive && 'border'}`}>
-                  <span className='step'>3</span>
-                  <img src={step3} alt="profile" className='h-[24rem] object-cover' />
-                  <div className={`step_desc flex gap-4 items-center ${isActive ? 'bottom-0' : '-bottom-full'}`}>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere commodi vitae quam! Quidem pariatur asperiores dignissimos, beatae.</p>
-                    <span className='bg-white/10 rounded-lg p-4'><MdShoppingCartCheckout size={48} /></span>
-                  </div>
-                </div>
-              )}
-            </SwiperSlide>
-            <SwiperSlide>
-              {({ isActive }) => (
-                <div className={`shadow-lg relative overflow-hidden ${isActive && 'border'}`}>
-                  <span className='step'>4</span>
-                  <img src={step4} alt="profile" className='h-[24rem] object-cover' />
-                  <div className={`step_desc flex gap-4 items-center ${isActive ? 'bottom-0' : '-bottom-full'}`}>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere commodi vitae quam! Quidem pariatur asperiores dignissimos, beatae.</p>
-                    <span className='bg-white/10 rounded-lg p-4'><MdOutlinePayments size={48} /></span>
-                  </div>
-                </div>
-              )}
-            </SwiperSlide>
-            <SwiperSlide>
-              {({ isActive }) => (
-                <div className={`shadow-lg relative overflow-hidden ${isActive && 'border'}`}>
-                  <span className='step'>5</span>
-                  <img src={Img1} alt="profile" className='h-[24rem] object-cover' />
-                  <div className={`step_desc flex gap-4 items-center ${isActive ? 'bottom-0' : '-bottom-full'}`}>
-                    <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facere commodi vitae quam! Quidem pariatur asperiores dignissimos, beatae.</p>
-                    <span className='bg-white/10 rounded-lg p-4'><MdOutlinePartyMode size={48} /></span>
-                  </div>
-                </div>
-              )}
-            </SwiperSlide>
-            <div className="slider-controler relative bottom-8 flex items-center justify-between">
-              <div className="swiper-button-prev slider-arrow ">
-                <FaArrowLeft size={24} className='text-indigo-500' />
               </div>
-              <div className="swiper-button-next slider-arrow">
-                <FaArrowRight size={24} className='text-indigo-500' />
+            </swiper-slide>
+            <swiper-slide>
+              <div className='shadow-lg relative overflow-hidden rounded-lg'>
+                <span className='step'>2</span>
+                <img src={step2} alt="profile" className='h-[24rem] object-cover' />
+                <div className='step_desc flex gap-4 items-center -bottom-full visible_desc'>
+                  <p className='text_white'>Ensuite, prenez le temps d'explorer les différents options de voyage disponibles et idéal pour vous.</p>
+                  <span className='bg-white/10 rounded-lg p-4'><RiMenuSearchFill size={48} /></span>
+                </div>
               </div>
-              <div className="swiper-pagination relative text-center"></div>
+            </swiper-slide>
+            <swiper-slide>
+              <div className='shadow-lg relative overflow-hidden rounded-lg'>
+                <span className='step'>3</span>
+                <img src={step3} alt="profile" className='h-[24rem] object-cover' />
+                <div className='step_desc flex gap-4 items-center -bottom-full visible_desc'>
+                  <p className='text_white'>Une fois que vous avez trouvé le voyage , il vous suffit d'inclure le nombre de place que vous souhaiteriez réserver et placer la réservation.</p>
+                  <span className='bg-white/10 rounded-lg p-4'><MdShoppingCartCheckout size={48} /></span>
+                </div>
+              </div>
+            </swiper-slide>
+            <swiper-slide>
+              <div className='shadow-lg relative overflow-hidden rounded-lg'>
+                <span className='step'>4</span>
+                <img src={step4} alt="profile" className='h-[24rem] object-cover' />
+                <div className='step_desc flex gap-4 items-center -bottom-full visible_desc'>
+                  <p className='text_white'>C'est presque fini! Effectuer le paiement de votre réservation en toute sécurité grâce à notre système de paiement sécurisé.</p>
+                  <span className='bg-white/10 rounded-lg p-4'><MdOutlinePayments size={48} /></span>
+                </div>
+              </div>
+            </swiper-slide>
+            <swiper-slide>
+              <div className='shadow-lg relative overflow-hidden border rounded-lg'>
+                <span className='step'>5</span>
+                <img src={Img1} alt="profile" className='h-[24rem] object-cover' />
+                <div className='step_desc flex gap-4 items-center -bottom-full visible_desc'>
+                  <p>Enfin, une fois votre paiement confirmé, vous recevrez votre ticket par e-mail. Vous pouvez également le télécharger et l'imprimer. N'oubliez pas de le présenter lors du voyage</p>
+                  <span className='bg-white/10 rounded-lg p-4'><MdOutlinePartyMode size={48} /></span>
+                </div>
+              </div>
+            </swiper-slide>
+            <swiper-slide>
+              <div className='shadow-lg h-[24rem] px-10 flex gap-4 flex-col justify-center items-center bg-white relative overflow-hidden border rounded-lg'>
+                <span className='step'>6</span>
+                <p className='text-base lg:text-lg text-gray-600 xl:text-xl'>Pour toute question relative à ce processus, n'hesiter pas à <Link className='underline text-indigo-500' to='/contact'>nous contacter</Link></p>
+                <p className='font-bold text-2xl'>OU</p>
+                <button onClick={() => navigate('/trip')} className='btn_primary uppercase'>Réservez dès maintenant <FaArrowRight className='ml-2' /></button>
+              </div>
+            </swiper-slide>
+          </swiper-container>
+          <div className='slider-controler'>
+            <div className="swiper-button-prev slider-arrow ">
+              <FaArrowLeft size={24} className='text-indigo-500' />
             </div>
-          </Swiper>
+            <div className="swiper-button-next slider-arrow">
+              <FaArrowRight size={24} className='text-indigo-500' />
+            </div>
+            <div className="swiper-pagination"></div>
+          </div>
         </div>
       </section>
-      {/* <section>
-        <h1 className='text-2xl font-bold mb-4'>Selection des trains</h1>
-        <p>
-          Presentation des different types des trains disponible a la reservation - Possibilite de filtrer les trains par destinations, horaires, etc.
-        </p>
-      </section> */}
       <section className='p-6'>
         <h1 className='head_text mb-6'>Ce que les clients nous dites</h1>
         <div className='grid gap-4 sm:grid-cols-3'>

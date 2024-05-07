@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FaArrowAltCircleRight, FaCaretDown, FaChair, FaCheck, FaRegClock, FaTicketAlt, FaTrain } from 'react-icons/fa'
 import { WiTrain } from 'react-icons/wi'
-import { MdAirlineSeatReclineNormal, MdMergeType } from 'react-icons/md'
+import { MdAirlineSeatReclineNormal, MdDiversity1, MdMergeType } from 'react-icons/md'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useGetTripQuery } from '../redux/api/tripApiSlice'
 import { setSatus, subtract } from '../utils/utils'
@@ -11,6 +11,7 @@ import Train from '../assets/train2.png';
 import jsPDF from 'jspdf';
 import QRCode from 'qrcode';
 import Mvola from '../assets/mvola.png';
+import Bravo from '../assets/bravo.jpg';
 
 const TripDetails = () => {
   const { id } = useParams()
@@ -50,40 +51,46 @@ const TripDetails = () => {
       toast.error(error?.data?.message || error?.message || error);
     }
   }
+  const generatePdf = async (res) => {
+    //Generate QRcode
+    const qrData = `TRAIN-TRIP ticket n° ${res._id} de ${res.user.username} pour le voyage de ${res.trip.origin}-${res.trip.destination} le ${subtract(0, res.trip.departure_date).format("LLLL")}`;
+    const qrOptions = {
+      errorCorrectionLevel: 'H',
+      type: 'image/jpeg',
+      rendererOpts: {
+        quality: 0.3
+      }
+    };
+    const qrImage = await QRCode.toDataURL(qrData, qrOptions);
+    // Generate PDF
+    const pdf = new jsPDF();
+    pdf.text('TRAIN-TRIP Ticket', 10, 10);
+    pdf.text(`Reservation n°: ${res._id} pour le voyage de ${res.trip.origin}-${res.trip.destination}`, 10, 20);
+    pdf.text(`Voyage de: ${res.trip.origin}-${res.trip.destination}`, 10, 30);
+    pdf.text(`Nom du voyageur: ${res.user.username}`, 10, 40);
+    pdf.text(`Email du voyageur: ${res.user.email}`, 10, 50);
+    pdf.text(`Date de départ: ${subtract(0, res.trip.departure_date).format("LLLL")}`, 10, 60);
+    pdf.text(`Nombre de tickets: ${res.nbrTickets}`, 10, 70);
+    pdf.text(`Prix: ${res.totalPrice} Ar`, 10, 80);
+
+    // Draw QR code
+    const imgWidth = 50; // Adjust the size of the QR code
+    const imgHeight = 50; // Adjust the size of the QR code
+    pdf.addImage(qrImage, 'JPEG', 10, 90, imgWidth, imgHeight);
+    pdf.save('reservation_ticket.pdf');
+  }
   const handlePay = async (id) => {
     try {
       const res = await payReservation(id).unwrap()
       toast.success("Le payement a été éffectuer avec succès");
       navigate('?step=4');
-      //Generate QRcode
-      const qrData = JSON.stringify(res);
-      const qrOptions = {
-        errorCorrectionLevel: 'H',
-        type: 'image/jpeg',
-        rendererOpts: {
-          quality: 0.3
-        }
-      };
-      const qrImage = await QRCode.toDataURL(qrData, qrOptions);
-      // Generate PDF
-      const pdf = new jsPDF();
-      pdf.text('Reservation Ticket', 10, 10);
-      pdf.text(`Reservation ID: ${res._id}`, 10, 20);
-      pdf.text(`Nom du voyageur: ${res.user.username}`, 10, 30);
-      pdf.text(`Email du voyageur: ${res.user.email}`, 10, 40);
-      pdf.text(`Date de départ: ${subtract(3, res.trip.departure_date).format("LLLL")}`, 10, 50);
-      pdf.text(`Nombre de tickets: ${res.nbrTickets}`, 10, 60);
-      pdf.text(`Prix: ${res.price} Ar`, 10, 70);
-
-      // Draw QR code
-      const imgWidth = 50; // Adjust the size of the QR code
-      const imgHeight = 50; // Adjust the size of the QR code
-      pdf.addImage(qrImage, 'JPEG', 10, 90, imgWidth, imgHeight);
-      pdf.save('reservation_ticket.pdf');
-
+      await generatePdf(res);
     } catch (error) {
       toast.error(error?.data?.message || error?.message || error);
     }
+  }
+  const downloadPdf = async () => {
+    await generatePdf(reservationDB);
   }
   return (
     <section className='max-w-4xl mx-auto p-6'>
@@ -258,7 +265,13 @@ const TripDetails = () => {
         </div>
       )}
       {step === 4 && (
-        <h1>Felicitation</h1>
+        <div>
+          <div className='bg-white rounded-lg p-2'>
+            <img src={Bravo} alt="bravo" />
+          </div>
+          <p className="head_text text-center mt-4">N'oublie pas de présenter votre ticket lors du voyage</p>
+          {sp.get('skip') && <p className="text text-center mt-4">Pour retélécharger votre ticket, veuillez cliquer <button className='text-indigo-500 underline' onClick={() => downloadPdf()}>ici !</button></p>}
+        </div>
       )}
     </section>
   )
