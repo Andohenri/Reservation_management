@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import ReactApexChart from 'react-apexcharts';
 import { RiFeedbackLine, RiMoneyDollarBoxLine, RiShoppingBag3Line } from 'react-icons/ri';
+import { toast } from 'react-toastify';
 import { useGetRevenueByDateQuery } from '../../redux/api/reservationApiSlice';
+import { useGetTestimonialsQuery } from '../../redux/api/testimonialApiSlice';
+import socket from '../../utils/socket';
 
 
 const Dashboard = () => {
   const { data, isLoading, refetch, error } = useGetRevenueByDateQuery();
+  const { data: testimonials, refetch: fetch } = useGetTestimonialsQuery();
   const [revenueTotal, setRevenueTotal] = useState(0);
   const [reservationNbr, setReservationNbr] = useState(0);
   const [opt, setOpt] = useState({
@@ -61,6 +65,16 @@ const Dashboard = () => {
     },
     series: [{ name: 'Revenue Payé', data: [] }]
   });
+
+  useEffect(() => {
+    socket.on("new testimonial", async () => {
+      toast.info("Un client a témoigné.");
+      await fetch();
+    });
+   return () => {
+      socket.off('new testimonial');
+   }
+  }, [socket])
 
   useEffect(() => {
     async function fetch() {
@@ -123,7 +137,7 @@ const Dashboard = () => {
             <div className='p-3 bg-yellow-200 rounded-lg'><RiFeedbackLine size={32} className='text-[#FAB440]' /></div>
             <div className='text-xl text-gray-500'>
               <h1 className='font-bold'>FeedBack</h1>
-              <p className='flex text-gray-800 font-extrabold'>{revenueTotal}<span className='items-end'>Ar</span></p>
+              <p className='flex text-gray-800 font-extrabold'>{testimonials?.length}</p>
             </div>
           </div>
         </article>

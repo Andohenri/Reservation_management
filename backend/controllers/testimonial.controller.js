@@ -26,7 +26,7 @@ export const deleteTestimonial = async (req, res) => {
 }
 export const getAllTestimonials = async (req, res) => {
    try {
-      const tests = await Testimonial.find({}).sort({createdAt: -1})
+      const tests = await Testimonial.find({}).sort({createdAt: -1}).populate("author", "username image")
       return res.status(200).json(tests);
    } catch (error) {
       return res.status(500).json({message: "Une erreur qui vient du serveur"});

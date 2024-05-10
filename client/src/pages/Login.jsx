@@ -19,7 +19,9 @@ const Login = () => {
    const redirect = sp.get('redirect') || '/';
 
    useEffect(() => {
-      if(userInfo){
+      if(userInfo?.isAdmin){
+         navigate('/admin/dashboard');
+      }else if(userInfo){
          navigate(redirect)
       }
    }, [navigate, redirect, userInfo])

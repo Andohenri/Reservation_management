@@ -1,4 +1,5 @@
 import express from "express";
+import { authenticate } from '../middleware/auth.js';
 import { createTestimonial, deleteTestimonial, getAllTestimonials, updateTestimonial } from "../controllers/testimonial.controller.js";
 const testimonialRoute = express.Router();
 

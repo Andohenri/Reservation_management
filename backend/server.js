@@ -14,6 +14,7 @@ import trainRoute from './routes/train.route.js';
 import tripRoute from './routes/trip.route.js';
 import reservationRoute from './routes/reservation.route.js';
 import notifRoute from './routes/notification.route.js';
+import testimonialRoute from './routes/testimonial.route.js';
 
 dotenv.config()
 
@@ -34,6 +35,7 @@ app.use('/api/trains', trainRoute)
 app.use('/api/trips', tripRoute)
 app.use('/api/reservations', reservationRoute)
 app.use('/api/notifications', notifRoute)
+app.use('/api/testimonials', testimonialRoute)
 
 //uploads images
 app.use('/api/uploads', uploadRoute)
@@ -48,7 +50,7 @@ server.listen(process.env.PORT, () => {
 mongoose.connect(process.env.MONGO_URI)
    .then(() => {
       console.log("Mongo DB connected");
-   }).catch(err => {
+   }).catch(() => {
       console.log("Mongo DB not connected.");
    })
 
@@ -64,8 +66,8 @@ const removeUser = (socketId) => {
 const getUserById = (id) => {
    return userSockets.find(u => u.id === id)
 }
-const getUserBySocketId = (socketId) => {
-   return userSockets.find(u => u.socketId === socketId)
+const getAdmin = () => {
+   return userSockets.find(u => u.isAdmin === true)
 }
 
 io.on('connection', (socket) => {
@@ -82,7 +84,12 @@ io.on('connection', (socket) => {
       }
    });
 
-   
+   socket.on("send testimonial", () => {
+      const admin = getAdmin();
+      if(admin) {
+         io.to(admin.socketId).emit("new testimonial");
+      }
+   })
 
    socket.on("send notification", ({ userId, content }) => {
       const user = getUserById(userId);
