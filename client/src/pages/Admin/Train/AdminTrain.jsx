@@ -64,7 +64,7 @@ const AdminTrain = () => {
         <h1 className='head_text'>Trains</h1>
         <div className='flex gap-4'>
           <SearchBar value={search} handleSearch={handleSearch}/>
-          <button onClick={() => navigate(`new`)} className='btn_primary flex gap-2 items-center uppercase'><FaPlus size={24}/><span className='hidden sm:block'>Ajouter</span></button>
+          <button onClick={() => navigate(`new`)} className='button_primary uppercase'><FaPlus size={24}/><span className='hidden sm:block'>Ajouter</span></button>
         </div>
       </div>
       {!isLoading ? trains?.length > 0 ? (

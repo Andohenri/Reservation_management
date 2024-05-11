@@ -76,7 +76,7 @@ const AdminUser = () => {
                       ? (
                         <div className="flex items-center justify-between gap-4">
                           <input className="input_table" type="text" value={editableUserName} onChange={e => setEditableUserName(e.target.value)} />
-                          <button onClick={() => updateHandler(user._id)} className="text-white rounded bg-[#FAB440] px-4 py-2"><FaCheck /></button>
+                          <button onClick={() => updateHandler(user._id)} className="button_primary"><FaCheck /></button>
                         </div>
                       )
                       : (
@@ -92,7 +92,7 @@ const AdminUser = () => {
                       ? (
                         <div className="flex items-center justify-between gap-4">
                           <input className="input_table" type="text" value={editableUserEmail} onChange={e => setEditableUserEmail(e.target.value)} />
-                          <button onClick={() => updateHandler(user._id)} className="text-white rounded bg-[#FAB440] px-4 py-2"><FaCheck /></button>
+                          <button onClick={() => updateHandler(user._id)} className="button_primary"><FaCheck /></button>
                         </div>
                       ) : (
                         <div className="flex items-center justify-between gap-4">

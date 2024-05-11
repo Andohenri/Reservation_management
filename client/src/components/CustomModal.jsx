@@ -50,7 +50,7 @@ const CustomModal = ({ isOpen, closeModal }) => {
           <label htmlFor="content" className='label'>Contenu</label>
           <textarea className="input" placeholder="Raconter votre expérience en détail" rows={10} value={content} onChange={e => setContent(e.target.value)} required/>
         </div>
-        <button type='submit' disabled={isLoading} className='btn_primary mt-4'>{isLoading ? "Soumission..." : "Soumettre"}</button>
+        <button type='submit' disabled={isLoading} className='button_primary mt-4'>{isLoading ? "Soumission..." : "Soumettre"}</button>
       </form>
     </Modal>
   )

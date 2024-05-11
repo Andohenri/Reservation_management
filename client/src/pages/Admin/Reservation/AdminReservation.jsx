@@ -52,7 +52,7 @@ const AdminReservation = () => {
         <h1 className='head_text'>Reservations</h1>
         <div className='flex gap-4'>
           <SearchBar value={search} handleSearch={handleSearch}/>
-          <button onClick={() => navigate(`new`)} className='btn_primary flex gap-2 items-center uppercase'>
+          <button onClick={() => navigate(`new`)} className='button_primary uppercase'>
             <FaPlus size={24}/><span className='hidden sm:block'>Ajouter</span>
           </button>
         </div>

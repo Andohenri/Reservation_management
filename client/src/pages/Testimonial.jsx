@@ -20,7 +20,7 @@ const Testimoniale = () => {
     <section className='max-w-5xl mx-auto p-6'>
       <div className='flex_between'>
         <h1 className="head_text mb-6">Les témoignages des clients</h1>
-        <button className='btn_primary' onClick={openModal}>Témoigner</button>
+        <button className='button_primary' onClick={openModal}>Témoigner</button>
       </div>
       <div className='mt-10 grid gap-4 grid-cols-2'>
         {!isLoading ? data?.length > 0 ? (

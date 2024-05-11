@@ -60,7 +60,7 @@ const Register = () => {
                      <input className='input' type="password" name="password" id="password" onChange={handleChange}/>
                   </div>
                   <div className="flex items-center gap-2 justify-between">
-                     <button disabled={isLoading} className="bg-[#FAB440] hover:bg-[#ffa616] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">{isLoading ? "Chargement..." : "Enregistrer"}</button>
+                     <button disabled={isLoading} className="button_primary" type="submit">{isLoading ? "Chargement..." : "Enregistrer"}</button>
                      <Link to={'/login'} className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Vous avez déja un compte ?</Link>
                   </div>
                </form>

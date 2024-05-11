@@ -59,7 +59,7 @@ const Trip = () => {
           </div>
         </section>
         <div className='flex justify-end'>
-          <button type='submit' className='bg-[#07143F] rounded-full text-white px-3 py-2 flex gap-2 items-center'>
+          <button type='submit' className='button_primary'>
             <FaSearch size={24} />
             <span className='font-semibold'>Rechercher</span>
           </button>

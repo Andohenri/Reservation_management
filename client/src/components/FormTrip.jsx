@@ -45,7 +45,7 @@ const FormTrip = ({handleUpdate, handleCreate, tripForm, handleChange, loading})
             </div>
          </div>
          <div className="flex justify-between">
-            <button className="bg-[#FAB440] hover:bg-[#ffa616] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline uppercase" type="submit">{handleUpdate ? (loading ? 'Modification...' : 'Modifier') : (loading ? 'Création...' : 'Créer')}</button>
+            <button disabled={loading} className="button_primary uppercase" type="submit">{handleUpdate ? (loading ? 'Modification...' : 'Modifier') : (loading ? 'Création...' : 'Créer')}</button>
          </div>
       </form>
    </>)

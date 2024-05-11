@@ -58,7 +58,7 @@ const Contact = () => {
             </div>
           </div>
           <div className="flex justify-end">
-            <button className="bg-[#FAB440] hover:bg-[#ffa616] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline uppercase" type="submit">ENVOYER</button>
+            <button className="button_primary uppercase" type="submit">Envoyer</button>
           </div>
         </form>
       </div>

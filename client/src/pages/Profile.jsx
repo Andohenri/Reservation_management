@@ -73,7 +73,7 @@ const Profile = () => {
             <h1 className='desc'>{userInfo.email}</h1>
           </div>
           <div>
-            <button onClick={() => navigate('/reservation-management')} className="bg-[#FAB440] hover:bg-[#ffa616] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Mes résérvations</button>
+            <button onClick={() => navigate('/reservation-management')} className="button_primary">Mes résérvations</button>
           </div>
         </div>
       </div>
@@ -96,7 +96,7 @@ const Profile = () => {
             <input className='input' type="password" name="c-password" id="c-password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} />
           </div>
           <div className="flex justify-between">
-            <button className=" w-full bg-[#FAB440] hover:bg-[#ffa616] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">{!loadingProfileUpdate ? 'Mettre à jour' : 'Mis à jour...'}</button>
+            <button className=" w-full button_primary" type="submit">{!loadingProfileUpdate ? 'Mettre à jour' : 'Mis à jour...'}</button>
           </div>
         </form>
       </div>

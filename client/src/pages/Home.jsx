@@ -60,7 +60,7 @@ const Home = () => {
               </div>
             </section>
             <div className='flex justify-end'>
-              <button type='submit' className='bg-[#FAB440] text-white shadow rounded-lg px-3 py-2 flex gap-2 items-center'>
+              <button type='submit' className='button_primary'>
                 <FaSearch size={24} />
                 <span className='font-semibold'>Rechercher</span>
               </button>
@@ -75,7 +75,7 @@ const Home = () => {
           <img src={Banner} alt="logo" className='' />
           <div className='absolute_center w-[70%] sm:hidden text-center'>
             <h1 className='text-2xl text-shadow font-extrabold leading-[1.15] text-white'>Bienvenue sur TRAIN-TRIP! <br /> Votre plateforme ultime de réservation de train !</h1>
-            <button onClick={() => navigate('/trip')} className='btn_primary mx-auto mt-2 uppercase'>Réserver maintenant</button>
+            <button onClick={() => navigate('/trip')} className='button_primary mx-auto mt-2 uppercase'>Réserver maintenant</button>
           </div>
         </div>
       </header>
@@ -227,7 +227,7 @@ const Home = () => {
                 <span className='step'>6</span>
                 <p className='text-base lg:text-lg text-gray-600 xl:text-xl'>Pour toute question relative à ce processus, n'hesiter pas à <Link className='underline text-indigo-500' to='/contact'>nous contacter</Link></p>
                 <p className='font-bold text-2xl'>OU</p>
-                <button onClick={() => navigate('/trip')} className='btn_primary uppercase'>Réservez dès maintenant <FaArrowRight className='ml-2' /></button>
+                <button onClick={() => navigate('/trip')} className='button_primary uppercase'>Réservez dès maintenant <FaArrowRight className='ml-2' /></button>
               </div>
             </swiper-slide>
           </swiper-container>

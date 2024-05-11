@@ -216,7 +216,7 @@ const TripDetails = () => {
                     <span className='absolute top-3 right-1 md:right-2 pointer-events-none'><FaCaretDown className='text-gray-800' /></span>
                   </div>
                 )}
-                <button type='submit' className='bg-[#FAB440] hover:bg-[#ffa616] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'>{!loading ? 'Placer la réservation' : 'Chargement...'}</button>
+                <button type='submit' className='button_primary'>{!loading ? 'Placer la réservation' : 'Chargement...'}</button>
               </form>
             ) : (
               <></>

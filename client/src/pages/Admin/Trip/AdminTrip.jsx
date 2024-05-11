@@ -90,7 +90,7 @@ const AdminTrip = () => {
         <h1 className='head_text'>Voyages</h1>
         <div className='flex gap-4'>
           <SearchBar value={search} handleSearch={handleSearch} />
-          <button onClick={() => navigate(`new`)} className='btn_primary flex gap-2 items-center uppercase'><FaPlus size={24} /><span className='hidden sm:block'>Ajouter</span></button>
+          <button onClick={() => navigate(`new`)} className='button_primary uppercase'><FaPlus size={24} /><span className='hidden sm:block'>Ajouter</span></button>
         </div>
       </div>
       {!isLoading ? trips?.length > 0 ? (
