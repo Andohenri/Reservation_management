@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 import ReactApexChart from 'react-apexcharts';
+import { FaStar } from 'react-icons/fa';
 import { RiFeedbackLine, RiMoneyDollarBoxLine, RiShoppingBag3Line } from 'react-icons/ri';
 import { toast } from 'react-toastify';
 import { useGetRevenueByDateQuery } from '../../redux/api/reservationApiSlice';
@@ -71,9 +73,9 @@ const Dashboard = () => {
       toast.info("Un client a témoigné.");
       await fetch();
     });
-   return () => {
+    return () => {
       socket.off('new testimonial');
-   }
+    }
   }, [socket])
 
   useEffect(() => {
@@ -82,7 +84,7 @@ const Dashboard = () => {
     }
     fetch();
   }, [])
-  
+
 
   useEffect(() => {
     if (data?.revenueData?.length > 0) {
@@ -111,7 +113,7 @@ const Dashboard = () => {
   }, [data])
 
   return (
-    <section className='w-[85%] lg:max-w-5xl lg:mx-auto '>
+    <section className='max-md:w-[85%] lg:max-w-6xl lg:mx-auto '>
       <h1 className="head_text mb-6">Tableau de bord</h1>
       <div className='flex gap-4 flex-wrap mb-6'>
         <article className='bg-white flex flex-col gap-4 rounded-lg shadow p-4'>
@@ -142,9 +144,24 @@ const Dashboard = () => {
           </div>
         </article>
       </div>
-      <div className='flex'>
+      <div className='flex gap-4 flex-col lg:flex-row'>
         <div className='flex-1'>
           <ReactApexChart options={opt.options} series={opt.series} type="area" height={500} />
+        </div>
+        <div className='lg:w-2/5 overflow-auto h-[27rem]'>
+          {testimonials?.tests?.map(test => (
+            <Link key={test._id} to='/testimonial'>
+              <div className='flex bg-white items-start justify-between rounded mb-2 px-4 py-2 gap-2'>
+                <div className='h-8 w-8 overflow-hidden mt-1'>
+                  <img src={test.author.image} alt="profile" className='h-8 w-8 rounded-full' />
+                </div>
+                <div className='flex-1'>
+                  <p className='text'>{test.content.length < 50 ? test.content : `${test.content.slice(0, 50)}...`}</p>
+                </div>
+                <span className='flex text-gray-800 text-xl font-extrabold items-center'><FaStar className='text-yellow-300 mr-1' size={24} />{test.note}</span>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </section>

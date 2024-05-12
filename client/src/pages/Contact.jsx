@@ -8,8 +8,8 @@ const Contact = () => {
       <p className='mb-6 desc'>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero alias labore molestiae dolore eius libero nobis facilis rerum magni voluptates esse, commodi, officiis aut voluptatum sapiente expedita hic velit autem?
       </p>
-      <div className='flex items-center flex-col md:flex-row justify-between'>
-        <div className='flex flex-col gap-4 pb-12'>
+      <div className='flex items-center flex-col md:flex-row gap-4 justify-between'>
+        <div className='flex flex-col gap-4 pb-12 font-semibold text-gray-800'>
           <div className='flex items-center gap-4'>
             <MdOutlinePlace size={24} />
             <div>

@@ -20,6 +20,7 @@ const CustomModal = ({ isOpen, closeModal }) => {
       socket.emit('send testimonial', res);
       setNote('');
       setContent('');
+      closeModal();
     } catch (error) {
       toast.error(error?.data?.message || error?.message || error);
     }
@@ -33,7 +34,7 @@ const CustomModal = ({ isOpen, closeModal }) => {
       </div>
       <form onSubmit={submitHandler}>
         <div className='flex-1 mb-4'>
-          <label htmlFor="note" className='label'>Note</label>
+          <label htmlFor="note" className='label'>Avis personnel</label>
           <div className="relative">
             <select className='input_table' id="note" onChange={e => setNote(e.target.value)} value={note} required>
               <option value="">Séléctionner votre avis</option>
@@ -47,10 +48,10 @@ const CustomModal = ({ isOpen, closeModal }) => {
           </div>
         </div>
         <div className='flex-1 relative'>
-          <label htmlFor="content" className='label'>Contenu</label>
+          <label htmlFor="content" className='label'>Experience</label>
           <textarea className="input" placeholder="Raconter votre expérience en détail" rows={10} value={content} onChange={e => setContent(e.target.value)} required/>
         </div>
-        <button type='submit' disabled={isLoading} className='button_primary mt-4'>{isLoading ? "Soumission..." : "Soumettre"}</button>
+        <button type='submit' disabled={isLoading} className='button_primary mt-4 uppercase'>{isLoading ? "Soumission..." : "Soumettre"}</button>
       </form>
     </Modal>
   )
