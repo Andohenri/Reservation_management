@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FaCalendarAlt, FaMapMarkerAlt, FaMapPin, FaSearch } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
+import MessageInfo from '../components/MessageInfo';
 import TripCard from '../components/TripCard';
 import { useGetTripsQuery } from '../redux/api/tripApiSlice'
 import { setSearchQuery } from '../redux/features/trip/tripSlice';
@@ -44,7 +45,7 @@ const Trip = () => {
 
   return (
     <section className='max-w-5xl mx-auto'>
-      <form onSubmit={handleSubmit} className='sm:flex gap-2 p-4 mx-auto sm:m-0'>
+      <form onSubmit={handleSubmit} className='sm:flex gap-2 p-4 mt-3 lg:justify-center mx-auto'>
         <section className='mb-2 sm:m-0 grid gap-2 grid-cols-2 md:grid-cols-3'>
           <div className='relative'>
             <input className='w-full shadow border focus:border-[#4E47C6] rounded-full py-2 pl-3 pr-8 text-gray-700 focus:outline-none transition-all pointer-events-auto placeholder:italic' type="text" value={origin} onChange={(e) => setOrigin(e.target.value)} placeholder='Ville de départ' />
@@ -77,13 +78,9 @@ const Trip = () => {
           </div>
         ))
       ) : (
-        <section className='flex justify-center'>
-          <h1>Pas de voyages disponibles</h1>
-        </section>
+        <MessageInfo message={"Nous regrettons de vous informer que le voyage que vous recherchez n'est pas actuellement disponible."} />
       ) : (
-        <section className='flex justify-center'>
-          <h1>Chargement...</h1>
-        </section>
+        <MessageInfo message={"Chargement..."} />
       )}
     </section>
   )

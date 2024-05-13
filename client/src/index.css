@@ -75,13 +75,13 @@
    @apply text-xl font-extrabold leading-[1.15] text-gray-700 sm:text-4xl;
 }
 .text{
-   @apply text-base lg:text-lg text-gray-600 sm:text-xl
+   @apply text-base text-gray-600 sm:text-lg
 }
 .text_white{
-   @apply text-base lg:text-lg text-white sm:text-xl
+   @apply text-base text-white sm:text-lg
 }
 .desc {
-   @apply text-base lg:text-lg text-gray-600 sm:text-xl max-w-2xl;
+   @apply text-base text-gray-600 sm:text-lg max-w-2xl;
 }
 .button_primary{
    @apply bg-[#FAB440] hover:bg-[#F8B966] focus:bg-[#F7C38A] active:bg-[#F6CD9D] disabled:bg-gray-400 font-bold text-white text-center text-base flex items-center gap-2 justify-center py-2 px-4 rounded-lg shadow-md focus:outline-none transition-all;

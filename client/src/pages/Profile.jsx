@@ -59,7 +59,7 @@ const Profile = () => {
   }
   return (
     <section className='px-4 py-6 mx-auto max-w-xl'>
-      <div className='flex flex-row gap-4'>
+      <div className='flex flex-col pl-3 max-sm:items-start sm:flex-row gap-4'>
         <div className='relative bg-white rounded-full p-1 shadow'>
           <div className='overflow-hidden rounded-full h-36 w-36 md:h-48 md:w-48'>
             <img className='object-contain h-fit w-full rounded-full' src={userInfo.image || ProfileImage} alt="Profile" />
@@ -67,7 +67,7 @@ const Profile = () => {
           <button onClick={() => fileRef.current.click()} className="absolute top-28 right-2 md:top-36 md:right-4 z-2 rounded-full shadow bg-white p-2"><FaCamera /></button>
           <input ref={fileRef} hidden type="file" name='image' accept='image/*' onChange={e => setImage(e.target.files[0])} />
         </div>
-        <div className='flex flex-col justify-between'>
+        <div className='flex flex-col gap-4 justify-between'>
           <div>
             <h1 className='head_text'>{userInfo.username}</h1>
             <h1 className='desc'>{userInfo.email}</h1>

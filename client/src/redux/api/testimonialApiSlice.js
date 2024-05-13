@@ -5,8 +5,8 @@ export const TESTIMONIAL_URL = '/api/testimonials';
 export const testimonialApiSlice = apiSlice.injectEndpoints({
    endpoints: (builder) => ({
       getTestimonials: builder.query({
-         query: () => ({
-            url: `${TESTIMONIAL_URL}`,
+         query: ({ pageSize, pageNumber }) => ({
+            url: `${TESTIMONIAL_URL}?pageSize=${pageSize}&pageNumber=${pageNumber}`,
          })
       }),
       postTestimonials: builder.mutation({
@@ -23,7 +23,7 @@ export const testimonialApiSlice = apiSlice.injectEndpoints({
          })
       }),
       updateTestimonials: builder.mutation({
-         query: ({data, testId}) => ({
+         query: ({ data, testId }) => ({
             url: `${TESTIMONIAL_URL}/${testId}`,
             method: "PUT",
             body: data
@@ -31,7 +31,7 @@ export const testimonialApiSlice = apiSlice.injectEndpoints({
       }),
    })
 })
-export const { 
+export const {
    useGetTestimonialsQuery,
    usePostTestimonialsMutation,
    useDeleteTestimonialsMutation,

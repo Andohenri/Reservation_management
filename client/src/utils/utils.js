@@ -2,22 +2,25 @@ import moment from 'moment'
 import 'moment/dist/locale/fr';
 moment.locale('fr');
 
-export function subtract(amount, date){
+export function subtract(amount, date) {
    return moment(date).subtract(amount, 'hours')
 }
 
-export function setSatus(status){
-   if(status === 'cancelled'){
+export function setSatus(status) {
+   if (status === 'cancelled') {
       return 'Annuler'
-   }else if(status === 'in progress'){
+   } else if (status === 'in progress') {
       return 'En Route'
-   }else if(status === 'pending'){
+   } else if (status === 'pending') {
       return 'En attente'
-   }else{
+   } else {
       return 'Arrivé'
    }
 }
 export function uniqueArray(arr) {
    const uniqueSet = new Set(arr)
    return [...uniqueSet]
- }
+}
+export function capitalized(str){
+   return str.charAt(0).toUpperCase() + str.slice(1)
+}

@@ -12,7 +12,7 @@ const TripCard = ({trip}) => {
          <div className='flex_between p-4'>
             <div className='flex_between gap-4'>
                <img src={Train} alt="logo" className='rounded w-10 h-10'/>
-               <div className='flex flex-col gap-2'>
+               <div className='flex flex-col font-semibold gap-2'>
                   <h1>{trip.trainId?.name}</h1>
                   <h5>{trip.trainId?.type}</h5>
                </div>

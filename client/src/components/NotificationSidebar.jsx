@@ -67,9 +67,6 @@ const NotificationSidebar = () => {
                         <div className='relative flex_between'>
                            {notif.type === 'paymentReminder' ? <MdPayment size={24} /> : notif.type === 'tripUpdate' ? <MdBrowserUpdated size={24} /> : <RiSpeakFill size={24} />}
                            <span onClick={showOptions} className='cursor-pointer'><SlOptionsVertical /></span>
-                           {/* <div className={`${option ? 'flex flex-col gap-2' : 'hidden'} absolute bg-white top-0 right-4`}>
-                              <h1>Supprimer</h1>
-                           </div> */}
                         </div>
                         <Link onClick={showNotif} to={`/reservation-management`}>
                            <p>{notif.message}</p>

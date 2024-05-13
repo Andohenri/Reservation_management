@@ -9,7 +9,13 @@ import step2 from '../assets/2.png'
 import step3 from '../assets/3.png'
 import step4 from '../assets/4.png'
 import step5 from '../assets/5.png'
-import react from '../assets/react.svg'
+import Orange from '../assets/orange.png'
+import Telma from '../assets/telma.jpg'
+import Mvola from '../assets/mvola.png'
+import Coca from '../assets/coca.png'
+import Visa from '../assets/visa.png'
+import Quote from '../assets/quote.png'
+import profile from '../assets/profile.jpg'
 import { setSearchQuery } from '../redux/features/trip/tripSlice'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom';
@@ -32,7 +38,10 @@ const Home = () => {
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
   const [dateDepart, setDateDepart] = useState('');
-  const { data, isLoading } = useGetTestimonialsQuery();
+  const { data, isLoading } = useGetTestimonialsQuery({
+    pageSize: 10,
+    pageNumber: 1
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -71,8 +80,10 @@ const Home = () => {
             </div>
           </form>
           <div className='flex shadow gap-4 items-center bg-white py-2 px-4 rounded-lg'>
-            {!isLoading && <Rating value={data?.avg} color={'yellow'} />}
-            <p className='desc'><span className='font-bold'>{data?.avg}</span> sur {data?.totalsCount} reviews</p>
+            {!isLoading && data?.avg && <>
+              <Rating value={data?.avg} color={'yellow'} />
+              <p className='desc'><span className='font-bold'>{data?.avg}</span> sur {data?.totalsCount} reviews</p>
+            </>}
           </div>
         </div>
         <div className='relative shadow-lg sm:rounded-lg overflow-hidden'>
@@ -221,7 +232,7 @@ const Home = () => {
                 <span className='step'>5</span>
                 <img src={step5} alt="profile" className='h-[24rem] object-cover' />
                 <div className='step_desc flex gap-4 items-center -bottom-full visible_desc'>
-                  <p>Enfin, une fois votre paiement confirmé, vous recevrez votre ticket par e-mail. Vous pouvez également le télécharger et l'imprimer. N'oubliez pas de le présenter lors du voyage</p>
+                  <p>Enfin, une fois votre paiement confirmé, vous recevrez votre ticket par e-mail. Vous pouvez également le télécharger et l'imprimer.</p>
                   <span className='bg-white/10 rounded-lg p-4'><MdOutlinePartyMode size={48} /></span>
                 </div>
               </div>
@@ -249,11 +260,11 @@ const Home = () => {
       <section className='p-6'>
         <div className='flex_between mb-6'>
           <h1 className='head_text'>Ce que les clients nous disent</h1>
-          <Link className='text-indigo-500' to={'/testimonial'}>Voir plus <span><FaArrowRight className='inline'/></span></Link>
+          <Link className='text-indigo-500 whitespace-nowrap' to={'/testimonial'}>Voir plus <span><FaArrowRight className='inline' /></span></Link>
         </div>
         <div className='grid gap-4 sm:grid-cols-3'>
           {!isLoading && data?.tests.slice(0, 3).map(test => (
-            <article key={test._id} className='bg-white text flex justify-between flex-col rounded-lg shadow p-4'>
+            <article key={test._id} className='bg-white relative text flex justify-between flex-col rounded-lg shadow p-4'>
               <div className='flex gap-4 items-center py-2 px-4 rounded-lg'>
                 <span className='flex gap-1'>
                   {[...Array(test.note).keys()].map(x => (
@@ -267,25 +278,31 @@ const Home = () => {
                 </p>
               </div>
               <div className='flex items-center p-2 gap-4'>
-                <img src={test.author.image} alt="profile" className='h-14 w-14 border-white shadow rounded-full' />
+                <img src={test.author.image ? test.author.image : profile} alt="profile" className='h-14 w-14 border-white shadow rounded-full' />
                 <div>
                   <p className='font-bold'>{test.author.username}</p>
                   <p className='text-gray-300'>{subtract(0, test.createdAt).fromNow()}</p>
                 </div>
               </div>
+              <span className="absolute top-10 right-4 opacity-20"><img src={Quote} className='h-[4rem]' alt="quote" /></span>
             </article>
           ))}
         </div>
       </section>
       <section className='p-6'>
         <h1 className='head_text mb-6'>Sponsors et partenaires</h1>
-        <p>invitation claire a reserver des billets de train sur l'application - Buttons d;appel a l'action bien visible.</p>
+        <div className='flex items-center justify-between flex-wrap gap-4'>
+          <img className='h-20 w-15' src={Telma} alt="" />
+          <img className='h-24 w-48' src={Mvola} alt="" />
+          <img className='h-[4rem]' src={Coca} alt="" />
+          <img className='h-[4rem]' src={Visa} alt="" />
+          <img className='h-20 w-15' src={Orange} alt="" />
+        </div>
+        <p className='mt-4 text-gray-600 text-center font-semibold text-2xl'>Oublier les tracas de la réservation traditionnelle et profitez du confort de notre application conviviale.</p>
+        <div className="flex mt-4 justify-center">
+          <button onClick={() => navigate('/trip')} className='button_primary uppercase'>Réservez dès maintenant <FaArrowRight className='ml-2' /></button>
+        </div>
       </section>
-      <footer className='p-6'>
-        <p>Lien vers laes pages de politique de confidentialite ,conditions d'utilisations, etc</p>
-        <p>Coordonnee et contact sur l'entreprise</p>
-        <p>Copyright et mentions legales</p>
-      </footer>
     </main >
   )
 }
