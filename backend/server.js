@@ -71,11 +71,9 @@ const getAdmin = () => {
 }
 
 io.on('connection', (socket) => {
-   console.log("A user connected: ", socket.id);
 
    socket.on('storeUserId', ({ _id, isAdmin }) => {
       addUser(_id, socket.id, isAdmin);
-      console.log(userSockets);
       const user = getUserById(_id);
       if (pendingNotifications[user.id]){
          io.to(user.socketId).emit("receive pending notification", pendingNotifications[user.id], () => {
@@ -103,7 +101,6 @@ io.on('connection', (socket) => {
       }
    })
    socket.on('disconnect', () => {
-      removeUser(socket.id)
-      console.log("A user disconnected: ", socket.id);
+      removeUser(socket.id);
    })
 })
