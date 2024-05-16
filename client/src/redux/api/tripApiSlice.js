@@ -56,7 +56,13 @@ export const tripApiSlice = apiSlice.injectEndpoints({
             url: `${TRIP_URL}/${tripId}/completed`,
             method: "PUT"
          })
+      }),
+      updateTripNotifSent: builder.mutation({
+         query: (tripId) => ({
+            url: `${TRIP_URL}/${tripId}/notif-sent`,
+            method: "PUT"
+         })
       })
    })
 })
-export const { useGetTripsQuery, useGetAllTripsQuery, useGetTripQuery, useCreateTripMutation, useUpdateTripMutation, useDeleteTripMutation, useUpdateTripCancelledMutation, useUpdateTripCompletedMutation, useUpdateTripInProgressMutation } = tripApiSlice;
+export const { useGetTripsQuery, useUpdateTripNotifSentMutation, useGetAllTripsQuery, useGetTripQuery, useCreateTripMutation, useUpdateTripMutation, useDeleteTripMutation, useUpdateTripCancelledMutation, useUpdateTripCompletedMutation, useUpdateTripInProgressMutation } = tripApiSlice;

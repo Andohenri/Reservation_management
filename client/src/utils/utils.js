@@ -17,7 +17,7 @@ export function setSatus(status) {
       return 'Arrivé'
    }
 }
-export function uniqueArray(arr) {
+export async function uniqueArray(arr) {
    const uniqueSet = new Set(arr)
    return [...uniqueSet]
 }

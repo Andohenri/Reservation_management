@@ -6,7 +6,7 @@ export const makeReservation = async (req, res) => {
    try {
       const tripFound = await Trip.findById(trip)
       if (tripFound) {
-         if (tripFound.avalaible_seats > nbrTickets) {
+         if (tripFound.avalaible_seats >= nbrTickets) {
             tripFound.avalaible_seats = tripFound.avalaible_seats - nbrTickets
             const reservation = new Reservation({
                ...req.body,

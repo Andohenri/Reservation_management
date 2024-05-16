@@ -115,3 +115,12 @@ export const updateTripToCancelled = async (req, res) => {
       return res.status(500).json({ message: "Something went wrong" });
    }
 }
+
+export const updateTripToNotifSent = async (req, res) => {
+   try {
+      const trip = await Trip.findByIdAndUpdate(req.params.tripId, { isNotifSent: true }, { new: true });
+      return res.status(200).json(trip);
+   } catch (error) {
+      return res.status(500).json({ message: "Something went wrong" });
+   }
+}

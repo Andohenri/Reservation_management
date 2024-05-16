@@ -16,35 +16,6 @@ const AdminTrip = () => {
   const [updateToCancelled] = useUpdateTripCancelledMutation();
   const navigate = useNavigate();
 
-
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      data?.map(async trip => {
-        const currentDate = subtract(0, new Date());
-        const departure_date = subtract(0, new Date(trip.departure_date));
-        const arrival_date = subtract(0, new Date(trip.arrival_date));
-        if (currentDate.isBetween(departure_date, arrival_date)) {
-          if (trip.status !== 'in progress') {
-            await updateToInProgress(trip._id).unwrap()
-            await refetch();
-          }
-        } else if (currentDate.isAfter(arrival_date)) {
-          if (trip.status !== 'completed') {
-            await updateToCompleted(trip._id).unwrap();
-            await refetch();
-          }
-        }
-      })
-      console.log('interval');
-    }, 5000);
-
-    return () => {
-      clearInterval(interval);
-    }
-  }, [])
-
-
   const handleSearch = (e) => {
     // TODO
     setSearch(e.target.value)
