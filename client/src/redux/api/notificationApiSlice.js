@@ -15,6 +15,12 @@ export const notificationApiSlice = apiSlice.injectEndpoints({
             method: "DELETE"
          })
       }),
+      markAllMyNotificationsAsRead: builder.mutation({
+         query: () => ({
+            url: `${NOTIFICATION_URL}/my-notifications`,
+            method: "PUT"
+         })
+      }),
       sendNotification: builder.mutation({
          query: (data) => ({
             url: `${NOTIFICATION_URL}`,
@@ -35,4 +41,5 @@ export const {
    useGetMyNotificationsQuery, 
    useSendNotificationMutation, 
    useDeleteNotificationMutation,
+   useMarkAllMyNotificationsAsReadMutation
 } = notificationApiSlice;

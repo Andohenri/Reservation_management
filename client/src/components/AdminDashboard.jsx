@@ -17,6 +17,17 @@ const AdminDashboard = () => {
   const [updateToCompleted] = useUpdateTripCompletedMutation();
   const [updateToNotifSent] = useUpdateTripNotifSentMutation();
   const [sendNotification] = useSendNotificationMutation();
+  
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      await refetch();
+    }, 60000);
+  
+    return () => {
+      clearInterval(interval);
+    }
+  }, [])
+  
 
   useEffect(() => {
     const interval = setInterval(async () => {

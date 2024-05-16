@@ -5,15 +5,15 @@ import Reservation from "../models/reservation.model.js";
 export const createNotification = async (req, res) => {
    try {
       let message;
-      const { type, trip: tripId, reservation: reservationId, recipientId } =  req.body
-      
-      if(type === 'paymentReminder'){
+      const { type, trip: tripId, reservation: reservationId, recipientId } = req.body
+
+      if (type === 'paymentReminder') {
          const reservation = await Reservation.findById(reservationId).populate("trip", "destination departure_date")
          message = `Merci de payer votre réservation pour le voyage à destination de ${reservation.trip.destination} le ${new Date(reservation.trip.departure_date).toLocaleString()}`;
-      }else if(type === 'tripReminder'){
+      } else if (type === 'tripReminder') {
          const trip = await Trip.findById(tripId)
          message = `Rappel: votre voyage à destination ${trip.destination} commence le ${new Date(trip.departure_date).toLocaleString()}. Assurez-vous d'être prêt !`;
-      }else if(type === 'tripUpdate'){
+      } else if (type === 'tripUpdate') {
          const trip = await Trip.findById(tripId)
          message = `Cher client, nous tenons à vous informer qu'il y a eu un changement dans les détails du voyage que vous avez réservé. Veuillez consulter les nouvelles informations dans votre espace personnel. Merci pour votre comprehension.`;
       }
@@ -26,7 +26,7 @@ export const createNotification = async (req, res) => {
       await notification.save()
       return res.status(201).json(notification)
    } catch (error) {
-      return res.status(500).json({message: "il y a un problème de serveur, veuillez le vérifier"})
+      return res.status(500).json({ message: "il y a un problème de serveur, veuillez le vérifier" })
    }
 }
 
@@ -35,16 +35,17 @@ export const deleteNotification = async (req, res) => {
       const notification = Notification.findByIdAndDelete(req.params.notifId)
       return res.status(200).json(notification)
    } catch (error) {
-      res.status(500).json({message: "il y a un problème de serveur, veuillez le vérifier"})
+      res.status(500).json({ message: "il y a un problème sur le serveur, veuillez le vérifier" })
    }
 }
 
 export const deleteAllNotification = async (req, res) => {
    try {
-      const notifications = Notification.deleteMany({recipientId: req.user._id})
+      const notifications = await Notification.deleteMany({ recipientId: req.user._id })
       return res.status(200).json(notifications)
    } catch (error) {
-      res.status(500).json({message: "il y a un problème de serveur, veuillez le vérifier"})
+      console.log(error);
+      res.status(500).json({ message: "il y a un problème sur le serveur, veuillez le vérifier" })
    }
 }
 
@@ -53,15 +54,24 @@ export const getNotifications = async (req, res) => {
    const pageSize = parseInt(req.query.pageSize) || 10;
    const skipAmount = (pageNumber - 1) * pageSize;
    try {
-      const notifications = await Notification.find({recipientId: req.user._id})
-         .sort({createdAt: -1})
+      const notifications = await Notification.find({ recipientId: req.user._id })
+         .sort({ createdAt: -1 })
          .skip(skipAmount)
          .limit(pageSize)
          .exec();
-      const totalsCount = await Notification.countDocuments({recipientId: req.user._id});
+      const totalsCount = await Notification.countDocuments({ recipientId: req.user._id });
       const isNext = totalsCount > skipAmount + notifications.length;
       return res.status(200).json({ notifications, isNext });
    } catch (error) {
-      return res.status(500).json({message: "il y a un problème de serveur, veuillez le vérifier"});
+      return res.status(500).json({ message: "il y a un problème de serveur, veuillez le vérifier" });
+   }
+}
+
+export const markAllNotificationsAsRead = async (req, res) => {
+   try {
+      const notifications = await Notification.updateMany({ recipientId: req.user._id }, { isRead: true });
+      return res.status(200).json(notifications);
+   } catch (error) {
+      return res.status(500).json({ message: "il y a un problème de serveur, veuillez le vérifier" });
    }
 }
