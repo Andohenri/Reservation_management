@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import SearchBar from '../../../components/SearchBar';
 import { toast } from 'react-toastify';
 import { subtract } from '../../../utils/utils';
+import MessageInfo from '../../../components/MessageInfo';
 
 const AdminTrip = () => {
   const [trips, setTrips] = useState([])
@@ -118,13 +119,9 @@ const AdminTrip = () => {
           </table>
         </div>
       ) : (
-        <section className='flex justify-center'>
-          <h1>Pas de voyages</h1>
-        </section>
+        <MessageInfo message={"Pas de voyage."} />
       ) : (
-        <section className='flex justify-center'>
-          <h1>Loading...</h1>
-        </section>
+        <MessageInfo message={"Chargement..."} />
       )}
     </section>
   )

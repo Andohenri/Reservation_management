@@ -3,6 +3,7 @@ import { FaHourglassEnd, FaTimes } from 'react-icons/fa';
 import { MdPayment } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import MessageInfo from '../components/MessageInfo';
 import { useCancelledReservationMutation, useGetMyReservationsQuery } from '../redux/api/reservationApiSlice'
 import { subtract } from '../utils/utils';
 
@@ -70,13 +71,9 @@ const ReservationManagement = () => {
           </table>
         </div>
       ) : (
-        <section className='flex justify-center'>
-          <h1>Pas de résérvations</h1>
-        </section>
+        <MessageInfo message={"Pas de résérvations"} />
       ) : (
-        <section className='flex justify-center'>
-          <h1>Chargement...</h1>
-        </section>
+        <MessageInfo message={"Chargement..."} />
       )}
     </section>
   )

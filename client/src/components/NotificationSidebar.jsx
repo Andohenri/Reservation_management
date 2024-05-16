@@ -13,6 +13,7 @@ import socket from '../utils/socket';
 import { subtract } from '../utils/utils';
 import { toast } from 'react-toastify';
 import ModalConfirm from './ModalConfirm';
+import MessageInfo from './MessageInfo';
 
 
 const NotificationSidebar = () => {
@@ -125,13 +126,9 @@ const NotificationSidebar = () => {
                   </div>
                </>
             ) : (
-               <div className='flex justify-center'>
-                  <h1>Aucune notification</h1>
-               </div>
+               <MessageInfo message={"Aucune notification"} />
             ) : (
-               <div className='flex justify-center'>
-                  <h1>Chargement...</h1>
-               </div>
+               <MessageInfo message={"Chargement..."} />
             )}
 
          </div>

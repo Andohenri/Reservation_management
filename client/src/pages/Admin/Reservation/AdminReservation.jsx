@@ -8,6 +8,7 @@ import { subtract } from '../../../utils/utils';
 import { toast } from 'react-toastify';
 import socket from '../../../utils/socket'
 import { useSendNotificationMutation } from '../../../redux/api/notificationApiSlice'
+import MessageInfo from '../../../components/MessageInfo'
 
 const AdminReservation = () => {
   const {data, isLoading, refetch} = useGetAllReservationQuery()
@@ -97,13 +98,9 @@ const AdminReservation = () => {
           </table> 
         </div>
       ) : (
-        <section className='flex justify-center'>
-          <h1>Pas de résérvations</h1>
-        </section>
+        <MessageInfo message={"Pas de résérvation."} />
       ) : (
-        <section className='flex justify-center'>
-          <h1>Loading...</h1>
-        </section>
+        <MessageInfo message={"Chargement..."} />
       )}
     </section>
   )

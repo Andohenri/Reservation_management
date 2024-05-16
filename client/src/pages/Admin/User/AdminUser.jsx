@@ -3,6 +3,7 @@ import { FaCheck, FaEdit, FaTimes, FaTrash } from 'react-icons/fa';
 import SearchBar from '../../../components/SearchBar';
 import { useGetAllUsersQuery } from '../../../redux/api/userApiSlice';
 import ProfileImage from '../../../assets/profile.jpg';
+import MessageInfo from '../../../components/MessageInfo';
 
 const AdminUser = () => {
   const { data, refetch, isLoading, error } = useGetAllUsersQuery()
@@ -110,9 +111,7 @@ const AdminUser = () => {
           </table>
         </div>
       ) : (
-        <section className='flex justify-center'>
-          <h1>Loading...</h1>
-        </section>
+        <MessageInfo message={"Chargement..."} />
       )}
     </section>
   )

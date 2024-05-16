@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { useDeleteTrainMutation, useGetAllTrainsQuery, useUpdateTrainAvalaibleMutation, useUpdateTrainInMaintenanceMutation, useUpdateTrainUnavalaibleMutation } from '../../../redux/api/trainApiSlice.js'
 import { toast } from 'react-toastify';
 import SearchBar from '../../../components/SearchBar.jsx';
+import MessageInfo from '../../../components/MessageInfo.jsx';
 
 const AdminTrain = () => {
   const [trains, setTrains] = useState([])
@@ -114,13 +115,9 @@ const AdminTrain = () => {
           </table>
         </div>
       ) : (
-        <section className='flex justify-center'>
-          <h1>Pas de Trains</h1>
-        </section>
+        <MessageInfo message={"Pas de train disponible."} />
       ) : (
-        <section className='flex justify-center'>
-          <h1>Loading...</h1>
-        </section>
+        <MessageInfo message={"Chargement..."} />
       )}
     </section>
   )
