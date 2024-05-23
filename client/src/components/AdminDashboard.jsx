@@ -74,7 +74,7 @@ const AdminDashboard = () => {
 
   return (
     <main className='relative max-w-6xl mx-auto px-4 py-6'>
-      <aside className='fixed top-24 p-2 flex flex-col gap-1 right-0 text-gray-800 font-semibold bg-gradient-to-tl from-white/10 to-white/50 backdrop-blur-lg shadow rounded'>
+      <aside className='fixed top-24 p-2 flex flex-col gap-1 right-0 text-gray-800 font-semibold bg-gradient-to-tl from-white/10 to-white/50 backdrop-blur-lg shadow rounded z-10'>
         <NavLink to={'/admin/dashboard'} className='flex mt-2 items-center gap-2'>
           <IoMdAnalytics className='h-8 w-8 sm:h-6 sm:w-6' />
           <span className="hidden sm:inline">Dashboard</span>

@@ -61,7 +61,7 @@ const Register = () => {
                   </div>
                   <div className="flex items-center gap-2 justify-between">
                      <button disabled={isLoading} className="button_primary" type="submit">{isLoading ? "Chargement..." : "Enregistrer"}</button>
-                     <Link to={'/login'} className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Vous avez déja un compte ?</Link>
+                     <Link to={'/login'} className="inline-block align-baseline font-bold text-sm text-indigo-500 hover:text-indigo-800">Vous avez déja un compte ?</Link>
                   </div>
                </form>
             </div>

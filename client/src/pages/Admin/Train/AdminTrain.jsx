@@ -8,7 +8,7 @@ import MessageInfo from '../../../components/MessageInfo.jsx';
 
 const AdminTrain = () => {
   const [trains, setTrains] = useState([])
-  // const [filteredTrains, setFilteredTrains] = useState([])
+  const [filteredTrains, setFilteredTrains] = useState([])
   const [search, setSearch] = useState('')
 
   const ref = useRef()
@@ -21,8 +21,9 @@ const AdminTrain = () => {
   const [deleteTrain] = useDeleteTrainMutation()
   
   const handleSearch = (e) => {
-    // TODO
     setSearch(e.target.value)
+    const tr = trains.filter(tr => tr.name === search)
+    setTrains(tr)
   }
   useEffect(() => {
     setTrains(data)
@@ -65,7 +66,7 @@ const AdminTrain = () => {
         <h1 className='head_text'>Trains</h1>
         <div className='flex gap-4'>
           <SearchBar value={search} handleSearch={handleSearch}/>
-          <button onClick={() => navigate(`new`)} className='button_primary uppercase'><FaPlus size={24}/><span className='hidden sm:block'>Ajouter</span></button>
+          <button onClick={() => navigate(`new`)} className='button_primary lg:mr-10 uppercase'><FaPlus size={24}/><span className='hidden sm:block'>Ajouter</span></button>
         </div>
       </div>
       {!isLoading ? trains?.length > 0 ? (

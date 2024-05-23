@@ -48,9 +48,9 @@ const Header = () => {
          <div className='flex max-w-5xl mx-auto flex-col gap-3 lg:flex-row justify-between z-10'>
             <div className="flex justify-between items-center">
                <h1>
-                  <span className='bg-gradient-to-r from-[#FAB440] to-[#4E47C6] text-lg md:text-2xl font-bold py-0.5 px-2 rounded-lg'>
+                  <Link to={'/'} className='bg-gradient-to-r from-[#FAB440] to-[#4E47C6] text-lg md:text-2xl font-bold py-0.5 px-2 rounded-lg'>
                      Train-Trip
-                  </span>
+                  </Link>
                </h1>
                {userInfo ? (
                   <div className="relative flex gap-4 lg:hidden">
@@ -61,8 +61,9 @@ const Header = () => {
                      <NotifButton />
                   </div>
                ) : (
-                  <div className="relative lg:hidden">
-                     <button className="outline_btn" onClick={() => navigate('/login')}>Se connecter</button>
+                  <div className="flex gap-2 lg:hidden">
+                     <button className="outline_btn" onClick={() => navigate('/register')}>Créer un compte</button>
+                     <button className="btn" onClick={() => navigate('/login')}>Se connecter</button>
                   </div>
                )}
             </div>
@@ -106,8 +107,9 @@ const Header = () => {
                   <NotifButton />
                </div>
             ) : (
-               <div className="hidden lg:block">
-                  <button className="outline_btn" onClick={() => navigate('/login')}>Se connecter</button>
+               <div className="hidden gap-2 lg:flex">
+                  <button className="outline_btn" onClick={() => navigate('/register')}>Créer un compte</button>
+                  <button className="btn" onClick={() => navigate('/login')}>Se connecter</button>
                </div>
             )}
          </div>

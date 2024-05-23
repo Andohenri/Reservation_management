@@ -70,7 +70,7 @@ const AdminUser = () => {
             <tbody className='divide-y divide-gray-200'>
               {data?.map(user => (
                 <tr key={user._id}>
-                  <td><img className='h-12 w-10' src={user.image || ProfileImage} alt={'profile'} /></td>
+                  <td><img className='h-12 w-12 object-cover rounded-full' src={user.image || ProfileImage} alt={'profile'} /></td>
                   <td className="px-6 py-3">{user._id}</td>
                   <td className="px-6 py-3">
                     {editableUser === user._id
@@ -103,7 +103,7 @@ const AdminUser = () => {
                       )
                     }
                   </td>
-                  <td className="px-6 py-3">{user.isAdmin ? <FaCheck className='text-green-500' /> : <FaTimes style={{ color: "red" }} />}</td>
+                  <td className="px-6 py-3">{user.isAdmin ? <FaCheck className='text-green-500 ml-4' /> : <FaTimes className="text-red-600 ml-4"  />}</td>
                   <td className="px-6 py-3">{!user.isAdmin ? <button onClick={() => deleteHandler(user._id)} className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white"><FaTrash /></button> : ''}</td>
                 </tr>
               ))}

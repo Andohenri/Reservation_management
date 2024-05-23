@@ -6,7 +6,7 @@ const Footer = () => {
       <footer className="w-full bg-[#07143F] bg-opacity-90 backdrop-blur-lg text-gray-200">
          <div className="flex flex-col lg:flex-row justify-center lg:justify-between gap-4 max-w-5xl mx-auto items-center py-2 px-2">
             <div className="flex flex-col gap-2 justify-center items-center">
-               <p className="text-base font-semibold"><Link>Conditions d'utilisation</Link> | <Link>Politique de confidentialité</Link></p>
+               <p className="text-base font-semibold"><Link to={'/info-politics?termsofuse'}>Conditions d'utilisation</Link> | <Link to={'/info-politics?politics'}>Politique de confidentialité</Link></p>
                <p className="text-base font-semibold">&copy; 2024 by DjangoBona. Tous droits réservés</p>
             </div>
             <div className="flex flex-col lg:flex-row  items-center gap-4">

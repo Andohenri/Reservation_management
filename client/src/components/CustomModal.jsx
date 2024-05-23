@@ -28,7 +28,7 @@ const CustomModal = ({ isOpen, closeModal }) => {
 
   return (
     <Modal className='modal' overlayClassName='overlay' isOpen={isOpen} onRequestClose={closeModal}>
-      <div onClick={closeModal} className='absolute top-4 right-4'><FaTimes className='text-gray-800' size={24} /></div>
+      <div onClick={closeModal} className='absolute top-4 right-4 cursor-pointer'><FaTimes className='text-gray-800' size={24} /></div>
       <div className='flex_between'>
         <h1 className='head_text mb-4'>Laisser votre avis sur TRAIN-TRIP</h1>
       </div>
@@ -37,7 +37,7 @@ const CustomModal = ({ isOpen, closeModal }) => {
           <label htmlFor="note" className='label'>Avis personnel</label>
           <div className="relative">
             <select className='input_table' id="note" onChange={e => setNote(e.target.value)} value={note} required>
-              <option value="">Séléctionner votre avis</option>
+              <option className='text-gray-400 italic' value="">Séléctionner votre avis</option>
               <option value="1">Insatisfaisant</option>
               <option value="2">Moyen</option>
               <option value="3">Satisfaisant</option>

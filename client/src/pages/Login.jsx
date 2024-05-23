@@ -60,7 +60,7 @@ const Login = () => {
                   </div>
                   <div className="flex items-center gap-2 justify-between">
                      <button disabled={isLoading} className="button_primary" type="submit">{isLoading ? "Connexion..." : "Se connecter"}</button>
-                     <Link to={'/register'} className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800">Vous n'avez pas de compte ?</Link>
+                     <Link to={'/register'} className="inline-block align-baseline font-bold text-sm text-indigo-500 hover:text-indigo-800">Vous n'avez pas de compte ?</Link>
                   </div>
                </form>
             </div>

@@ -109,5 +109,7 @@ html {
     position: fixed;
     inset: 0px;
     background-color: rgba(0, 0, 0, 0.75);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
     z-index: 100;
 }
