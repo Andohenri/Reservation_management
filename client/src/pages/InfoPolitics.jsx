@@ -1,7 +1,21 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { MdOutlineFactory, MdOutlineMail, MdOutlinePhoneIphone, MdOutlinePlace } from 'react-icons/md'
+import { useLocation } from 'react-router-dom';
 
 const InfoPolitics = () => {
+  const { search } = useLocation();
+  const sp = new URLSearchParams(search);
+  const ref1 = useRef();
+  const ref2 = useRef();
+
+  useEffect(() => {
+    if (sp.get('politics') === '') {
+      ref1.current.scrollIntoView({ behavior: 'smooth' })
+    } else if (sp.get('termsofuse') === '') {
+      ref2.current.scrollIntoView({ behavior: 'smooth' })
+    }
+  }, [sp])
+
   return (
     <main className='max-w-5xl mx-auto p-6'>
       <h1 className='head_text mb-2'>Bienvenue sur Train-Trip !</h1>
@@ -26,8 +40,8 @@ const InfoPolitics = () => {
             <span className='strong'>Gestion de voyage simplifiée:</span>
             Gérez vos réservations, suivez vos billets et accédez à vos informations de voyage en un seul endroit.
           </p>
-          <p>
-            <span id='politics' className='strong'>Support client 24h/24 et 7j/7:</span>
+          <p ref={ref1}>
+            <span className='strong'>Support client 24h/24 et 7j/7:</span>
             Notre équipe d'assistance clientèle est disponible 24h/24 et 7j/7 pour vous aider à chaque étape de votre voyage.
           </p>
           <p>Avec Train-Trip, voyager en train n'a jamais été aussi simple et pratique.</p>
@@ -41,7 +55,7 @@ const InfoPolitics = () => {
             <li>Nous recueillons des informations auprès de vous lorsque vous utilisez notre site Web ou notre application. Ces informations peuvent inclure votre nom, votre adresse e-mail, votre numéro de téléphone et vos informations de paiement. Nous utilisons ces informations pour vous fournir nos services, pour améliorer notre application et pour vous envoyer des communications marketing.</li>
             <li>Nous ne partagerons vos informations personnelles avec aucun tiers sans votre consentement. Nous prenons des mesures de sécurité pour protéger vos informations personnelles contre la perte, l'utilisation abusive et l'accès non autorisé.</li>
             <li>Vous avez le droit d'accéder à vos informations personnelles et de les mettre à jour. Vous avez également le droit de demander la suppression de vos informations personnelles.</li>
-            <li id='termofuse'>Pour en savoir plus sur notre politique de confidentialité, veuillez consulter notre site Web ou contacter notre équipe d'assistance clientèle.</li>
+            <li ref={ref2}>Pour en savoir plus sur notre politique de confidentialité, veuillez consulter notre site Web ou contacter notre équipe d'assistance clientèle.</li>
           </ul>
         </div>
       </section>
