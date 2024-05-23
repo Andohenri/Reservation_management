@@ -1,4 +1,5 @@
 import React from 'react'
+import { MdOutlineFactory, MdOutlineMail, MdOutlinePhoneIphone, MdOutlinePlace } from 'react-icons/md'
 
 const InfoPolitics = () => {
   return (
@@ -131,10 +132,10 @@ const InfoPolitics = () => {
           <h2 className='font-extrabold'><span className='text-indigo-500 text-2xl font-extrabold mr-2'>#</span>Mentions légales</h2>
           <div className='flex flex-wrap font-semibold p-4 justify-between gap-4'>
             <div>
-              <p>Train Company</p>
-              <p>Rue de Destin Finarantsoa 302</p>
-              <p>+261 20 22 202 02</p>
-              <p>trip@train_company.org</p>
+              <p><MdOutlineFactory className='mr-2 inline' />Train Company</p>
+              <p><MdOutlinePlace className='mr-2 inline' />Rue de Destin Finarantsoa 302</p>
+              <p><MdOutlinePhoneIphone className='mr-2 inline' />+261 20 22 202 02</p>
+              <p><MdOutlineMail className='mr-2 inline' />trip@train_company.org</p>
               <p>Directeur de la publication: Ando Henri</p>
             </div>
             <div>
