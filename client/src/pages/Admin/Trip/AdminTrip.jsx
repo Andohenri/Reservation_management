@@ -9,6 +9,7 @@ import MessageInfo from '../../../components/MessageInfo';
 
 const AdminTrip = () => {
   const [trips, setTrips] = useState([])
+  const [tripsFiltered, setTripsFiltered] = useState([])
   const [search, setSearch] = useState('')
   const { data, isLoading, refetch } = useGetAllTripsQuery();
   const [deleteTrip] = useDeleteTripMutation();
@@ -17,14 +18,26 @@ const AdminTrip = () => {
   const [updateToCancelled] = useUpdateTripCancelledMutation();
   const navigate = useNavigate();
 
-  const handleSearch = (e) => {
-    // TODO
-    setSearch(e.target.value)
-  }
   useEffect(() => {
     refetch()
     setTrips(data)
+    setTripsFiltered(data)
   }, [data, refetch])
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value.toLowerCase());
+    if (!search) {
+      return setTripsFiltered(data);
+    }
+    const filtered = trips.filter(trip => trip.origin.toLowerCase().includes(search) || trip.destination.toLowerCase().includes(search))
+    if (filtered.length) {
+      setTripsFiltered(filtered)
+    } else {
+      setTripsFiltered(data)
+    }
+  }
+
+  
 
   const handleDelete = async (id) => {
     if (window.confirm('Etes-vous sûr de vouloir supprimer ce train?')) {
@@ -65,7 +78,7 @@ const AdminTrip = () => {
           <button onClick={() => navigate(`new`)} className='button_primary lg:mr-10 uppercase'><FaPlus size={24} /><span className='hidden sm:block'>Ajouter</span></button>
         </div>
       </div>
-      {!isLoading ? trips?.length > 0 ? (
+      {!isLoading ? tripsFiltered?.length > 0 ? (
         <div className="shadow-inner h-[32rem] overflow-x-scroll w-[88%] xl:w-full">
           <table className="table-auto w-full divide-y divide-gray-500">
             <thead>
@@ -83,7 +96,7 @@ const AdminTrip = () => {
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-200'>
-              {trips?.map(trip => (
+              {tripsFiltered?.map(trip => (
                 <tr key={trip._id}>
                   <td className="px-6 py-3">{trip.trainId?.name}</td>
                   <td className="px-6 py-3">{trip.origin}</td>

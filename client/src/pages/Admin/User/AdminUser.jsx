@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaCheck, FaEdit, FaTimes, FaTrash } from 'react-icons/fa';
 import SearchBar from '../../../components/SearchBar';
 import { useGetAllUsersQuery } from '../../../redux/api/userApiSlice';
@@ -13,7 +13,28 @@ const AdminUser = () => {
   const [editableUser, setEditableUser] = useState(null)
   const [editableUserName, setEditableUserName] = useState('')
   const [editableUserEmail, setEditableUserEmail] = useState('')
+  const [users, setUsers] = useState([])
+  const [usersFiltered, setUsersFiltered] = useState([])
+
+  useEffect(() => {
+    setUsers(data)
+    setUsersFiltered(data)
+  }, [data])
+
+
   const [search, setSearch] = useState('')
+  const handleSearch = (e) => {
+    setSearch(e.target.value.toLowerCase());
+    if (!search) {
+      return setUsersFiltered(data);
+    }
+    const filtered = users.filter(user => user.username.toLowerCase().includes(search) || user.email.toLowerCase().includes(search))
+    if (filtered.length) {
+      setUsersFiltered(filtered)
+    } else {
+      setUsersFiltered(data)
+    }
+  }
 
   const updateHandler = async (id) => {
     try {
@@ -52,7 +73,7 @@ const AdminUser = () => {
     <section>
       <div className='flex justify-between items-center pb-5 w-[88%] xl:w-full'>
         <h1 className='head_text'>Clients</h1>
-        <SearchBar value={search} handleSearch={(e) => setSearch(e.target.value)} />
+        <SearchBar value={search} handleSearch={handleSearch} />
       </div>
       {!isLoading ? (
         <div className="shadow-inner h-[32rem] overflow-x-scroll lg:overflow-x-hidden w-[90%] xl:w-full">
@@ -68,7 +89,7 @@ const AdminUser = () => {
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-200'>
-              {data?.map(user => (
+              {usersFiltered?.map(user => (
                 <tr key={user._id}>
                   <td><img className='h-12 w-12 object-cover rounded-full' src={user.image || ProfileImage} alt={'profile'} /></td>
                   <td className="px-6 py-3">{user._id}</td>
@@ -103,7 +124,7 @@ const AdminUser = () => {
                       )
                     }
                   </td>
-                  <td className="px-6 py-3">{user.isAdmin ? <FaCheck className='text-green-500 ml-4' /> : <FaTimes className="text-red-600 ml-4"  />}</td>
+                  <td className="px-6 py-3">{user.isAdmin ? <FaCheck className='text-green-500 ml-4' /> : <FaTimes className="text-red-600 ml-4" />}</td>
                   <td className="px-6 py-3">{!user.isAdmin ? <button onClick={() => deleteHandler(user._id)} className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white"><FaTrash /></button> : ''}</td>
                 </tr>
               ))}

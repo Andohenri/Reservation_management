@@ -8,7 +8,7 @@ import MessageInfo from '../../../components/MessageInfo.jsx';
 
 const AdminTrain = () => {
   const [trains, setTrains] = useState([])
-  const [filteredTrains, setFilteredTrains] = useState([])
+  const [trainsFiltered, setTrainsFiltered] = useState([])
   const [search, setSearch] = useState('')
 
   const ref = useRef()
@@ -19,15 +19,25 @@ const AdminTrain = () => {
   const [updateToUnavalaible] = useUpdateTrainUnavalaibleMutation()
   const [updateToInMaintenance] = useUpdateTrainInMaintenanceMutation()
   const [deleteTrain] = useDeleteTrainMutation()
-  
-  const handleSearch = (e) => {
-    setSearch(e.target.value)
-    const tr = trains.filter(tr => tr.name === search)
-    setTrains(tr)
-  }
+
   useEffect(() => {
     setTrains(data)
+    setTrainsFiltered(data)
   }, [data])
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value.toLowerCase());
+    if (!search) {
+      return setTrainsFiltered(data);
+    }
+    const filtered = trains.filter(train => train.name.toLowerCase().includes(search) || train.type.toLowerCase().includes(search))
+    if (filtered.length) {
+      setTrainsFiltered(filtered)
+    } else {
+      setTrainsFiltered(data)
+    }
+  }
+  
 
   const handleDelete = async (id) => {
     if(window.confirm('Etes-vous sûr de vouloir supprimer ce train?')){
@@ -69,7 +79,7 @@ const AdminTrain = () => {
           <button onClick={() => navigate(`new`)} className='button_primary lg:mr-10 uppercase'><FaPlus size={24}/><span className='hidden sm:block'>Ajouter</span></button>
         </div>
       </div>
-      {!isLoading ? trains?.length > 0 ? (
+      {!isLoading ? trainsFiltered?.length > 0 ? (
         <div className="shadow-inner h-[32rem] overflow-x-scroll lg:overflow-x-hidden w-[88%] xl:w-full">
           <table className="table-auto w-full divide-y divide-gray-500">
             <thead>
@@ -84,7 +94,7 @@ const AdminTrain = () => {
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-200'>
-              {trains?.map(train => (
+              {trainsFiltered?.map(train => (
                 <tr key={train._id}>
                   <td className="px-6 py-3">{train.name}</td>
                   <td className="px-6 py-3">{train.type}</td>

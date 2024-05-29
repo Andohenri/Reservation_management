@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FaPlus, FaTimes } from 'react-icons/fa'
+import { FaCaretDown, FaPlus, FaTimes } from 'react-icons/fa'
 import { IoSend } from 'react-icons/io5'
 import { useNavigate } from 'react-router-dom'
 import SearchBar from '../../../components/SearchBar'
@@ -11,20 +11,46 @@ import { useSendNotificationMutation } from '../../../redux/api/notificationApiS
 import MessageInfo from '../../../components/MessageInfo'
 
 const AdminReservation = () => {
-  const {data, isLoading, refetch} = useGetAllReservationQuery()
+  const { data, isLoading, refetch } = useGetAllReservationQuery()
   const [cancelledReservation] = useCancelledReservationMutation()
   const [sendNotification] = useSendNotificationMutation()
 
   const [search, setSearch] = useState('')
+  const [filter, setFilter] = useState('')
   const [reservations, setReservations] = useState([])
-  const [isOpen, setIsOpen] = useState(false)
-  const navigate = useNavigate()
-  const handleSearch = () => {
+  const [reservationsFiltered, setReservationsFiltered] = useState([])
 
+  useEffect(() => {
+    refetch()
+    setReservations(data)
+    setReservationsFiltered(data)
+  }, [data, refetch])
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value.toLowerCase());
+    if (!search) {
+      return setReservationsFiltered(data);
+    }
+    const filtered = reservations.filter(res => res.user.username.toLowerCase().includes(search) || res.trip.destination.toLowerCase().includes(search) || res.trip.origin.toLowerCase().includes(search))
+    if (filtered.length) {
+      setReservationsFiltered(filtered)
+    } else {
+      setReservationsFiltered(data)
+    }
+  }
+
+  const handleFilter = (e) => {
+    setFilter(e.target.value);
+    const filtered = filter === "paid" ? reservations.filter(res => res.isPaid) : filter === "nopaid" ? reservations.filter(res => !res.isPaid) : data
+    if (filtered.length) {
+      setReservationsFiltered(filtered)
+    } else {
+      setReservationsFiltered(data)
+    }
   }
 
   const handleDelete = async (id) => {
-    if(window.confirm('Etes-vous sûr de vouloir annuler ce réservation?')){
+    if (window.confirm('Etes-vous sûr de vouloir annuler ce réservation?')) {
       try {
         const res = await cancelledReservation(id).unwrap()
         toast.info("Le Reservation a été annuler.")
@@ -36,26 +62,31 @@ const AdminReservation = () => {
   }
   const sentNotification = async (reservationId, userId) => {
     try {
-      const res = await sendNotification({recipientId: userId, type: 'paymentReminder', reservation: reservationId}).unwrap();
-      socket.emit("send notification", {userId , content: res});
+      const res = await sendNotification({ recipientId: userId, type: 'paymentReminder', reservation: reservationId }).unwrap();
+      socket.emit("send notification", { userId, content: res });
       toast.success("Notification envoyé")
     } catch (error) {
       toast.error(error?.data?.message || error?.message || error);
     }
   }
-  useEffect(() => {
-    setReservations(data)
-  }, [data])
-  
+
   return (
     <section>
       <div className='flex justify-between items-center pb-5 w-[88%] xl:w-full'>
         <h1 className='head_text'>Reservations</h1>
         <div className='flex gap-4'>
-          <SearchBar value={search} handleSearch={handleSearch}/>
+          <div className='relative w-[150px]'>
+            <select className='input_table' value={filter} onChange={handleFilter}>
+              <option value="">Tout</option>
+              <option value="paid">Payé</option>
+              <option value="nopaid">Non payé</option>
+            </select>
+            <span className='absolute top-3 right-1 md:right-2 pointer-events-none'><FaCaretDown className='text-gray-800' /></span>
+          </div>
+          <SearchBar value={search} handleSearch={handleSearch} />
         </div>
       </div>
-      {!isLoading ? reservations?.length > 0 ? (
+      {!isLoading ? reservationsFiltered?.length > 0 ? (
         <div className="shadow-inner h-[32rem] overflow-x-scroll w-[88%] xl:w-full">
           <table className="table-auto w-full divide-y divide-gray-500">
             <thead>
@@ -71,7 +102,7 @@ const AdminReservation = () => {
               </tr>
             </thead>
             <tbody className='divide-y divide-gray-200'>
-              {reservations?.map(reservation => (
+              {reservationsFiltered?.map(reservation => (
                 <tr key={reservation._id}>
                   <td className="px-6 py-3">{reservation?.user?.username}</td>
                   <td className="px-6 py-3"><span className='block'>{reservation?.trip?.origin}</span><span>{subtract(3, reservation?.trip?.departure_date).fromNow()}</span></td>
@@ -92,7 +123,7 @@ const AdminReservation = () => {
                 </tr>
               ))}
             </tbody>
-          </table> 
+          </table>
         </div>
       ) : (
         <MessageInfo message={"Pas de résérvation."} />
