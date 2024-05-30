@@ -4,12 +4,12 @@ import { MdMailOutline, MdOutlinePhone, MdOutlinePlace } from 'react-icons/md'
 const Contact = () => {
   return (
     <main className='max-w-5xl mx-auto p-6'>
-      <h1 className='head_text mb-6'>Get in touch</h1>
-      <p className='mb-6 desc'>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero alias labore molestiae dolore eius libero nobis facilis rerum magni voluptates esse, commodi, officiis aut voluptatum sapiente expedita hic velit autem?
-      </p>
+      <h1 className='head_text mb-6'>Entrer en contact</h1>
       <div className='flex items-center flex-col md:flex-row gap-4 justify-between'>
         <div className='flex flex-col gap-4 pb-12 font-semibold text-gray-800'>
+          <p className='mb-6 desc font-normal'>
+            Nous sommes là pour répondre à toutes votre questions et vous fournir l'assistance nécessaire. N'hésiter pas à nous contacter via les moyens suivants:
+          </p>
           <div className='flex items-center gap-4'>
             <MdOutlinePlace size={24} />
             <div>
