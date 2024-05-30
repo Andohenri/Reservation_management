@@ -41,7 +41,7 @@ const AdminReservation = () => {
 
   const handleFilter = (e) => {
     setFilter(e.target.value);
-    const filtered = filter === "paid" ? reservations.filter(res => res.isPaid) : filter === "nopaid" ? reservations.filter(res => !res.isPaid) : data
+    const filtered = e.target.value === "paid" ? reservations.filter(res => res.isPaid) : e.target.value === "nopaid" ? reservations.filter(res => !res.isPaid) : data
     if (filtered.length) {
       setReservationsFiltered(filtered)
     } else {
