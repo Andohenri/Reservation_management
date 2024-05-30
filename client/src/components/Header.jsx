@@ -79,7 +79,7 @@ const Header = () => {
                   </NavLink>
                   <NavLink to={'/testimonial'} className='flex items-center gap-2'>
                      <GiHiveMind className="h-8 w-8 sm:h-6 sm:w-6" />
-                     <span className="hidden sm:inline">Testimonials</span>
+                     <span className="hidden sm:inline">Témoignages</span>
                   </NavLink>
                   <NavLink to={'/contact'} className='flex items-center gap-2'>
                      <MdContactPhone className="h-8 w-8 sm:h-6 sm:w-6" />

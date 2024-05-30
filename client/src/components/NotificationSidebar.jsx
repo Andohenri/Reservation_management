@@ -7,7 +7,7 @@ import { CgOptions } from 'react-icons/cg';
 import { CiRead } from 'react-icons/ci';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { useDeleteAllMyNotificationsMutation, useGetMyNotificationsQuery, useMarkAllMyNotificationsAsReadMutation } from '../redux/api/notificationApiSlice';
+import { useDeleteAllMyNotificationsMutation, useDeleteNotificationMutation, useGetMyNotificationsQuery, useMarkAllMyNotificationsAsReadMutation } from '../redux/api/notificationApiSlice';
 import { resetState, setNotifExpand, setNotification } from '../redux/features/notif/notifSlice';
 import socket from '../utils/socket';
 import { subtract } from '../utils/utils';
@@ -15,6 +15,39 @@ import { toast } from 'react-toastify';
 import ModalConfirm from './ModalConfirm';
 import MessageInfo from './MessageInfo';
 
+const Notification = ({ notif, showNotif, refresh }) => {
+   const [showOpt, setShowOpt] = useState(false);
+   const [deleteNotifications] = useDeleteNotificationMutation();
+   const showOption = () => {
+      setShowOpt(prev => !prev);
+   }
+   const deleteNotif = async (id) => {
+      try {
+         await deleteNotifications(id);
+         await refresh()
+      } catch (error) {
+         toast.error(error?.data?.message || error?.message || error);
+      }
+   }
+   return (
+      <div key={notif._id} className={`p-4 ${!notif.isRead ? 'bg-gradient-to-tl from-white/10 to-[] backdrop-blur-lg' : 'border-b py-4'}`}>
+         <div className='relative flex_between'>
+            {notif.type === 'paymentReminder' ? <MdPayment size={24} /> : notif.type === 'tripUpdate' ? <MdBrowserUpdated size={24} /> : <RiSpeakFill size={24} />}
+            <div onClick={showOption} className='cursor-pointer relative hover:bg-gray-200 z-10 rounded py-1 transition-all'>
+               <SlOptionsVertical />
+               {showOpt && <div className={`absolute bg-white p-2 rounded top-full right-full font-semibold shadow`}>
+                  <h4 onClick={() => {}} className='px-2 py-1 whitespace-nowrap hover:bg-gray-100 rounded cursor-pointer transition-all'><CiRead className='inline mb-1' /> Marquer comme lue</h4>
+                  <h4 onClick={() => deleteNotif(notif._id)} className='px-2 py-1 whitespace-nowrap hover:bg-gray-100 rounded cursor-pointer transition-all'><MdOutlineDelete className='inline mb-1' /> Supprimer cette notification</h4>
+               </div>}
+            </div>
+         </div>
+         <Link onClick={showNotif} to={`/reservation-management`}>
+            <p>{notif.message}</p>
+         </Link>
+         <p className='text-gray-600 text-base flex items-center gap-2'><FaRegClock /> <span>{subtract(0, notif.createdAt).fromNow()}</span></p>
+      </div>
+   )
+}
 
 const NotificationSidebar = () => {
    const [paginationQuery, setPaginationQuery] = useState({
@@ -24,7 +57,7 @@ const NotificationSidebar = () => {
    const [opt, setOpt] = useState(false);
    const { data, isLoading, refetch, error } = useGetMyNotificationsQuery(paginationQuery);
    const [markAllNotifAsRead] = useMarkAllMyNotificationsAsReadMutation();
-   const [deleteAllMyNotifications, {isLoading: loading}] = useDeleteAllMyNotificationsMutation();
+   const [deleteAllMyNotifications, { isLoading: loading }] = useDeleteAllMyNotificationsMutation();
    const { notifExpand } = useSelector(state => state.notif);
    const dispatch = useDispatch();
 
@@ -110,16 +143,7 @@ const NotificationSidebar = () => {
             {!isLoading ? data?.notifications?.length > 0 ? (
                <>
                   {data?.notifications?.map(notif => (
-                     <div key={notif._id} className={`p-4 ${!notif.isRead ? 'bg-gradient-to-tl from-white/10 to-[] backdrop-blur-lg' : 'border-b py-4'}`}>
-                        <div className='relative flex_between'>
-                           {notif.type === 'paymentReminder' ? <MdPayment size={24} /> : notif.type === 'tripUpdate' ? <MdBrowserUpdated size={24} /> : <RiSpeakFill size={24} />}
-                           <span className='cursor-pointer hover:bg-gray-200 rounded py-1 transition-all'><SlOptionsVertical /></span>
-                        </div>
-                        <Link onClick={showNotif} to={`/reservation-management`}>
-                           <p>{notif.message}</p>
-                        </Link>
-                        <p className='text-gray-600 text-base flex items-center gap-2'><FaRegClock /> <span>{subtract(0, notif.createdAt).fromNow()}</span></p>
-                     </div>
+                     <Notification notif={notif} key={notif._id} showNotif={showNotif} refresh={fetch} />
                   ))}
                   <div className='px-2 py-4'>
                      {data.isNext && <button onClick={handleNextPage} className='bg-[#07143F]  rounded p-2 w-full text-white text-lg font-semibold uppercase'>Voir plus</button>}

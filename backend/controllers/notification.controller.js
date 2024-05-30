@@ -32,7 +32,7 @@ export const createNotification = async (req, res) => {
 
 export const deleteNotification = async (req, res) => {
    try {
-      const notification = Notification.findByIdAndDelete(req.params.notifId)
+      const notification = await Notification.findByIdAndDelete(req.params.notifId)
       return res.status(200).json(notification)
    } catch (error) {
       res.status(500).json({ message: "il y a un problème sur le serveur, veuillez le vérifier" })
