@@ -38,7 +38,7 @@ export const getAllTestimonials = async (req, res) => {
       const totalsCount = await Testimonial.countDocuments({});
       const isNext = totalsCount > skipAmount + tests.length;
       const note = tests.reduce((acc, item) => acc + item.note, 0);
-      const avg = (note / totalsCount).toFixed(2);
+      const avg = (note / totalsCount).toFixed(1);
       return res.status(200).json({ tests, isNext, avg, totalsCount });
    } catch (error) {
       return res.status(500).json({ message: "Une erreur qui vient du serveur" });
