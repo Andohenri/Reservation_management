@@ -82,7 +82,7 @@ const Home = () => {
           <div className='flex shadow gap-4 items-center bg-white py-2 px-4 rounded-lg'>
             {!isLoading && data?.avg && <>
               <Rating value={data?.avg} color={'yellow'} />
-              <p className='desc'><span className='font-bold'>{data?.avg}</span> sur {data?.totalsCount} reviews</p>
+              <p className='desc'><span className='font-bold'>{data?.avg}</span> sur {data?.totalsCount} avisdf</p>
             </>}
           </div>
         </div>

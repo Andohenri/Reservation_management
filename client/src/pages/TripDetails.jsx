@@ -65,7 +65,7 @@ const TripDetails = () => {
     // Generate PDF
     const pdf = new jsPDF();
     pdf.text('TRAIN-TRIP Ticket', 10, 10);
-    pdf.text(`Reservation n°: ${res._id} pour le voyage de ${res.trip.origin}-${res.trip.destination}`, 10, 20);
+    pdf.text(`Reservation n°: ${res._id}`, 10, 20);
     pdf.text(`Voyage de: ${res.trip.origin}-${res.trip.destination}`, 10, 30);
     pdf.text(`Nom du voyageur: ${res.user.username}`, 10, 40);
     pdf.text(`Email du voyageur: ${res.user.email}`, 10, 50);
