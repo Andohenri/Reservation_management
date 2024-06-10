@@ -7,12 +7,12 @@ export const register = async (req, res) => {
    const { username, email, password } = req.body;
    try {
 
-      if(!username) return res.status(401).json({message: "Username is required"});
-      if(!email) return res.status(401).json({message: "Email is required"});
-      if(!password) return res.status(401).json({message: "Password is required"});
+      if (!username) return res.status(401).json({ message: "Username is required" });
+      if (!email) return res.status(401).json({ message: "Email is required" });
+      if (!password) return res.status(401).json({ message: "Password is required" });
 
       const existingUser = await User.findOne({ email });
-      if(existingUser) return res.status(400).json({ message: "User already exist" });
+      if (existingUser) return res.status(400).json({ message: "User already exist" });
 
       const hashedPassword = bcrypt.hashSync(password, 10);
       const newUser = await User.create({
@@ -27,20 +27,20 @@ export const register = async (req, res) => {
          isAdmin: newUser.isAdmin
       });
    } catch (error) {
-      return res.status(505).json({message: "Failed to create user"});
+      return res.status(505).json({ message: "Failed to create user" });
    }
 }
 export const login = async (req, res) => {
    const { email, password } = req.body;
    try {
-      if(!email) return res.status(401).json({message: "Email is required"});
-      if(!password) return res.status(401).json({message: "Password is required"});
+      if (!email) return res.status(401).json({ message: "Le champ email est requis." });
+      if (!password) return res.status(401).json({ message: "Le mot de passe est requis." });
       const user = await User.findOne({ email });
-      if(!user) return res.status(404).json({message: "User does not exist"});
-      
+      if (!user) return res.status(404).json({ message: "Cet utilisateur n'existe pas ou mot de passe incorrect." });
+
       // compare password
       const isPasswordValid = bcrypt.compareSync(password, user.password);
-      if(!isPasswordValid) return res.status(401).json({ message: "Invalid credentials"});
+      if (!isPasswordValid) return res.status(401).json({ message: "Cet utilisateur n'existe pas ou mot de passe incorrect." });
 
       generateToken(res, user);
       return res.status(200).json({
@@ -51,7 +51,7 @@ export const login = async (req, res) => {
          isAdmin: user.isAdmin
       });
    } catch (error) {
-      return res.status(500).json({message: error})
+      return res.status(500).json({ message: error })
    }
 }
 export const logout = (req, res) => {
@@ -59,40 +59,40 @@ export const logout = (req, res) => {
       httpOnly: true,
       expires: new Date(0)
    })
-   res.status(200).json({message: "Logged out succesfully!"})
+   res.status(200).json({ message: "Logged out succesfully!" })
 }
 export const getAllUsers = async (req, res) => {
    try {
       const users = await User.find({}).select("-password");
       return res.status(200).json(users);
    } catch (error) {
-      return res.status(500).json({message: "Failed to fetch the users"});
+      return res.status(500).json({ message: "Failed to fetch the users" });
    }
 }
 export const getCurrentUserProfile = async (req, res) => {
    try {
       const user = await User.findById(req.user._id).select("-password");
-      if(!user) return res.status(404).json({message: "User not found"});
+      if (!user) return res.status(404).json({ message: "User not found" });
       return res.status(200).json(user);
    } catch (error) {
-      return res.status(500).json({message: "Failed to fetch the users"});
+      return res.status(500).json({ message: "Failed to fetch the users" });
    }
 }
 export const updateCurrentUserProfile = async (req, res) => {
-   const {username, email, password, image} = req.body
+   const { username, email, password, image } = req.body
    try {
       const user = await User.findById(req.user._id);
-      if(!user) return res.status(404).json({ message: "User not found" });
+      if (!user) return res.status(404).json({ message: "User not found" });
       //Check if password exist in the body request
       let hashedPassword
-      if(password) {
+      if (password) {
          hashedPassword = await bcrypt.hashSync(password, 10)
       }
-      if(image){
+      if (image) {
          const filename = user.image.split('/images/')[1]
-         if(filename){
+         if (filename) {
             fs.unlink(`backend/images/${filename}`, (err) => {
-                  if(err) throw err
+               if (err) throw err
             })
          }
       }
@@ -110,34 +110,37 @@ export const updateCurrentUserProfile = async (req, res) => {
 export const deleteUserById = async (req, res) => {
    try {
       const user = await User.findById(req.params.userId);
-      if(!user) return res.status(404).json({error: "User not found."});
+      if (!user) return res.status(404).json({ error: "User not found." });
       const filename = user.image.split('/images/')[1]
-      if(filename){
+      if (filename) {
          fs.unlink(`backend/images/${filename}`, (err) => {
-               if(err) throw err
+            if (err) throw err
          })
       }
       const userDeleted = await User.findByIdAndDelete(req.params.userId);
       res.status(200).json(userDeleted);
    } catch (error) {
-      res.status(500).json({message: "Failed to delete the user"})
-   } 
+      res.status(500).json({ message: "Failed to delete the user" })
+   }
 }
 export const getUserById = async (req, res) => {
    try {
       const user = await User.findById(req.params.userId).select("-password");
-      if(!user) return res.status(404).json({message: "User not found"})
+      if (!user) return res.status(404).json({ message: "User not found" })
       return res.status(200).json(user);
    } catch (error) {
-      return res.status(500).json({message: "Failed to fetch the user"});
+      return res.status(500).json({ message: "Failed to fetch the user" });
    }
 }
 
 export const updateUserById = async (req, res) => {
-   try{
-      const user = await User.findByIdAndUpdate(req.params.userId, {username: req.body.username, email: req.body.email}, {new: true}).select("-password");
+   try {
+      const user = await User.findById(req.params.userId).select("-password");
+      user.username = req.body.username || user.username;
+      user.email = req.body.email || user.email;
+      await user.save();
       return res.status(200).json(user)
-   }catch(error){
-      res.status(500).json({message: "Un erreur est survenue, veuillez verifier le réseau"})
+   } catch (error) {
+      res.status(500).json({ message: "Un erreur est survenue, veuillez verifier le réseau" })
    }
 }
