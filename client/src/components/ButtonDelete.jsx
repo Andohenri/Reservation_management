@@ -12,7 +12,7 @@ const ButtonDelete = ({ request, loading, text }) => {
       {isOpen &&
          <ModalConfirm
             text={text}
-            icon={<MdWarning size={48} className='text-red-400' />}
+            icon={<MdWarning size={48} className='text-red-400 mr-4' />}
             isLoading={loading}
             isOpen={isOpen}
             closeModal={closeModal}

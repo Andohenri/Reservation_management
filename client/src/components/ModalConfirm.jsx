@@ -6,7 +6,7 @@ Modal.setAppElement('#root');
 const ModalConfirm = ({ text, icon, isOpen, closeModal, isLoading, request }) => {
    return (
       <Modal className='modal' overlayClassName='overlay' isOpen={isOpen} onRequestClose={closeModal} >
-         <div className='mb-4 flex gap-2 items-center'>
+         <div className='mb-4 flex gap-2 px-4 items-center'>
             <span>{icon}</span>
             <h1 className='text font-semibold'>{text}</h1>
          </div>
