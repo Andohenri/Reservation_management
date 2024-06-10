@@ -33,7 +33,7 @@ const UpdateTrip = () => {
       const res = await update({ data: tripForm, tripId }).unwrap();
       toast.success("Le voyage a été modifié avec succès");
       navigate('/admin/trips');
-      const passenger = uniqueArray(res?.passenger);
+      const passenger = await uniqueArray(res?.passenger);
       passenger?.map(async (userId) => {
         const resnotif = await sendNotification({recipientId: userId, type: 'tripUpdate', trip: tripId}).unwrap();
         socket.emit("send notification", {userId , content: resnotif});

@@ -6,6 +6,7 @@ import SearchBar from '../../../components/SearchBar';
 import { toast } from 'react-toastify';
 import { subtract } from '../../../utils/utils';
 import MessageInfo from '../../../components/MessageInfo';
+import ButtonDelete from '../../../components/ButtonDelete';
 
 const AdminTrip = () => {
   const [trips, setTrips] = useState([])
@@ -37,17 +38,15 @@ const AdminTrip = () => {
     }
   }
 
-  
+
 
   const handleDelete = async (id) => {
-    if (window.confirm('Etes-vous sûr de vouloir supprimer ce train?')) {
-      try {
-        await deleteTrip(id).unwrap();
-        toast.success("Le voyage a été supprimer.");
-        await refetch();
-      } catch (error) {
-        toast.error(error?.data?.message || error?.message || error);
-      }
+    try {
+      await deleteTrip(id).unwrap();
+      toast.success("Le voyage a été supprimer.");
+      await refetch();
+    } catch (error) {
+      toast.error(error?.data?.message || error?.message || error);
     }
   }
   const handleChange = (id) => async (e) => {
@@ -122,9 +121,7 @@ const AdminTrip = () => {
                     </button>
                   </td>
                   <td className="px-6 py-3">
-                    <button onClick={() => handleDelete(trip._id)} className="transition-all bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white">
-                      <FaTrash />
-                    </button>
+                    <ButtonDelete text={"Etes-vous sur de vouloir supprimer ce voyage ?"} request={() => handleDelete(trip._id)} />
                   </td>
                 </tr>
               ))}

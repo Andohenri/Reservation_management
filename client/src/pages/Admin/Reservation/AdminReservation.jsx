@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import socket from '../../../utils/socket'
 import { useSendNotificationMutation } from '../../../redux/api/notificationApiSlice'
 import MessageInfo from '../../../components/MessageInfo'
+import ButtonDelete from '../../../components/ButtonDelete'
 
 const AdminReservation = () => {
   const { data, isLoading, refetch } = useGetAllReservationQuery()
@@ -116,9 +117,7 @@ const AdminReservation = () => {
                     </button>
                   </td>
                   <td className="px-6 py-3">
-                    <button onClick={() => handleDelete(reservation?._id)} className="transition-all bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white">
-                      <FaTimes />
-                    </button>
+                    <ButtonDelete text={"Etes-vous sur de vouloir annuler ce reservation ?"} request={() => handleDelete(reservation._id)} />
                   </td>
                 </tr>
               ))}

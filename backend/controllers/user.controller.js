@@ -133,12 +133,11 @@ export const getUserById = async (req, res) => {
    }
 }
 
-// export const updateUserById = async (req, res) => {
-//    await User.findById(req.params.userId)
-//    .then(userfound => {
-//        userfound.username = req.body.username || userfound.username
-//        userfound.email = req.body.email || userfound.email
-//        const updateUser = userfound.save()
-//        return res.status(200).json(updateUser)
-//    }).catch(err => res.status(500).json({message: "User not found!"}))
-// }
+export const updateUserById = async (req, res) => {
+   try{
+      const user = await User.findByIdAndUpdate(req.params.userId, {username: req.body.username, email: req.body.email}, {new: true}).select("-password");
+      return res.status(200).json(user)
+   }catch(error){
+      res.status(500).json({message: "Un erreur est survenue, veuillez verifier le réseau"})
+   }
+}

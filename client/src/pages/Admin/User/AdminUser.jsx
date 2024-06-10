@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { FaCheck, FaEdit, FaTimes, FaTrash } from 'react-icons/fa';
 import SearchBar from '../../../components/SearchBar';
-import { useGetAllUsersQuery } from '../../../redux/api/userApiSlice';
+import { useDeleteUserMutation, useGetAllUsersQuery, useUpdateUserMutation } from '../../../redux/api/userApiSlice';
 import ProfileImage from '../../../assets/profile.jpg';
+import ButtonDelete from '../../../components/ButtonDelete';
 import MessageInfo from '../../../components/MessageInfo';
+import { toast } from 'react-toastify';
 
 const AdminUser = () => {
   const { data, refetch, isLoading, error } = useGetAllUsersQuery()
-  // const [deleteUser] = useDeleteUserMutation()
-  // const [updateUser] = useUpdateUserMutation()
+  const [deleteUser] = useDeleteUserMutation()
+  const [updateUser] = useUpdateUserMutation()
 
   const [editableUser, setEditableUser] = useState(null)
   const [editableUserName, setEditableUserName] = useState('')
@@ -17,9 +19,10 @@ const AdminUser = () => {
   const [usersFiltered, setUsersFiltered] = useState([])
 
   useEffect(() => {
+    refetch()
     setUsers(data)
     setUsersFiltered(data)
-  }, [data])
+  }, [data, refetch])
 
 
   const [search, setSearch] = useState('')
@@ -58,14 +61,12 @@ const AdminUser = () => {
     setEditableUserEmail(email)
   }
   const deleteHandler = async (id) => {
-    if (window.confirm("Etes-vous sur de vouloir supprimer ce client ?")) {
-      try {
-        await deleteUser(id).unwrap();
-        toast.success("Un client a été supprimé");
-        await refetch()
-      } catch (error) {
-        toast.error(error?.data?.message || error?.message || error);
-      }
+    try {
+      await deleteUser(id).unwrap();
+      toast.success("Un client a été supprimé");
+      await refetch()
+    } catch (error) {
+      toast.error(error?.data?.message || error?.message || error);
     }
   }
 
@@ -125,7 +126,7 @@ const AdminUser = () => {
                     }
                   </td>
                   <td className="px-6 py-3">{user.isAdmin ? <FaCheck className='text-green-500 ml-4' /> : <FaTimes className="text-red-600 ml-4" />}</td>
-                  <td className="px-6 py-3">{!user.isAdmin ? <button onClick={() => deleteHandler(user._id)} className="bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white"><FaTrash /></button> : ''}</td>
+                  <td className="px-6 py-3">{!user.isAdmin ? <ButtonDelete text={"Etes-vous sur de supprimer ce client ?"} request={() => deleteHandler(user._id)} /> : ''}</td>
                 </tr>
               ))}
             </tbody>

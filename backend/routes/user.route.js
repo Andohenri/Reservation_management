@@ -1,5 +1,5 @@
 import express from 'express';
-import { deleteUserById, getAllUsers, getCurrentUserProfile, getUserById, login, logout, register, updateCurrentUserProfile } from '../controllers/user.controller.js';
+import { deleteUserById, getAllUsers, getCurrentUserProfile, getUserById, login, logout, register, updateCurrentUserProfile, updateUserById } from '../controllers/user.controller.js';
 import { authenticate, authenticateAdmin } from '../middleware/auth.js';
 const userRoute = express.Router();
 
@@ -16,6 +16,7 @@ userRoute.route('/')
 
 userRoute.route('/:userId')
    .delete(authenticate, authenticateAdmin, deleteUserById)
+   .put(authenticate, authenticateAdmin, updateUserById)
    .get(authenticate, getUserById)
    
 export default userRoute;

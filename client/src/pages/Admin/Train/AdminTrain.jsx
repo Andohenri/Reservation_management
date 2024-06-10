@@ -5,6 +5,7 @@ import { useDeleteTrainMutation, useGetAllTrainsQuery, useUpdateTrainAvalaibleMu
 import { toast } from 'react-toastify';
 import SearchBar from '../../../components/SearchBar.jsx';
 import MessageInfo from '../../../components/MessageInfo.jsx';
+import ButtonDelete from '../../../components/ButtonDelete.jsx';
 
 const AdminTrain = () => {
   const [trains, setTrains] = useState([])
@@ -14,7 +15,7 @@ const AdminTrain = () => {
   const ref = useRef()
 
   const navigate = useNavigate()
-  const {data, isLoading, refetch} = useGetAllTrainsQuery();
+  const { data, isLoading, refetch } = useGetAllTrainsQuery();
   const [updateToAvalaible] = useUpdateTrainAvalaibleMutation()
   const [updateToUnavalaible] = useUpdateTrainUnavalaibleMutation()
   const [updateToInMaintenance] = useUpdateTrainInMaintenanceMutation()
@@ -37,29 +38,27 @@ const AdminTrain = () => {
       setTrainsFiltered(data)
     }
   }
-  
+
 
   const handleDelete = async (id) => {
-    if(window.confirm('Etes-vous sûr de vouloir supprimer ce train?')){
-      try {
-        await deleteTrain(id).unwrap()
-        toast.success("Le train a été supprimer.")
-        await refetch()
-      } catch (error) {
-        toast.error(error?.data?.message || error?.message || error);
-      }
+    try {
+      await deleteTrain(id).unwrap()
+      toast.success("Le train a été supprimer.")
+      await refetch()
+    } catch (error) {
+      toast.error(error?.data?.message || error?.message || error);
     }
   }
 
   const handleChange = (id) => async (e) => {
     try {
-      if(e.target.value === 'avalaible'){
+      if (e.target.value === 'avalaible') {
         await updateToAvalaible(id).unwrap()
         toast.success("Ce train est maintenant disponible")
-      }else if(e.target.value === 'unavalaible'){
+      } else if (e.target.value === 'unavalaible') {
         await updateToUnavalaible(id).unwrap()
         toast("Ce train va être temporairement indisponible")
-      }else{
+      } else {
         await updateToInMaintenance(id).unwrap()
         toast.success("Ce train est en maintenance technique")
       }
@@ -75,8 +74,8 @@ const AdminTrain = () => {
       <div className='flex justify-between items-center pb-5 w-[88%] xl:w-full'>
         <h1 className='head_text'>Trains</h1>
         <div className='flex gap-4'>
-          <SearchBar value={search} handleSearch={handleSearch}/>
-          <button onClick={() => navigate(`new`)} className='button_primary lg:mr-10 uppercase'><FaPlus size={24}/><span className='hidden sm:block'>Ajouter</span></button>
+          <SearchBar value={search} handleSearch={handleSearch} />
+          <button onClick={() => navigate(`new`)} className='button_primary lg:mr-10 uppercase'><FaPlus size={24} /><span className='hidden sm:block'>Ajouter</span></button>
         </div>
       </div>
       {!isLoading ? trainsFiltered?.length > 0 ? (
@@ -107,7 +106,7 @@ const AdminTrain = () => {
                         <option value="unavalaible">Indisponiple</option>
                         <option value="maintenance">En Maintenance</option>
                       </select>
-                      <span className='absolute top-3 right-1 md:right-2 pointer-events-none'><FaCaretDown className='text-gray-800'/></span>
+                      <span className='absolute top-3 right-1 md:right-2 pointer-events-none'><FaCaretDown className='text-gray-800' /></span>
                     </div>
                   </td>
                   <td className="px-6 py-3">
@@ -116,9 +115,7 @@ const AdminTrain = () => {
                     </button>
                   </td>
                   <td className="px-6 py-3">
-                    <button onClick={() => handleDelete(train._id)} className="transition-all bg-red-500 hover:bg-red-600 px-4 py-2 rounded text-white">
-                      <FaTrash />
-                    </button>
+                    <ButtonDelete text={"Etes-vous sur de vouloir supprimer ce train ?"} request={() => handleDelete(train._id)} />
                   </td>
                 </tr>
               ))}
